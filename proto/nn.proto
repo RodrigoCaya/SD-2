@@ -1,0 +1,10 @@
+syntax = "proto3";
+package proto;
+
+message CodeRequest {
+	string code = 1;
+}
+
+service HelloworldService {
+	rpc Buscar(CodeRequest) returns (CodeRequest) {}
+}
