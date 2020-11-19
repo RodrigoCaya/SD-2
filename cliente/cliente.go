@@ -1,7 +1,8 @@
 package main
 
 import (
-	"log"	
+	"log"
+	"fmt"	
 	"google.golang.org/grpc"
 	"context"
 	"github.com/RodrigoCaya/SD-2/dn_proto"
