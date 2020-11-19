@@ -1,5 +1,5 @@
 syntax = "proto3";
-package nn_proto;
+package dn_proto;
 
 message CodeRequest {
 	string code = 1;

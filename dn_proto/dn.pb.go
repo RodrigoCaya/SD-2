@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.25.0-devel
 // 	protoc        v3.5.1
-// source: nn.proto
+// source: dn.proto
 
-package nn_proto
+package dn_proto
 
 import (
 	context "context"
@@ -35,7 +35,7 @@ type CodeRequest struct {
 func (x *CodeRequest) Reset() {
 	*x = CodeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_nn_proto_msgTypes[0]
+		mi := &file_dn_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -48,7 +48,7 @@ func (x *CodeRequest) String() string {
 func (*CodeRequest) ProtoMessage() {}
 
 func (x *CodeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_nn_proto_msgTypes[0]
+	mi := &file_dn_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -61,7 +61,7 @@ func (x *CodeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CodeRequest.ProtoReflect.Descriptor instead.
 func (*CodeRequest) Descriptor() ([]byte, []int) {
-	return file_nn_proto_rawDescGZIP(), []int{0}
+	return file_dn_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *CodeRequest) GetCode() string {
@@ -71,39 +71,39 @@ func (x *CodeRequest) GetCode() string {
 	return ""
 }
 
-var File_nn_proto protoreflect.FileDescriptor
+var File_dn_proto protoreflect.FileDescriptor
 
-var file_nn_proto_rawDesc = []byte{
-	0x0a, 0x08, 0x6e, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x08, 0x6e, 0x6e, 0x5f, 0x70,
+var file_dn_proto_rawDesc = []byte{
+	0x0a, 0x08, 0x64, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x08, 0x64, 0x6e, 0x5f, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x22, 0x21, 0x0a, 0x0b, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x65, 0x71, 0x75,
 	0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
 	0x09, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x32, 0x4d, 0x0a, 0x11, 0x48, 0x65, 0x6c, 0x6c, 0x6f,
 	0x77, 0x6f, 0x72, 0x6c, 0x64, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x38, 0x0a, 0x06,
-	0x42, 0x75, 0x73, 0x63, 0x61, 0x72, 0x12, 0x15, 0x2e, 0x6e, 0x6e, 0x5f, 0x70, 0x72, 0x6f, 0x74,
+	0x42, 0x75, 0x73, 0x63, 0x61, 0x72, 0x12, 0x15, 0x2e, 0x64, 0x6e, 0x5f, 0x70, 0x72, 0x6f, 0x74,
 	0x6f, 0x2e, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x15, 0x2e,
-	0x6e, 0x6e, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x65, 0x71,
+	0x64, 0x6e, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x65, 0x71,
 	0x75, 0x65, 0x73, 0x74, 0x22, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
-	file_nn_proto_rawDescOnce sync.Once
-	file_nn_proto_rawDescData = file_nn_proto_rawDesc
+	file_dn_proto_rawDescOnce sync.Once
+	file_dn_proto_rawDescData = file_dn_proto_rawDesc
 )
 
-func file_nn_proto_rawDescGZIP() []byte {
-	file_nn_proto_rawDescOnce.Do(func() {
-		file_nn_proto_rawDescData = protoimpl.X.CompressGZIP(file_nn_proto_rawDescData)
+func file_dn_proto_rawDescGZIP() []byte {
+	file_dn_proto_rawDescOnce.Do(func() {
+		file_dn_proto_rawDescData = protoimpl.X.CompressGZIP(file_dn_proto_rawDescData)
 	})
-	return file_nn_proto_rawDescData
+	return file_dn_proto_rawDescData
 }
 
-var file_nn_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_nn_proto_goTypes = []interface{}{
-	(*CodeRequest)(nil), // 0: nn_proto.CodeRequest
+var file_dn_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_dn_proto_goTypes = []interface{}{
+	(*CodeRequest)(nil), // 0: dn_proto.CodeRequest
 }
-var file_nn_proto_depIdxs = []int32{
-	0, // 0: nn_proto.HelloworldService.Buscar:input_type -> nn_proto.CodeRequest
-	0, // 1: nn_proto.HelloworldService.Buscar:output_type -> nn_proto.CodeRequest
+var file_dn_proto_depIdxs = []int32{
+	0, // 0: dn_proto.HelloworldService.Buscar:input_type -> dn_proto.CodeRequest
+	0, // 1: dn_proto.HelloworldService.Buscar:output_type -> dn_proto.CodeRequest
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -111,13 +111,13 @@ var file_nn_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_nn_proto_init() }
-func file_nn_proto_init() {
-	if File_nn_proto != nil {
+func init() { file_dn_proto_init() }
+func file_dn_proto_init() {
+	if File_dn_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_nn_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_dn_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CodeRequest); i {
 			case 0:
 				return &v.state
@@ -134,20 +134,20 @@ func file_nn_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_nn_proto_rawDesc,
+			RawDescriptor: file_dn_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_nn_proto_goTypes,
-		DependencyIndexes: file_nn_proto_depIdxs,
-		MessageInfos:      file_nn_proto_msgTypes,
+		GoTypes:           file_dn_proto_goTypes,
+		DependencyIndexes: file_dn_proto_depIdxs,
+		MessageInfos:      file_dn_proto_msgTypes,
 	}.Build()
-	File_nn_proto = out.File
-	file_nn_proto_rawDesc = nil
-	file_nn_proto_goTypes = nil
-	file_nn_proto_depIdxs = nil
+	File_dn_proto = out.File
+	file_dn_proto_rawDesc = nil
+	file_dn_proto_goTypes = nil
+	file_dn_proto_depIdxs = nil
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -175,7 +175,7 @@ func NewHelloworldServiceClient(cc grpc.ClientConnInterface) HelloworldServiceCl
 
 func (c *helloworldServiceClient) Buscar(ctx context.Context, in *CodeRequest, opts ...grpc.CallOption) (*CodeRequest, error) {
 	out := new(CodeRequest)
-	err := c.cc.Invoke(ctx, "/nn_proto.HelloworldService/Buscar", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/dn_proto.HelloworldService/Buscar", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -209,7 +209,7 @@ func _HelloworldService_Buscar_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/nn_proto.HelloworldService/Buscar",
+		FullMethod: "/dn_proto.HelloworldService/Buscar",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(HelloworldServiceServer).Buscar(ctx, req.(*CodeRequest))
@@ -218,7 +218,7 @@ func _HelloworldService_Buscar_Handler(srv interface{}, ctx context.Context, dec
 }
 
 var _HelloworldService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "nn_proto.HelloworldService",
+	ServiceName: "dn_proto.HelloworldService",
 	HandlerType: (*HelloworldServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -227,5 +227,5 @@ var _HelloworldService_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "nn.proto",
+	Metadata: "dn.proto",
 }
