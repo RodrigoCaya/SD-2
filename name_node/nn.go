@@ -3,7 +3,7 @@ import(
 	"log"
 	"net"
 	"google.golang.org/grpc"
-	"github.com/RodrigoCaya/SD-2/proto"
+	"github.com/RodrigoCaya/SD-2/nn_proto"
 )
 
 func conexioncl(){
