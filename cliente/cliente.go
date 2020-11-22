@@ -14,6 +14,28 @@ import (
 	"github.com/RodrigoCaya/SD-2/nn_proto"
 )
 
+func data_node(chunk_libro []byte){
+	var conn *grpc.ClientConn
+	conn, err := grpc.Dial("dist14:9001", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("could not connect: %s", err)
+	}
+	defer conn.Close()
+
+	c := dn_proto.NewHelloworldServiceClient(conn)
+		
+	message := dn_proto.CodeRequest{
+		Chunk: chunk_libro,
+	}
+
+	response, err := c.Buscar(context.Background(), &message)
+	if err != nil {
+		log.Fatalf("Error when calling Buscar: %s", err)
+	}
+
+	log.Printf("%s", response.Code)
+}
+
 func separarlibro(){
 	fileToBeChunked := "../libros_cliente/Dracula-Stoker_Bram.pdf" // change here!
 
@@ -156,27 +178,6 @@ func separarlibro(){
 	file.Close()
 }
 
-func data_node(chunk_libro []byte){
-	var conn *grpc.ClientConn
-	conn, err := grpc.Dial("dist14:9001", grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("could not connect: %s", err)
-	}
-	defer conn.Close()
-
-	c := dn_proto.NewHelloworldServiceClient(conn)
-		
-	message := dn_proto.CodeRequest{
-		Chunk: chunk_libro,
-	}
-
-	response, err := c.Buscar(context.Background(), &message)
-	if err != nil {
-		log.Fatalf("Error when calling Buscar: %s", err)
-	}
-
-	log.Printf("%s", response.Code)
-}
 
 func name_node(){
 	var conn *grpc.ClientConn
