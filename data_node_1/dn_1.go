@@ -15,7 +15,7 @@ func conexioncl(){
 	}
 	s := dn_proto.Server{}
 	grpcServer := grpc.NewServer()
-	dn_proto.RegisterHelloworldServiceServer(grpcServer, &s)
+	dn_proto.RegisterChunkServiceServer(grpcServer, &s)
 	if err := grpcServer.Serve(liscliente); err != nil {
 		log.Fatalf("Failed to serve gRPC server over port 9001: %v", err)
 	}
