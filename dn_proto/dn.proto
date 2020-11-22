@@ -6,7 +6,7 @@ message CodeRequest {
 }
 
 message ChunkRequest {
-	[]byte chunk = 1;
+	bytes chunk = 1;
 }
 
 service ChunkService {
