@@ -7,6 +7,6 @@ import (
 type Server struct{
 }
 
-func (s *Server) Buscar(ctx context.Context, message *CodeRequest) (*CodeRequest, error) {
-	return &CodeRequest{Code: "xd 2"}, nil
+func (s *Server) Enviar_chunks(ctx context.Context, message *ChunkRequest) (*CodeRequest, error) {
+	return &CodeRequest{Code: "chunk recibido"}, nil
 }

@@ -46,7 +46,7 @@ func separarlibro(){
 			file.Read(partBuffer)
 
 			// write to disk
-			fileName := "Dracula-Stoker_Bram_" + strconv.FormatUint(i, 10)
+			/*fileName := "Dracula-Stoker_Bram_" + strconv.FormatUint(i, 10)
 			_, err := os.Create(fileName)
 
 			if err != nil {
@@ -57,9 +57,11 @@ func separarlibro(){
 			// write/save buffer to disk
 			ioutil.WriteFile(fileName, partBuffer, os.ModeAppend)
 
-			fmt.Println("Split to : ", fileName)
-	}
+			fmt.Println("Split to : ", fileName)*/
 
+			data_node(partBuffer)
+	}
+	/*
 	// just for fun, let's recombine back the chunked files in a new file
 
 	newFileName := "NEWbigfile.pdf"
@@ -148,13 +150,13 @@ func separarlibro(){
 			fmt.Println("Written ", n, " bytes")
 
 			fmt.Println("Recombining part [", j, "] into : ", newFileName)
-	}
+	}*/
 
 	// now, we close the newFileName
 	file.Close()
 }
 
-func data_node(){
+func data_node(chunk_libro []byte){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist14:9001", grpc.WithInsecure())
 	if err != nil {
@@ -165,7 +167,7 @@ func data_node(){
 	c := dn_proto.NewHelloworldServiceClient(conn)
 		
 	message := dn_proto.CodeRequest{
-		Code: "hola",
+		Chunk: chunk_libro,
 	}
 
 	response, err := c.Buscar(context.Background(), &message)

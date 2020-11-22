@@ -5,6 +5,11 @@ message CodeRequest {
 	string code = 1;
 }
 
-service HelloworldService {
-	rpc Buscar(CodeRequest) returns (CodeRequest) {}
+message ChunkRequest {
+	[]byte chunk = 1;
 }
+
+service ChunkService {
+	rpc Enviar_chunks(ChunkRequest) returns (CodeRequest) {}
+}
+
