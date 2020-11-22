@@ -5,11 +5,11 @@ import (
 	"fmt"	
 	"google.golang.org/grpc"
 	"context"
-	"bufio"
-	"io/ioutil"
+	//"bufio"
+	//"io/ioutil"
 	"math"
 	"os"
-	"strconv"
+	//"strconv"
 	"github.com/RodrigoCaya/SD-2/dn_proto"
 	"github.com/RodrigoCaya/SD-2/nn_proto"
 )
@@ -22,13 +22,13 @@ func data_node(chunk_libro []byte){
 	}
 	defer conn.Close()
 
-	c := dn_proto.NewHelloworldServiceClient(conn)
+	c := dn_proto.NewChunkServiceClient(conn)
 		
-	message := dn_proto.CodeRequest{
+	message := dn_proto.ChunkRequest{
 		Chunk: chunk_libro,
 	}
 
-	response, err := c.Buscar(context.Background(), &message)
+	response, err := c.EnviarChunks(context.Background(), &message)
 	if err != nil {
 		log.Fatalf("Error when calling Buscar: %s", err)
 	}
