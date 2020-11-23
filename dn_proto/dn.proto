@@ -14,7 +14,7 @@ message ChunkRequest {
 }
 
 message PropRequest{
-	string propuesta = 1,
+	string propuesta = 1;
 }
 
 service DnService {
