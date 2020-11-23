@@ -7,6 +7,6 @@ import (
 type Server struct{
 }
 
-func (s *Server) Enviar_chunks(ctx context.Context, message *ChunkRequest) (*CodeRequest, error) {
+func (s *Server) EnviarChunks(ctx context.Context, message *ChunkRequest) (*CodeRequest, error) {
 	return &CodeRequest{Code: "chunk recibido"}, nil
 }

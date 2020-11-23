@@ -10,6 +10,6 @@ message ChunkRequest {
 }
 
 service ChunkService {
-	rpc Enviar_chunks(ChunkRequest) returns (CodeRequest) {}
+	rpc EnviarChunks(ChunkRequest) returns (CodeRequest) {}
 }
 
