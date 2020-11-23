@@ -15,7 +15,7 @@ import (
 	"github.com/RodrigoCaya/SD-2/nn_proto"
 )
 
-func data_node(chunk_libro []byte, algoritmo string, probabilidad int){
+func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int, total int){
 	var conn *grpc.ClientConn
 	maquina := strconv.Itoa(probabilidad+4)
 	puerto := strconv.Itoa(probabilidad+1)
@@ -27,11 +27,14 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int){
 	}
 	defer conn.Close()
 
-	c := dn_proto.NewChunkServiceClient(conn)
+	c := dn_proto.NewDnServiceClient(conn)
 		
 	message := dn_proto.ChunkRequest{
 		Chunk: chunk_libro,
 		Tipo: algoritmo,
+		Parte: strconv.Itoa(part),
+		Cantidad: strconv.Itoa(total),
+		Machine: maquina,
 	}
 
 	response, err := c.EnviarChunks(context.Background(), &message)
@@ -64,7 +67,8 @@ func separarlibro(algoritmo string){
 
 	totalPartsNum := uint64(math.Ceil(float64(fileSize) / float64(fileChunk)))
 
-	fmt.Printf("Splitting to %d pieces.\n", totalPartsNum)
+	
+	//fmt.Printf("Splitting to %d pieces.\n", totalPartsNum)
 
 	probabilidad := rand.Intn(3)
 	for i := uint64(0); i < totalPartsNum; i++ {
@@ -88,7 +92,7 @@ func separarlibro(algoritmo string){
 
 			fmt.Println("Split to : ", fileName)*/
 
-			data_node(partBuffer, algoritmo, probabilidad)
+			data_node(partBuffer, algoritmo, probabilidad, i , totalPartsNum)
 	}
 	/*
 	// just for fun, let's recombine back the chunked files in a new file

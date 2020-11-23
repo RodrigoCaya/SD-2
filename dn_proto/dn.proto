@@ -8,9 +8,17 @@ message CodeRequest {
 message ChunkRequest {
 	bytes chunk = 1;
 	string tipo = 2;
+	string parte = 3;
+	string cantidad = 4;
+	string machine = 5;
 }
 
-service ChunkService {
+message PropRequest{
+	string propuesta = 1,
+}
+
+service DnService {
 	rpc EnviarChunks(ChunkRequest) returns (CodeRequest) {}
+	rpc Propuesta(PropRequest) returns (CodeRequest){}
 }
 
