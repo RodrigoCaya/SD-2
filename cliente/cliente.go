@@ -14,7 +14,7 @@ import (
 	"github.com/RodrigoCaya/SD-2/nn_proto"
 )
 
-func data_node(chunk_libro []byte, algoritmo){
+func data_node(chunk_libro []byte, algoritmo string){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist14:9001", grpc.WithInsecure())
 	if err != nil {
