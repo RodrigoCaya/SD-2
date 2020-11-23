@@ -3,6 +3,8 @@ package dn_proto
 import (
 	"log"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc"
+	"github.com/RodrigoCaya/SD-2/dn_proto"
 )
 
 type Server struct{
@@ -26,7 +28,7 @@ func conectar(maquina string, prop string){
 
 	c := dn_proto.NewDnServiceClient(conn)
 		
-	message := nn_proto.PropRequest{
+	message := dn_proto.PropRequest{
 		Propuesta: prop,
 	}
 
@@ -38,17 +40,17 @@ func conectar(maquina string, prop string){
 	log.Printf("%s", response.Code)
 }
 
-func centralizado(){
+func centralizado(machine string){
 	var maquina string = ""
 	var prop string = ""
-	if message.Machine == "4" {
+	if machine == "4" {
 		maquina = "dist15:9002"
 		conectar(maquina, prop)
 		maquina = "dist16:9003"
 		conectar(maquina, prop)
 
 	}else{
-		if message.Machine == "5" {
+		if machine == "5" {
 			maquina = "dist14:9001"
 			conectar(maquina, prop)
 			maquina = "dist16:9003"
@@ -70,7 +72,7 @@ func (s *Server) EnviarChunks(ctx context.Context, message *ChunkRequest) (*Code
 	if message.Tipo == "1"{
 		distribuido()
 	}else{
-		centralizado()
+		centralizado(message.Machine)
 	}
 	return &CodeRequest{Code: "chunk recibido"}, nil
 }
