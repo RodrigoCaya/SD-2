@@ -14,7 +14,7 @@ import (
 	"github.com/RodrigoCaya/SD-2/nn_proto"
 )
 
-func data_node(chunk_libro []byte){
+func data_node(chunk_libro []byte, algoritmo){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist14:9001", grpc.WithInsecure())
 	if err != nil {
@@ -26,6 +26,7 @@ func data_node(chunk_libro []byte){
 		
 	message := dn_proto.ChunkRequest{
 		Chunk: chunk_libro,
+		Tipo: algoritmo,
 	}
 
 	response, err := c.EnviarChunks(context.Background(), &message)
@@ -36,7 +37,7 @@ func data_node(chunk_libro []byte){
 	log.Printf("%s", response.Code)
 }
 
-func separarlibro(){
+func separarlibro(algoritmo string){
 	fileToBeChunked := "../libros_cliente/Dracula-Stoker_Bram.pdf" // change here!
 
 	file, err := os.Open(fileToBeChunked)
@@ -81,7 +82,7 @@ func separarlibro(){
 
 			fmt.Println("Split to : ", fileName)*/
 
-			data_node(partBuffer)
+			data_node(partBuffer, algoritmo)
 	}
 	/*
 	// just for fun, let's recombine back the chunked files in a new file
@@ -204,6 +205,7 @@ func name_node(){
 func main() {
 	
 	var first string
+	var second string
 
 	for{
 		fmt.Println("-----------------")
@@ -215,8 +217,15 @@ func main() {
 		 	  
 		fmt.Scanln(&first)
 		if first == "1"{
-			//go data_node()
-			go separarlibro()
+			fmt.Println("-----------------")
+			fmt.Println("Escoge: ") 
+			fmt.Println("(1) Algoritmo Distribuido") 
+			fmt.Println("(2) Algoritmo Centralizado")
+			fmt.Println("(0) Salir")
+			fmt.Println("-----------------")
+					
+			fmt.Scanln(&second)
+			go separarlibro(second)
 		}
 		if first == "2"{
 			go name_node()
