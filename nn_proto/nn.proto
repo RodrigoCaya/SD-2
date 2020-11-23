@@ -6,7 +6,7 @@ message CodeRequest {
 }
 
 message Lista {
-	[]string l = 1;
+	string l = 1;
 }
 
 

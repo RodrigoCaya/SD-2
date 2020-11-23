@@ -7,7 +7,7 @@ import (
 type Server struct{
 }
 
-var nombres []string
+var nombres string = ""
 
 func (s *Server) Buscar(ctx context.Context, message *CodeRequest) (*CodeRequest, error) {
 	return &CodeRequest{Code: "xd"}, nil
@@ -30,8 +30,8 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*Lista
 		log.Fatal(err)
 	}
 */
-	nombres = append(nombres, "Dracula")
-	nombres = append(nombres, "Drakenstein")
+	nombres = nombres + "Dracula," + "Frankenstein,"
+	
 
 	return &Lista{L: nombres}, nil
 }
