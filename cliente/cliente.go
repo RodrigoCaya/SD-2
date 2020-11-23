@@ -10,24 +10,17 @@ import (
 	"math"
 	"math/rand"
 	"os"
-	//"strconv"
+	"strconv"
 	"github.com/RodrigoCaya/SD-2/dn_proto"
 	"github.com/RodrigoCaya/SD-2/nn_proto"
 )
 
-func data_node(chunk_libro []byte, algoritmo string){
+func data_node(chunk_libro []byte, algoritmo string, probabilidad int){
 	var conn *grpc.ClientConn
-	probabilidad := rand.Intn(3)
-	if probabilidad == 0 {
-		conn, err := grpc.Dial("dist14:9001", grpc.WithInsecure())
-	}else{
-		if probabilidad == 1 {
-			conn, err := grpc.Dial("dist15:9002", grpc.WithInsecure())
-
-		}else{
-			conn, err := grpc.Dial("dist16:9003", grpc.WithInsecure())
-		}
-	}
+	s := strconv.Itoa(probabilidad+1)
+	conexion:= "dist14:900"
+	conexion = conexion + s
+	conn, err := grpc.Dial(conexion, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("could not connect: %s", err)
 	}
@@ -72,6 +65,7 @@ func separarlibro(algoritmo string){
 
 	fmt.Printf("Splitting to %d pieces.\n", totalPartsNum)
 
+	probabilidad := rand.Intn(3)
 	for i := uint64(0); i < totalPartsNum; i++ {
 
 			partSize := int(math.Min(fileChunk, float64(fileSize-int64(i*fileChunk))))
@@ -93,7 +87,7 @@ func separarlibro(algoritmo string){
 
 			fmt.Println("Split to : ", fileName)*/
 
-			data_node(partBuffer, algoritmo)
+			data_node(partBuffer, algoritmo, probabilidad)
 	}
 	/*
 	// just for fun, let's recombine back the chunked files in a new file
