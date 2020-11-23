@@ -15,7 +15,7 @@ func conexioncl(){
 	}
 	s := dn_proto.Server{}
 	grpcServer := grpc.NewServer()
-	dn_proto.RegisterChunkServiceServer(grpcServer, &s)
+	dn_proto.RegisterDnServiceServer(grpcServer, &s)
 	if err := grpcServer.Serve(liscliente); err != nil {
 		log.Fatalf("Failed to serve gRPC server over port 9003: %v", err)
 	}
