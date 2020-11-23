@@ -44,6 +44,6 @@ func name_node(){
 }
 
 func main(){
-	go name_node()
+	//go name_node()
 	conexioncl()
 }
