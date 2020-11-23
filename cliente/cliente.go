@@ -17,9 +17,10 @@ import (
 
 func data_node(chunk_libro []byte, algoritmo string, probabilidad int){
 	var conn *grpc.ClientConn
-	s := strconv.Itoa(probabilidad+1)
-	conexion:= "dist14:900"
-	conexion = conexion + s
+	maquina := strconv.Itoa(probabilidad+4)
+	puerto := strconv.Itoa(probabilidad+1)
+	conexion:= "dist1"
+	conexion = conexion + maquina + ":900" + puerto
 	conn, err := grpc.Dial(conexion, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("could not connect: %s", err)
