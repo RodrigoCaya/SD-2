@@ -5,6 +5,12 @@ message CodeRequest {
 	string code = 1;
 }
 
+message Lista {
+	[]string l = 1;
+}
+
+
 service HelloworldService {
 	rpc Buscar(CodeRequest) returns (CodeRequest) {}
+	rpc DisplayLista(CodeRequest) returns (Lista) {}
 }

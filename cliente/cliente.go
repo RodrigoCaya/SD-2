@@ -193,12 +193,12 @@ func name_node(){
 		Code: "hola",
 	}
 
-	response, err := c.Buscar(context.Background(), &message)
+	response, err := c.DisplayLista(context.Background(), &message)
 	if err != nil {
 		log.Fatalf("Error when calling Buscar: %s", err)
 	}
 
-	log.Printf("%s", response.Code)
+	log.Printf("%s", response.L[0])
 }
 
 func main() {
