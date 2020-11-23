@@ -8,6 +8,7 @@ import (
 	//"bufio"
 	//"io/ioutil"
 	"math"
+	"math/rand"
 	"os"
 	//"strconv"
 	"github.com/RodrigoCaya/SD-2/dn_proto"
@@ -16,7 +17,17 @@ import (
 
 func data_node(chunk_libro []byte, algoritmo string){
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial("dist14:9001", grpc.WithInsecure())
+	probabilidad := rand.Intn(3)
+	if probabilidad == 0 {
+		conn, err := grpc.Dial("dist14:9001", grpc.WithInsecure())
+	}else{
+		if probabilidad == 1 {
+			conn, err := grpc.Dial("dist15:9002", grpc.WithInsecure())
+
+		}else{
+			conn, err := grpc.Dial("dist16:9003", grpc.WithInsecure())
+		}
+	}
 	if err != nil {
 		log.Fatalf("could not connect: %s", err)
 	}
