@@ -3,8 +3,8 @@ package dn_proto
 import (
 	"log"
 	"golang.org/x/net/context"
-	"google.golang.org/grpc"
-	"github.com/RodrigoCaya/SD-2/dn_proto"
+	//"google.golang.org/grpc"
+	//"github.com/RodrigoCaya/SD-2/dn_proto"
 )
 
 type Server struct{
@@ -18,6 +18,7 @@ func (s *Server) Propuesta(ctx context.Context, message *PropRequest) (*CodeRequ
 	return &CodeRequest{Code: "equis de"}, nil
 }
 
+/*
 func conectar(maquina string, prop string){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
@@ -65,14 +66,14 @@ func centralizado(machine string){
 		}
 	}
 	log.Printf("algoritmo centralizado")
-}
+}*/
 
 func (s *Server) EnviarChunks(ctx context.Context, message *ChunkRequest) (*CodeRequest, error) {
 	//si es el ultimo chunk
 	if message.Tipo == "1"{
 		distribuido()
 	}else{
-		centralizado(message.Machine)
+		//centralizado(message.Machine)
 	}
 	return &CodeRequest{Code: "chunk recibido"}, nil
 }
