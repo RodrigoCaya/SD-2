@@ -92,7 +92,7 @@ func separarlibro(algoritmo string){
 
 			fmt.Println("Split to : ", fileName)*/
 
-			data_node(partBuffer, algoritmo, probabilidad, i , totalPartsNum)
+			data_node(partBuffer, algoritmo, probabilidad,int(i) , int(totalPartsNum))
 	}
 	/*
 	// just for fun, let's recombine back the chunked files in a new file
