@@ -209,7 +209,9 @@ func name_node(){
 		log.Fatalf("Error when calling Buscar: %s", err)
 	}
 
-	log.Printf("%s", response.L)
+	for i := 0 ; i < len(response) ; i++{
+		log.Printf("%s", response[i])
+	}
 }
 
 func main() {

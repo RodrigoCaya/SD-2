@@ -7,31 +7,22 @@ import (
 type Server struct{
 }
 
-var nombres string = ""
+
+var nombres []string
 
 func (s *Server) Buscar(ctx context.Context, message *CodeRequest) (*CodeRequest, error) {
-	return &CodeRequest{Code: "xd"}, nil
-}
-
-
-func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*Lista, error) {
-/*	f, err := os.Open("log.txt")
-	if err != nil{
-		log.Fatal(err)
+	file, err := os.Open("log.txt")
+	if err != nil {
+		log.fatal(err)
 	}
-	defer f.Close()
+	defer file.Close()
 
-	scanner := bufio.NewScanner(f)
+	scanner := bufio.NewScanner(file)
+	
 	for scanner.Scan() {
 		fmt.Println(scanner.Text())
+		nombres = append(nombres, scanner.Text())
 	}
 
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
-*/
-	nombres = nombres + "Dracula," + "Frankenstein,"
-	
-
-	return &Lista{L: nombres}, nil
+	return &CodeRequest{Code: nombres}, nil
 }
