@@ -17,6 +17,7 @@ func distribuido(){
 }
 
 func (s *Server) Propuesta(ctx context.Context, message *dn_proto.PropRequest) (*dn_proto.CodeRequest, error) {
+	log.Printf("hola")
 	return &dn_proto.CodeRequest{Code: "equis de"}, nil
 }
 
