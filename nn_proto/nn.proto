@@ -6,11 +6,19 @@ message CodeRequest {
 }
 
 message Lista {
-	string l = 1;
+	[]string l = 1;
+}
+
+message Propuesta{
+	string cantidadn1 = 1;
+	string cantidadn2 = 2;
+	string cantidadn3 = 3;
+	string cantidadtotal = 4;
 }
 
 
 service HelloworldService {
 	rpc Buscar(CodeRequest) returns (CodeRequest) {}
 	rpc DisplayLista(CodeRequest) returns (Lista) {}
+	rpc EnviarPropuesta(Propuesta) returns (CodeRequest) {}
 }
