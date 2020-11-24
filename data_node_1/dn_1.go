@@ -16,8 +16,8 @@ func distribuido(){
 	log.Printf("algoritmo distribuido")
 }
 
-func (s *Server) Propuesta(ctx context.Context, message *PropRequest) (*CodeRequest, error) {
-	return &CodeRequest{Code: "equis de"}, nil
+func (s *Server) Propuesta(ctx context.Context, message *dn_proto.PropRequest) (*dn_proto.CodeRequest, error) {
+	return &dn_proto.CodeRequest{Code: "equis de"}, nil
 }
 
 func conectar(maquina string, prop string){
@@ -69,14 +69,14 @@ func centralizado(machine string){
 	log.Printf("algoritmo centralizado")
 }
 
-func (s *Server) EnviarChunks(ctx context.Context, message *ChunkRequest) (*CodeRequest, error) {
+func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) {
 	//si es el ultimo chunk
 	if message.Tipo == "1"{
 		distribuido()
 	}else{
 		centralizado(message.Machine)
 	}
-	return &CodeRequest{Code: "chunk recibido"}, nil
+	return &dn_proto.CodeRequest{Code: "chunk recibido"}, nil
 }
 
 
