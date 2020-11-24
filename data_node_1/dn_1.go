@@ -44,28 +44,11 @@ func conectar(maquina string, prop string){
 
 func centralizado(machine string){
 	var maquina string = ""
-	var prop string = ""
-	if machine == "4" {
-		maquina = "dist15:9002"
-		conectar(maquina, prop)
-		maquina = "dist16:9003"
-		conectar(maquina, prop)
-
-	}else{
-		if machine == "5" {
-			maquina = "dist14:9001"
-			conectar(maquina, prop)
-			maquina = "dist16:9003"
-			conectar(maquina, prop)
-
-		}else{
-			maquina = "dist14:9001"
-			conectar(maquina, prop)
-			maquina = "dist15:9002"
-			conectar(maquina, prop)
-
-		}
-	}
+	var prop string = "xd"
+	maquina = "dist15:9002"
+	conectar(maquina, prop)
+	maquina = "dist16:9003"
+	conectar(maquina, prop)
 	log.Printf("algoritmo centralizado")
 }
 
