@@ -11,13 +11,16 @@ import(
 
 var id int = 0
 
-
-type Libro struct{
+type Pagina struct{
 	chunks []byte
 	id_libro int
 }
 
-var libros []Libro
+var libro []Pagina
+
+type Biblioteca struct{
+	libros []libro
+}
 
 type Server struct{
 	dn_proto.UnimplementedDnServiceServer
@@ -72,11 +75,13 @@ func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkReques
 	if err != nil {
 		log.Fatalf("Error convirtiendo: %s", err)
 	}
-	if parte == 0 {
-		libros[id].id_libro = id
+
+	pagina1 := Pagina{
+		chunks: message.Chunk,
+		id_libro: id,
 	}
-	
-	libros[id].chunks = append(libros[id].chunks, message.Chunk)
+
+	libro = append(libro, pagina1)
 
 	if cantidad == (parte + 1){
 		id = id + 1
