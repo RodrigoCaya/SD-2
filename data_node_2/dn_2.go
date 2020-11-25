@@ -13,6 +13,12 @@ type Server struct{
 }
 
 func distribuido(){
+	var maquina string = ""
+	var prop string = "xd"
+	maquina = "dist14:9001"
+	conectardn(maquina, prop)
+	maquina = "dist16:9003"
+	conectardn(maquina, prop)
 	log.Printf("algoritmo distribuido")
 }
 
@@ -21,7 +27,7 @@ func (s *Server) Propuesta(ctx context.Context, message *dn_proto.PropRequest) (
 	return &dn_proto.CodeRequest{Code: "equis de"}, nil
 }
 
-func conectar(maquina string, prop string){
+func conectardn(maquina string, prop string){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
 	if err != nil {
@@ -44,12 +50,7 @@ func conectar(maquina string, prop string){
 }
 
 func centralizado(machine string){
-	var maquina string = ""
-	var prop string = "xd"
-	maquina = "dist14:9001"
-	conectar(maquina, prop)
-	maquina = "dist16:9003"
-	conectar(maquina, prop)
+	
 	log.Printf("algoritmo centralizado")
 }
 
@@ -87,11 +88,14 @@ func name_node(){
 
 	c := nn_proto.NewHelloworldServiceClient(conn)
 		
-	message := nn_proto.CodeRequest{
-		Code: "hola",
+	message := nn_proto.Propuesta{
+		Cantidadn1: "1",
+		Cantidadn2: "2",
+		Cantidadn3: "2",
+		Cantidadtotal: "5",
 	}
 
-	response, err := c.Buscar(context.Background(), &message)
+	response, err := c.EnviarPropuesta(context.Background(), &message)
 	if err != nil {
 		log.Fatalf("Error when calling Buscar: %s", err)
 	}
