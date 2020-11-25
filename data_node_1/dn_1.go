@@ -18,9 +18,7 @@ type Pagina struct{
 
 var libro []Pagina
 
-type Biblioteca struct{
-	libros []libro
-}
+var biblioteca []libro
 
 type Server struct{
 	dn_proto.UnimplementedDnServiceServer
