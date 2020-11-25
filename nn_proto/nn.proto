@@ -15,7 +15,6 @@ message Propuesta{
 
 
 service HelloworldService {
-	rpc Buscar(CodeRequest) returns (CodeRequest) {}
 	rpc DisplayLista(CodeRequest) returns (CodeRequest) {}
 	rpc EnviarPropuesta(Propuesta) returns (CodeRequest) {}
 }

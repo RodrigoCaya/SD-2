@@ -12,9 +12,9 @@ type Server struct{
 }
 
 
-var nombres []string
+var nombres string
 
-func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*Lista, error) {
+func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeRequest, error) {
 	file, err := os.Open("log.txt")
 	if err != nil {
 		log.Fatal(err)
@@ -25,10 +25,10 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*Lista
 	
 	for scanner.Scan() {
 		fmt.Println(scanner.Text())
-		nombres = append(nombres, scanner.Text())
+		nombres = nombres + "," + scanner.Text()
 	}
 
-	return &Lista{L: nombres}, nil
+	return &CodeRequest{Code: nombres}, nil
 }
 
 func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*CodeRequest, error) {
