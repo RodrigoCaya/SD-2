@@ -32,12 +32,12 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 		split := strings.Split(scanner.Text(), " ")
 		ultimostring := split[(len(split)) - 1]
 		fmt.Println("xd")
-		if ultimostring != ""{
-			ultimo, err = strconv.Atoi(ultimostring)
-			if err != nil{
-				log.Fatal(err)
-			}
+		//if ultimostring != ""{
+		ultimo, err = strconv.Atoi(ultimostring)
+		if err != nil{
+			log.Fatal(err)
 		}
+		//}
 		fmt.Println(ultimo)
 		for j := 0 ; j < (len(split) - 1) ; j++{
 			nombres = nombres + split[j] + " "
