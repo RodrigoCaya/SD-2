@@ -31,8 +31,8 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 		scanner.Scan()
 		split := strings.Split(scanner.Text(), " ")
 		ultimostring := split[(len(split)) - 1]
-		fmt.Println("xd")
-		if ultimostring != " "{
+		fmt.Println(ultimostring)
+		if ultimostring = " "{
 			break
 		}
 		ultimo, err = strconv.Atoi(ultimostring)
