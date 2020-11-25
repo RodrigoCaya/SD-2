@@ -16,7 +16,6 @@ type Server struct{
 
 
 var nombres string
-var ultimo int
 
 func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeRequest, error) {
 	file, err := os.Open("log.txt")
