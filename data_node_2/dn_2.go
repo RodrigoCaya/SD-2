@@ -8,6 +8,21 @@ import(
 	"github.com/RodrigoCaya/SD-2/nn_proto"
 )
 
+var id int = 0
+
+type Pagina struct{
+	chunks []byte
+	id_libro int
+}
+
+var libroactual []Pagina
+
+type Book struct{
+	books []Pagina
+}
+//aqui va solo lo qe se va a almacenar al final
+var biblioteca []Book
+
 type Server struct{
 	dn_proto.UnimplementedDnServiceServer
 }
@@ -56,14 +71,29 @@ func centralizado(machine string){
 
 func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) {
 	//si es el ultimo chunk
-	if message.Tipo == "1"{
-		distribuido()
-	}else{
-		centralizado(message.Machine)
+	parte, err := strconv.Atoi(message.Parte)
+	cantidad, err := strconv.Atoi(message.Cantidad)
+	if err != nil {
+		log.Fatalf("Error convirtiendo: %s", err)
+	}
+
+	pagina1 := Pagina{
+		chunks: message.Chunk,
+		id_libro: id,
+	}
+
+	libroactual = append(libroactual, pagina1)
+
+	if cantidad == (parte + 1){
+		id = id + 1
+		if message.Tipo == "1"{
+			distribuido()
+		}else{
+			centralizado(message.Machine)
+		}
 	}
 	return &dn_proto.CodeRequest{Code: "chunk recibido"}, nil
 }
-
 
 func conexioncl(){
 	liscliente, err := net.Listen("tcp", ":9002")
