@@ -32,7 +32,7 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 		split := strings.Split(scanner.Text(), " ")
 		ultimostring := split[(len(split)) - 1]
 		fmt.Println(ultimostring)
-		if ultimostring = " "{
+		if ultimostring == " "{
 			break
 		}
 		ultimo, err = strconv.Atoi(ultimostring)
