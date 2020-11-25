@@ -2,6 +2,7 @@ package nn_proto
 
 import (
 	"os"
+	"fmt"
 	"strconv"
 	"io"
 	"log"
@@ -30,15 +31,18 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 		split := strings.Split(scanner.Text(), " ")
 		ultimostring := split[(len(split)) - 1]
 		ultimo, err := strconv.Atoi(ultimostring)
+		fmt.Println(ultimo)
 		if err != nil{
 			log.Fatal(err)
 		}
-		for j := 0 ; j < ultimo - 1 ; j++{
+		for j := 0 ; j < (len(split) - 1) ; j++{
 			nombres = nombres + split[j]
+			fmt.Println("xd")
 		}
 		nombres = nombres + "\n"
 		for i := 0 ; i < ultimo ; i++{
 			scanner.Scan()
+			fmt.Println("xd")
 		}
 	} 
 	
