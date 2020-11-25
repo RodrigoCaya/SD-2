@@ -16,9 +16,13 @@ type Pagina struct{
 	id_libro int
 }
 
-var libro []Pagina
+var libroactual []Pagina
 
-var biblioteca []libro
+type Book struct{
+	books []Pagina
+}
+//aqui va solo lo qe se va a almacenar al final
+var biblioteca []Book
 
 type Server struct{
 	dn_proto.UnimplementedDnServiceServer
@@ -79,7 +83,7 @@ func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkReques
 		id_libro: id,
 	}
 
-	libro = append(libro, pagina1)
+	libroactual = append(libroactual, pagina1)
 
 	if cantidad == (parte + 1){
 		id = id + 1
