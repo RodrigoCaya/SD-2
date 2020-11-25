@@ -6,6 +6,7 @@ import (
 	"log"
 	"bufio"
 	"golang.org/x/net/context"
+	"strings"
 )
 
 type Server struct{
@@ -22,11 +23,24 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
+
+	for err != io.EOF {
+		scanner.Scan()
+		split := strings.Split(scanner.Text(), " ")
+		ultimo := split[(len(split)) - 1]
+		for j := 0 ; j < ultimo - 1 ; i++{
+			nombres = nombres + split[j]
+		}
+		nombres = nombres + "\n"
+		for i := 0 ; i < ultimo ; i++{
+			scanner.Scan()
+		}
+	} 
 	
-	for scanner.Scan() {
+	/*for scanner.Scan() {
 		fmt.Println(scanner.Text())
 		nombres = nombres + "," + scanner.Text()
-	}
+	}*/
 
 	return &CodeRequest{Code: nombres}, nil
 }
