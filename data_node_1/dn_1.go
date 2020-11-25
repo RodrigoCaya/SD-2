@@ -71,10 +71,10 @@ func centralizado(cantidad int){
 	c1 := chunksxcadauno
 	c2 := chunksxcadauno
 	c3 := chunksxcadauno
-	if math.Mod(cantidad, 3) == 1 {
+	if math.Mod(float64(cantidad), 3) == 1 {
 		c1 = c1 + 1
 	} else{
-		if math.Mod(cantidad, 3) == 2 {
+		if math.Mod(float64(cantidad), 3) == 2 {
 			c1 = c1 + 1
 			c2 = c2 + 1
 		}
