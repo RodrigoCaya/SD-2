@@ -11,9 +11,10 @@ import(
 
 var id int = 0
 
+
 type Libro struct{
 	chunks []byte
-	id_libro string
+	id_libro int
 }
 
 var libros []Libro
@@ -71,7 +72,14 @@ func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkReques
 	if err != nil {
 		log.Fatalf("Error convirtiendo: %s", err)
 	}
+	if parte == 0 {
+		libros[id].id_libro = id
+	}
+	
+	libros[id].chunks = append(libros[id].chunks, message.Chunk)
+
 	if cantidad == (parte + 1){
+		id = id + 1
 		if message.Tipo == "1"{
 			distribuido()
 		}else{
