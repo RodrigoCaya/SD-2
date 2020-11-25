@@ -2,6 +2,7 @@ package nn_proto
 
 import (
 	"os"
+	"strconv"
 	"io"
 	"log"
 	"bufio"
@@ -28,8 +29,11 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 		scanner.Scan()
 		split := strings.Split(scanner.Text(), " ")
 		ultimostring := split[(len(split)) - 1]
-		ultimo := strconv.Atoi(ultimostring)
-		for j := 0 ; j < ultimo - 1 ; i++{
+		ultimo, err := strconv.Atoi(ultimostring)
+		if err != nil{
+			log.Fatal(err)
+		}
+		for j := 0 ; j < ultimo - 1 ; j++{
 			nombres = nombres + split[j]
 		}
 		nombres = nombres + "\n"
