@@ -3,6 +3,7 @@ import(
 	"log"
 	"net"
 	"context"
+	"strconv"
 	"google.golang.org/grpc"
 	"github.com/RodrigoCaya/SD-2/dn_proto"
 	"github.com/RodrigoCaya/SD-2/nn_proto"
@@ -11,7 +12,7 @@ import(
 var id int = 0
 
 type Libro struct{
-	chunks []bytes
+	chunks []byte
 	id_libro string
 }
 
