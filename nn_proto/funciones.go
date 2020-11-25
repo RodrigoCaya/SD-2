@@ -16,6 +16,7 @@ type Server struct{
 
 
 var nombres string
+var ultimo string
 
 func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeRequest, error) {
 	file, err := os.Open("log.txt")
@@ -31,17 +32,19 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 		split := strings.Split(scanner.Text(), " ")
 		ultimostring := split[(len(split)) - 1]
 		fmt.Println("xd")
-		ultimo, err := strconv.Atoi(ultimostring)
-		if err != nil{
-			log.Fatal(err)
+		if ultimostring != ""{
+			ultimo, err := strconv.Atoi(ultimostring)
+			if err != nil{
+				log.Fatal(err)
+			}
 		}
 		fmt.Println(ultimo)
 		for j := 0 ; j < (len(split) - 1) ; j++{
-			nombres = nombres + split[j]
+			nombres = nombres + split[j] + " "
 			fmt.Println("xd")
 		}
 		fmt.Println(nombres)
-		nombres = nombres + " " +  "\n"
+		nombres = nombres +  "\n"
 		for i := 0 ; i < ultimo ; i++{
 			scanner.Scan()
 			fmt.Println("xd")
