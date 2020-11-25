@@ -37,6 +37,11 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 			}
 		}
 		fmt.Println(ultimo)
+		ultimo, err := strconv.Atoi(ultimostring)
+		fmt.Println(ultimo)
+		if err != nil{
+			log.Fatal(err)
+		}
 		for j := 0 ; j < (len(split) - 1) ; j++{
 			nombres = nombres + split[j]
 			fmt.Println("xd")
