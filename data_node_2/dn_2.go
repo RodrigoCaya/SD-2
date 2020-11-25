@@ -50,7 +50,7 @@ func conectardn(maquina string, prop string){
 }
 
 func centralizado(machine string){
-	
+	name_node()
 	log.Printf("algoritmo centralizado")
 }
 
