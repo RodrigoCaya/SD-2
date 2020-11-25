@@ -5,9 +5,6 @@ message CodeRequest {
 	string code = 1;
 }
 
-message Lista {
-	[]string l = 1;
-}
 
 message Propuesta{
 	string cantidadn1 = 1;
@@ -19,6 +16,6 @@ message Propuesta{
 
 service HelloworldService {
 	rpc Buscar(CodeRequest) returns (CodeRequest) {}
-	rpc DisplayLista(CodeRequest) returns (Lista) {}
+	rpc DisplayLista(CodeRequest) returns (CodeRequest) {}
 	rpc EnviarPropuesta(Propuesta) returns (CodeRequest) {}
 }

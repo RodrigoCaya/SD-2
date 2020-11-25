@@ -17,7 +17,7 @@ var nombres []string
 func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*Lista, error) {
 	file, err := os.Open("log.txt")
 	if err != nil {
-		log.fatal(err)
+		log.Fatal(err)
 	}
 	defer file.Close()
 
