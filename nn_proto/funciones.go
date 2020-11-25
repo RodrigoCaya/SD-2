@@ -2,7 +2,7 @@ package nn_proto
 
 import (
 	"os"
-	"fmt"
+	"io"
 	"log"
 	"bufio"
 	"golang.org/x/net/context"
@@ -27,7 +27,8 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 	for err != io.EOF {
 		scanner.Scan()
 		split := strings.Split(scanner.Text(), " ")
-		ultimo := split[(len(split)) - 1]
+		ultimostring := split[(len(split)) - 1]
+		ultimo := strconv.Atoi(ultimostring)
 		for j := 0 ; j < ultimo - 1 ; i++{
 			nombres = nombres + split[j]
 		}
