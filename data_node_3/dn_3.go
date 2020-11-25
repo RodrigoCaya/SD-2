@@ -4,6 +4,7 @@ import(
 	"net"
 	"context"
 	"strconv"
+	"math"
 	"google.golang.org/grpc"
 	"github.com/RodrigoCaya/SD-2/dn_proto"
 	"github.com/RodrigoCaya/SD-2/nn_proto"
@@ -65,13 +66,31 @@ func conectardn(maquina string, prop string){
 	log.Printf("%s", response.Code)
 }
 
-func centralizado(machine string){
-	name_node()
+func centralizado(cantidad int){
+	chunksxcadauno := cantidad/3
+	c1 := chunksxcadauno
+	c2 := chunksxcadauno
+	c3 := chunksxcadauno
+	if math.Mod(float64(cantidad), 3) == 1 {
+		c1 = c1 + 1
+	} else{
+		if math.Mod(float64(cantidad), 3) == 2 {
+			c1 = c1 + 1
+			c2 = c2 + 1
+		}
+	}
+	message := nn_proto.Propuesta{
+		Cantidadn1: strconv.Itoa(c1),
+		Cantidadn2: strconv.Itoa(c2),
+		Cantidadn3: strconv.Itoa(c3),
+		Cantidadtotal: strconv.Itoa(cantidad),
+	}
+	name_node(message)
 	log.Printf("algoritmo centralizado")
 }
 
 func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) {
-	//si es el ultimo chunk
+	
 	parte, err := strconv.Atoi(message.Parte)
 	cantidad, err := strconv.Atoi(message.Cantidad)
 	if err != nil {
@@ -90,7 +109,7 @@ func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkReques
 		if message.Tipo == "1"{
 			distribuido()
 		}else{
-			centralizado(message.Machine)
+			centralizado(cantidad)
 		}
 	}
 	return &dn_proto.CodeRequest{Code: "chunk recibido"}, nil
@@ -110,7 +129,7 @@ func conexioncl(){
 	}
 }
 
-func name_node(){
+func name_node(message nn_proto.Propuesta){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
 	if err != nil {
@@ -119,13 +138,6 @@ func name_node(){
 	defer conn.Close()
 
 	c := nn_proto.NewHelloworldServiceClient(conn)
-		
-	message := nn_proto.Propuesta{
-		Cantidadn1: "1",
-		Cantidadn2: "2",
-		Cantidadn3: "2",
-		Cantidadtotal: "5",
-	}
 
 	response, err := c.EnviarPropuesta(context.Background(), &message)
 	if err != nil {
