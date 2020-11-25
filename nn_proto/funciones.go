@@ -62,5 +62,9 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 
 func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*CodeRequest, error) {
 	log.Printf("Propuesta recibida")
+	log.Printf("C1: %s", message.Cantidadn1)
+	log.Printf("C2: %s", message.Cantidadn2)
+	log.Printf("C3: %s", message.Cantidadn3)
+	log.Printf("Cantidad: %s", message.Cantidadtotal)
 	return &CodeRequest{Code: "xd"}, nil
 }
