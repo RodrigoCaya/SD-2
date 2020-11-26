@@ -44,7 +44,7 @@ func (s *Server) Propuesta(ctx context.Context, message *dn_proto.PropRequest) (
 	return &dn_proto.CodeRequest{Code: "Recibido"}, nil
 }
 
-func conectardn(maquina string, message nn_proto.Propuesta){
+func conectardn(maquina string, message dn_proto.PropRequest){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
 	if err != nil {
@@ -141,12 +141,19 @@ func name_node(message nn_proto.Propuesta){
 		log.Fatalf("Error when calling Buscar: %s", err)
 	}
 	if response.Code == "Propuesta aceptada" {
+		messagedn := dn_proto.PropRequest{
+			Cantidadn1: message.Cantidadn1,
+			Cantidadn2: message.Cantidadn2,
+			Cantidadn3: message.Cantidadn3,
+			Nombrel: message.Nombrel,
+			Cantidadtotal: message.Cantidadtotal,
+		}
 		var maquina string = ""
 		var prop string = "xd"
 		maquina = "dist14:9001"
-		conectardn(maquina, message)
+		conectardn(maquina, messagedn)
 		maquina = "dist15:9002"
-		conectardn(maquina, message)
+		conectardn(maquina, messagedn)
 	}
 	log.Printf("%s", response.Code)
 }
