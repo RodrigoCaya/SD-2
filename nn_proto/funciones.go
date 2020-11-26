@@ -70,25 +70,34 @@ func agregarlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelib
 	defer file.Close()
 	
 	file.WriteString(nombrelibro + " " + cantidadtotal + "\n")
-if c1 != ""{
-	cantidad1 = strconv.Atoi(c1)
-	for i = 0 ; i < cantidad1 ; i++{
-		file.WriteString(nombrelibro + "_" + strconv.Itoa(i) + " " + "dist14:9001\n")
+	if c1 != ""{
+		cantidad1, err := strconv.Atoi(c1)
+		if err != nil {
+			log.Fatal(err)
+		}
+		for i = 0 ; i < cantidad1 ; i++{
+			file.WriteString(nombrelibro + "_" + strconv.Itoa(i) + " " + "dist14:9001\n")
+		}
 	}
-}
-if c2 != ""{
-	cantidad2 = strconv.Atoi(c2)
-	for j = (0 + i) ; j < (cantidad2 + i) ; j++ {
-		file.WriteString(nombrelibro + "_" + strconv.Itoa(j) + " " + "dist15:9002\n")
+	if c2 != ""{
+		cantidad2, err := strconv.Atoi(c2)
+		if err != nil {
+			log.Fatal(err)
+		}
+		for j = (0 + i) ; j < (cantidad2 + i) ; j++ {
+			file.WriteString(nombrelibro + "_" + strconv.Itoa(j) + " " + "dist15:9002\n")
+		}
 	}
-}
 
-if c3 != ""{
-	cantidad3 = strconv.Atoi(c3)
-	for k = (0 + i + j) ; k < (cantidad3 + i + j) ; k++ {
-		file.WriteString(nombrelibro + "_" + strconv.Itoa(k) + " " + "dist16:9003\n")
+	if c3 != ""{
+		cantidad3, err := strconv.Atoi(c3)
+		if err != nil {
+			log.Fatal(err)
+		}
+		for k = (0 + i + j) ; k < (cantidad3 + i + j) ; k++ {
+			file.WriteString(nombrelibro + "_" + strconv.Itoa(k) + " " + "dist16:9003\n")
+		}
 	}
-}
 
 //cree el log a partir de los c1, c2, c3
 //c1 tiene los primeros, despues el c2, despues el c3
