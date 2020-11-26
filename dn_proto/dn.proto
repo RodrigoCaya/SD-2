@@ -14,8 +14,12 @@ message ChunkRequest {
 	string nombrel = 6;
 }
 
-message PropRequest{
-	string propuesta = 1;
+message Propuesta{
+	string cantidadn1 = 1;
+	string cantidadn2 = 2;
+	string cantidadn3 = 3;
+	string nombrel = 4;
+	string cantidadtotal = 5;
 }
 
 service DnService {
