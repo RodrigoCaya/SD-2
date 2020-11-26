@@ -66,7 +66,7 @@ func conectardn(maquina string, prop string){
 	log.Printf("%s", response.Code)
 }
 
-func centralizado(cantidad int){
+func centralizado(cantidad int, nombrelibro string){
 	chunksxcadauno := cantidad/3
 	c1 := chunksxcadauno
 	c2 := chunksxcadauno
@@ -83,6 +83,7 @@ func centralizado(cantidad int){
 		Cantidadn1: strconv.Itoa(c1),
 		Cantidadn2: strconv.Itoa(c2),
 		Cantidadn3: strconv.Itoa(c3),
+		Nombrel: nombrelibro,
 		Cantidadtotal: strconv.Itoa(cantidad),
 	}
 	name_node(message)
@@ -109,7 +110,7 @@ func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkReques
 		if message.Tipo == "1"{
 			distribuido()
 		}else{
-			centralizado(cantidad)
+			centralizado(cantidad, message.Nombrel)
 		}
 	}
 	return &dn_proto.CodeRequest{Code: "chunk recibido"}, nil

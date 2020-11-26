@@ -10,7 +10,8 @@ message Propuesta{
 	string cantidadn1 = 1;
 	string cantidadn2 = 2;
 	string cantidadn3 = 3;
-	string cantidadtotal = 4;
+	string nombrel = 4;
+	string cantidadtotal = 5;
 }
 
 

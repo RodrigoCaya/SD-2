@@ -15,7 +15,7 @@ import (
 	"github.com/RodrigoCaya/SD-2/nn_proto"
 )
 
-func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int, total int){
+func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int, total int, nombrelibro string){
 	var conn *grpc.ClientConn
 	maquina := strconv.Itoa(probabilidad+4)
 	puerto := strconv.Itoa(probabilidad+1)
@@ -35,6 +35,7 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 		Parte: strconv.Itoa(part),
 		Cantidad: strconv.Itoa(total),
 		Machine: maquina,
+		Nombrel: nombrelibro,
 	}
 
 	response, err := c.EnviarChunks(context.Background(), &message)
@@ -46,6 +47,7 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 }
 
 func separarlibro(algoritmo string){
+	nombrelibro := "Dracula-Stoker_Bram"
 	fileToBeChunked := "../libros_cliente/Dracula-Stoker_Bram.pdf" // change here!
 
 	file, err := os.Open(fileToBeChunked)
@@ -92,7 +94,7 @@ func separarlibro(algoritmo string){
 
 			fmt.Println("Split to : ", fileName)*/
 
-			data_node(partBuffer, algoritmo, probabilidad,int(i) , int(totalPartsNum))
+			data_node(partBuffer, algoritmo, probabilidad,int(i) , int(totalPartsNum), nombrelibro)
 	}
 	/*
 	// just for fun, let's recombine back the chunked files in a new file

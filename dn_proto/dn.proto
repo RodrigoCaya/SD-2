@@ -11,6 +11,7 @@ message ChunkRequest {
 	string parte = 3;
 	string cantidad = 4;
 	string machine = 5;
+	string nombrel = 6;
 }
 
 message PropRequest{

@@ -60,11 +60,26 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 	return &CodeRequest{Code: nombres}, nil
 }
 
+/*
+func crearlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelibro string){
+	//cree el log a partir de los c1, c2, c3
+	//c1 tiene los primeros, despues el c2, despues el c3
+	//IP dn1 = dist14:9001
+	//IP dn2 = dist15:9002
+	//IP dn3 = dist16:9003
+}
+*/
+
 func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*CodeRequest, error) {
 	log.Printf("Propuesta recibida")
+	
 	log.Printf("C1: %s", message.Cantidadn1)
 	log.Printf("C2: %s", message.Cantidadn2)
 	log.Printf("C3: %s", message.Cantidadn3)
 	log.Printf("Cantidad: %s", message.Cantidadtotal)
-	return &CodeRequest{Code: "xd"}, nil
+	//crearlog(message.Cantidadn1, message.Cantidadn2, message.Cantidadn3, message.Cantidadtotal, message.Nombrel)
+	//revisar qe los dn involucrados esten activos
+	//si estan activos, entonces hacer el log y responder "propuesta aceptada"
+	//si no estan activos, no hacer el log y responder "se cayo un wn"
+	return &CodeRequest{Code: "Propuesta aceptada"}, nil
 }
