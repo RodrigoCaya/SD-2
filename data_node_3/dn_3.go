@@ -149,7 +149,7 @@ func name_node(message nn_proto.Propuesta){
 			Cantidadtotal: message.Cantidadtotal,
 		}
 		var maquina string = ""
-		var prop string = "xd"
+		//var prop string = "xd"
 		maquina = "dist14:9001"
 		conectardn(maquina, messagedn)
 		maquina = "dist15:9002"
