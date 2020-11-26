@@ -69,24 +69,24 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 		}
 		defer file.Close()
 		
-		file.WriteString(nombrelibro + " " + cantidadtotal)
+		file.WriteString(nombrelibro + " " + cantidadtotal + "\n")
 	if c1 != ""{
 		cantidad1 = strconv.Atoi(c1)
 		for i = 0 ; i < cantidad1 ; i++{
-			file.WriteString(nombrelibro + "_" + strconv.Itoa(i) + " " + "dist14:9001")
+			file.WriteString(nombrelibro + "_" + strconv.Itoa(i) + " " + "dist14:9001\n")
 		}
 	}
 	if c2 != ""{
 		cantidad2 = strconv.Atoi(c2)
 		for j = (0 + i) ; j < (cantidad2 + i) ; j++ {
-			file.WriteString(nombrelibro + "_" + strconv.Itoa(j) + " " + "dist15:9002")
+			file.WriteString(nombrelibro + "_" + strconv.Itoa(j) + " " + "dist15:9002\n")
 		}
 	}
 
 	if c3 != ""{
 		cantidad3 = strconv.Atoi(c3)
 		for k = (0 + i + j) ; k < (cantidad3 + i + j) ; k++ {
-			file.WriteString(nombrelibro + "_" + strconv.Itoa(k) + " " + "dist16:9003")
+			file.WriteString(nombrelibro + "_" + strconv.Itoa(k) + " " + "dist16:9003\n")
 		}
 	}
 
