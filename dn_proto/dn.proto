@@ -23,7 +23,8 @@ message PropRequest{
 }
 
 service DnService {
-	rpc EnviarChunks(ChunkRequest) returns (CodeRequest) {}
+	rpc EnviarChunks(ChunkRequest) returns (CodeRequest){}
 	rpc Propuesta(PropRequest) returns (CodeRequest){}
+	rpc Estado(CodeRequest) returns (CodeRequest){}
 }
 

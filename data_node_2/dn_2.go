@@ -157,6 +157,10 @@ func name_node(message nn_proto.Propuesta){
 	log.Printf("%s", response.Code)
 }
 
+func (s *Server) Estado(ctx context.Context, message *dn_proto.CodeRequest) (*dn_proto.CodeRequest, error) {
+	return &dn_proto.CodeRequest{Code: "Estoy vivo"}, nil
+}
+
 func main(){
 	//go name_node()
 	conexioncl()

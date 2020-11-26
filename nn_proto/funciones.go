@@ -8,6 +8,7 @@ import (
 	"log"
 	"bufio"
 	"golang.org/x/net/context"
+	"github.com/RodrigoCaya/SD-2/dn_proto"
 	"strings"
 )
 
@@ -106,6 +107,29 @@ func agregarlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelib
 //IP dn3 = dist16:9003
 }
 
+func ualive(maquina string){
+	var conn *grpc.ClientConn
+	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("could not connect: %s", err)
+	}
+	defer conn.Close()
+
+	c := dn_proto.NewDnServiceClient(conn)
+
+	message := dn_proto.CodeRequest{
+		Code: "¿Estas vivo?",
+	}
+	response, err := c.Estado(context.Background(), &message)
+	respuesta := ""
+	if err != nil {
+		log.Printf("Se cayó el %s", maquina)
+		respuesta = "gg"
+	}else{
+		respuesta = response.Code
+	}
+	return respuesta
+}
 
 func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*CodeRequest, error) {
 	log.Printf("Propuesta recibida")
@@ -118,5 +142,23 @@ func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Code
 	//revisar qe los dn involucrados esten activos
 	//si estan activos, entonces hacer el log y responder "propuesta aceptada"
 	//si no estan activos, no hacer el log y responder "se cayo un wn"
-	return &CodeRequest{Code: "Propuesta aceptada"}, nil
+	respuesta := ""
+	flag := 1
+	if ualive("dist14:9001") == "gg" {
+		respuesta = respuesta + "dn1"
+		flag = 0
+	}
+	if ualive("dist15:9002") == "gg" {
+		respuesta = respuesta + "dn2"
+		flag = 0
+	}
+	if ualive("dist16:9003") == "gg" {
+		respuesta = respuesta + "dn3"
+		flag = 0
+	}
+
+	if flag == 1 {
+		return &CodeRequest{Code: "Propuesta aceptada"}, nil
+	}
+	return &CodeRequest{Code: respuesta}, nil	
 }
