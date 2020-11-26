@@ -1,15 +1,8 @@
-Dracula 7
-Dracula-Stoker_Bram_0 14
-Dracula-Stoker_Bram_1 15
-Dracula-Stoker_Bram_2 14
-Dracula-Stoker_Bram_3 16
-Dracula-Stoker_Bram_4 16
-Dracula-Stoker_Bram_5 14
-Dracula-Stoker_Bram_6 15
-Frankenstein 2
-Frank-xd 14
-Frank-xd 16
-El Quijote 3
-parte-1 15
-parte-2 14
-parte-3 16
+Dracula-Stoker_Bram 7
+Dracula-Stoker_Bram_0 dist14:9001
+Dracula-Stoker_Bram_1 dist14:9001
+Dracula-Stoker_Bram_2 dist14:9001
+Dracula-Stoker_Bram_3 dist15:9002
+Dracula-Stoker_Bram_4 dist15:9002
+Dracula-Stoker_Bram_8 dist16:9003
+Dracula-Stoker_Bram_9 dist16:9003
