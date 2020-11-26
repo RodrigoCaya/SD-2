@@ -44,7 +44,7 @@ func (s *Server) Propuesta(ctx context.Context, message *dn_proto.PropRequest) (
 	return &dn_proto.CodeRequest{Code: "Recibido"}, nil
 }
 
-func conectardn(maquina string, message nn_proto.PropRequest){
+func conectardn(maquina string, message nn_proto.Propuesta){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
 	if err != nil {
@@ -75,7 +75,7 @@ func centralizado(cantidad int, nombrelibro string){
 			c2 = c2 + 1
 		}
 	}
-	message := nn_proto.PropRequest{
+	message := nn_proto.Propuesta{
 		Cantidadn1: strconv.Itoa(c1),
 		Cantidadn2: strconv.Itoa(c2),
 		Cantidadn3: strconv.Itoa(c3),
@@ -126,7 +126,7 @@ func conexioncl(){
 	}
 }
 
-func name_node(message nn_proto.PropRequest){
+func name_node(message nn_proto.Propuesta){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
 	if err != nil {

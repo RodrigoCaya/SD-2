@@ -44,7 +44,7 @@ func (s *Server) Propuesta(ctx context.Context, message *dn_proto.PropRequest) (
 	return &dn_proto.CodeRequest{Code: "Recibido"}, nil
 }
 
-func conectardn(maquina string, message nn_proto.PropRequest){
+func conectardn(maquina string, message nn_proto.Propuesta){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
 	if err != nil {
@@ -126,7 +126,7 @@ func conexioncl(){
 	}
 }
 
-func name_node(message nn_proto.PropRequest){
+func name_node(message nn_proto.Propuesta){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
 	if err != nil {
