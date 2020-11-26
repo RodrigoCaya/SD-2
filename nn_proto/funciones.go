@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"bufio"
+	"google.golang.org/grpc"
 	"golang.org/x/net/context"
 	"github.com/RodrigoCaya/SD-2/dn_proto"
 	"strings"
@@ -107,7 +108,7 @@ func agregarlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelib
 //IP dn3 = dist16:9003
 }
 
-func ualive(maquina string){
+func ualive(maquina string) string {
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
 	if err != nil {
@@ -144,15 +145,18 @@ func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Code
 	//si no estan activos, no hacer el log y responder "se cayo un wn"
 	respuesta := ""
 	flag := 1
-	if ualive("dist14:9001") == "gg" {
+	resp := ualive("dist14:9001")
+	if resp == "gg" {
 		respuesta = respuesta + "dn1"
 		flag = 0
 	}
-	if ualive("dist15:9002") == "gg" {
+	resp = ualive("dist15:9002")
+	if resp == "gg" {
 		respuesta = respuesta + "dn2"
 		flag = 0
 	}
-	if ualive("dist16:9003") == "gg" {
+	resp = ualive("dist16:9003")
+	if resp == "gg" {
 		respuesta = respuesta + "dn3"
 		flag = 0
 	}
