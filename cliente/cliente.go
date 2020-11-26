@@ -235,9 +235,10 @@ func main() {
 			fmt.Println("(2) Algoritmo Centralizado")
 			fmt.Println("(0) Salir")
 			fmt.Println("-----------------")
-					
 			fmt.Scanln(&second)
-			go separarlibro(second)
+			if second != "0"{
+				go separarlibro(second)
+			}
 		}
 		if first == "2"{
 			go name_node()
