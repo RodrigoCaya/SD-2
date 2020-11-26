@@ -24,9 +24,9 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 		log.Fatal(err)
 	}
 	defer file.Close()
-
+	
 	scanner := bufio.NewScanner(file)
-
+	
 	for err != io.EOF {
 		scanner.Scan()
 		split := strings.Split(scanner.Text(), " ")
@@ -50,25 +50,53 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 			scanner.Scan()
 			fmt.Println("xd")
 		}
-	} 
+		} 
+		return &CodeRequest{Code: nombres}, nil
+	}
 	
-	/*for scanner.Scan() {
-		fmt.Println(scanner.Text())
-		nombres = nombres + "," + scanner.Text()
-	}*/
+	var cantidad1 string
+	var cantidad2 string
+	var cantidad3 string
+	var i int
+	var j int
+	var k int
 
-	return &CodeRequest{Code: nombres}, nil
-}
+	
+	func agregarlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelibro string){
+		file, err := os.Create("log.txt")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer file.Close()
+		
+		file.WriteString(nombrelibro + " " + cantidadtotal)
+	if c1 != ""{
+		cantidad1 = strconv.Atoi(c1)
+		for i = 0 ; i < cantidad1 ; i++{
+			file.WriteString(nombrelibro + "_" + strconv.Itoa(i) + " " + "dist14:9001")
+		}
+	}
+	if c2 != ""{
+		cantidad2 = strconv.Atoi(c2)
+		for j = (0 + i) ; j < (cantidad2 + i) ; j++ {
+			file.WriteString(nombrelibro + "_" + strconv.Itoa(j) + " " + "dist15:9002")
+		}
+	}
 
-/*
-func crearlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelibro string){
+	if c3 != ""{
+		cantidad3 = strconv.Atoi(c3)
+		for k = (0 + i + j) ; k < (cantidad3 + i + j) ; k++ {
+			file.WriteString(nombrelibro + "_" + strconv.Itoa(k) + " " + "dist16:9003")
+		}
+	}
+
 	//cree el log a partir de los c1, c2, c3
 	//c1 tiene los primeros, despues el c2, despues el c3
 	//IP dn1 = dist14:9001
 	//IP dn2 = dist15:9002
 	//IP dn3 = dist16:9003
 }
-*/
+
 
 func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*CodeRequest, error) {
 	log.Printf("Propuesta recibida")
