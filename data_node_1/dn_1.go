@@ -39,12 +39,12 @@ func distribuido(){
 	log.Printf("algoritmo distribuido")
 }
 
-func (s *Server) Propuesta(ctx context.Context, message *dn_proto.Propuesta) (*dn_proto.CodeRequest, error) {
+func (s *Server) Propuesta(ctx context.Context, message *dn_proto.PropRequest) (*dn_proto.CodeRequest, error) {
 	log.Printf("me llegó una propuesta de un dn")
 	return &dn_proto.CodeRequest{Code: "Recibido"}, nil
 }
 
-func conectardn(maquina string, message nn_proto.Propuesta){
+func conectardn(maquina string, message nn_proto.PropRequest){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
 	if err != nil {
@@ -75,7 +75,7 @@ func centralizado(cantidad int, nombrelibro string){
 			c2 = c2 + 1
 		}
 	}
-	message := nn_proto.Propuesta{
+	message := nn_proto.PropRequest{
 		Cantidadn1: strconv.Itoa(c1),
 		Cantidadn2: strconv.Itoa(c2),
 		Cantidadn3: strconv.Itoa(c3),
@@ -126,7 +126,7 @@ func conexioncl(){
 	}
 }
 
-func name_node(message nn_proto.Propuesta){
+func name_node(message nn_proto.PropRequest){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
 	if err != nil {

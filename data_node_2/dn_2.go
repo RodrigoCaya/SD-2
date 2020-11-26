@@ -30,21 +30,21 @@ type Server struct{
 }
 
 func distribuido(){
-	var maquina string = ""
+	/*var maquina string = ""
 	var prop string = "xd"
-	maquina = "dist14:9001"
+	maquina = "dist15:9002"
 	conectardn(maquina, prop)
 	maquina = "dist16:9003"
-	conectardn(maquina, prop)
+	conectardn(maquina, prop)*/
 	log.Printf("algoritmo distribuido")
 }
 
 func (s *Server) Propuesta(ctx context.Context, message *dn_proto.PropRequest) (*dn_proto.CodeRequest, error) {
-	log.Printf("hola")
-	return &dn_proto.CodeRequest{Code: "equis de"}, nil
+	log.Printf("me llegó una propuesta de un dn")
+	return &dn_proto.CodeRequest{Code: "Recibido"}, nil
 }
 
-func conectardn(maquina string, prop string){
+func conectardn(maquina string, message nn_proto.PropRequest){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
 	if err != nil {
@@ -53,10 +53,6 @@ func conectardn(maquina string, prop string){
 	defer conn.Close()
 
 	c := dn_proto.NewDnServiceClient(conn)
-		
-	message := dn_proto.PropRequest{
-		Propuesta: prop,
-	}
 
 	response, err := c.Propuesta(context.Background(), &message)
 	if err != nil {
@@ -129,7 +125,7 @@ func conexioncl(){
 	}
 }
 
-func name_node(message nn_proto.Propuesta){
+func name_node(message nn_proto.PropRequest){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
 	if err != nil {
@@ -143,7 +139,14 @@ func name_node(message nn_proto.Propuesta){
 	if err != nil {
 		log.Fatalf("Error when calling Buscar: %s", err)
 	}
-
+	if response.Code == "Propuesta aceptada" {
+		var maquina string = ""
+		var prop string = "xd"
+		maquina = "dist14:9001"
+		conectardn(maquina, message)
+		maquina = "dist16:9003"
+		conectardn(maquina, message)
+	}
 	log.Printf("%s", response.Code)
 }
 

@@ -14,7 +14,7 @@ message ChunkRequest {
 	string nombrel = 6;
 }
 
-message Propuesta{
+message PropRequest{
 	string cantidadn1 = 1;
 	string cantidadn2 = 2;
 	string cantidadn3 = 3;
