@@ -130,6 +130,8 @@ func name_node(message nn_proto.Propuesta){
 	chunk1 := message.Cantidadn1
 	chunk2 := message.Cantidadn2
 	chunk3 := message.Cantidadn3
+	nombre := message.Nombrel
+	cantidadtotal := message.Cantidadtotal
 	for{
 		var conn *grpc.ClientConn
 		conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
@@ -178,14 +180,11 @@ func name_node(message nn_proto.Propuesta){
 				Cantidadn1: chunk1,
 				Cantidadn2: chunk2,
 				Cantidadn3: chunk3,
-				Nombrel: message.Nombrel,
-				Cantidadtotal: message.Cantidadtotal,
+				Nombrel: nombre,
+				Cantidadtotal: cantidadtotal,
 			}
 		}
 		log.Printf("%s", response.Code)
-
-		
-		
 	}
 }
 
