@@ -176,7 +176,7 @@ func name_node(message nn_proto.Propuesta){
 					chunk3 = "0"
 				}
 			}
-			message := nn_proto.Propuesta{
+			message = nn_proto.Propuesta{
 				Cantidadn1: chunk1,
 				Cantidadn2: chunk2,
 				Cantidadn3: chunk3,
