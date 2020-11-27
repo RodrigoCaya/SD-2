@@ -145,20 +145,26 @@ func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Code
 	//si no estan activos, no hacer el log y responder "se cayo un wn"
 	respuesta := ""
 	flag := 1
-	resp := ualive("dist14:9001")
-	if resp == "gg" {
-		respuesta = respuesta + "dn1"
-		flag = 0
+	if message.Cantidadn1 != "0"{
+		resp := ualive("dist14:9001")
+		if resp == "gg" {
+			respuesta = respuesta + "dn1"
+			flag = 0
+		}
 	}
-	resp = ualive("dist15:9002")
-	if resp == "gg" {
-		respuesta = respuesta + "dn2"
-		flag = 0
+	if message.Cantidadn2 != "0"{
+		resp = ualive("dist15:9002")
+		if resp == "gg" {
+			respuesta = respuesta + "dn2"
+			flag = 0
+		}
 	}
-	resp = ualive("dist16:9003")
-	if resp == "gg" {
-		respuesta = respuesta + "dn3"
-		flag = 0
+	if message.Cantidadn3 != "0"{
+		resp = ualive("dist16:9003")
+		if resp == "gg" {
+			respuesta = respuesta + "dn3"
+			flag = 0
+		}
 	}
 
 	if flag == 1 {
