@@ -127,6 +127,9 @@ func conexioncl(){
 }
 
 func name_node(message nn_proto.Propuesta){
+	chunk1 := message.Cantidadn1
+	chunk2 := message.Cantidadn2
+	chunk3 := message.Cantidadn3
 	for{
 		var conn *grpc.ClientConn
 		conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
@@ -151,15 +154,37 @@ func name_node(message nn_proto.Propuesta){
 			}
 			var maquina string = ""
 			//var prop string = "xd"
-			maquina = "dist15:9002"
-			conectardn(maquina, messagedn)
-			maquina = "dist16:9003"
-			conectardn(maquina, messagedn)
+			if message.Cantidadn2 != "0"{
+				maquina = "dist15:9002"
+				conectardn(maquina, messagedn)
+			}
+			if message.Cantidadn3 != "0"{
+				maquina = "dist16:9003"
+				conectardn(maquina, messagedn)
+			}
 			break
 		}else{
-			//xd
+			if response.Code == "dn2"{
+				chunk2 = "0"
+			}else{
+				if response.Code == "dn3"{
+					chunk3 = "0"
+				}else{
+					chunk2 = "0"
+					chunk3 = "0"
+				}
+			}
+			message := nn_proto.Propuesta{
+				Cantidadn1: chunk1,
+				Cantidadn2: chunk2,
+				Cantidadn3: chunk3,
+				Nombrel: message.Nombrel,
+				Cantidadtotal: message.Cantidadtotal,
+			}
 		}
 		log.Printf("%s", response.Code)
+
+		
 		
 	}
 }
