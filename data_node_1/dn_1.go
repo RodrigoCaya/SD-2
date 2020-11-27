@@ -127,35 +127,41 @@ func conexioncl(){
 }
 
 func name_node(message nn_proto.Propuesta){
-	var conn *grpc.ClientConn
-	conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("could not connect: %s", err)
-	}
-	defer conn.Close()
-
-	c := nn_proto.NewHelloworldServiceClient(conn)
-
-	response, err := c.EnviarPropuesta(context.Background(), &message)
-	if err != nil {
-		log.Fatalf("Error when calling Buscar: %s", err)
-	}
-	if response.Code == "Propuesta aceptada" {
-		messagedn := dn_proto.PropRequest{
-			Cantidadn1: message.Cantidadn1,
-			Cantidadn2: message.Cantidadn2,
-			Cantidadn3: message.Cantidadn3,
-			Nombrel: message.Nombrel,
-			Cantidadtotal: message.Cantidadtotal,
+	for{
+		var conn *grpc.ClientConn
+		conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
+		if err != nil {
+			log.Fatalf("could not connect: %s", err)
 		}
-		var maquina string = ""
-		//var prop string = "xd"
-		maquina = "dist15:9002"
-		conectardn(maquina, messagedn)
-		maquina = "dist16:9003"
-		conectardn(maquina, messagedn)
+		defer conn.Close()
+	
+		c := nn_proto.NewHelloworldServiceClient(conn)
+	
+		response, err := c.EnviarPropuesta(context.Background(), &message)
+		if err != nil {
+			log.Fatalf("Error when calling Buscar: %s", err)
+		}
+		if response.Code == "Propuesta aceptada" {
+			messagedn := dn_proto.PropRequest{
+				Cantidadn1: message.Cantidadn1,
+				Cantidadn2: message.Cantidadn2,
+				Cantidadn3: message.Cantidadn3,
+				Nombrel: message.Nombrel,
+				Cantidadtotal: message.Cantidadtotal,
+			}
+			var maquina string = ""
+			//var prop string = "xd"
+			maquina = "dist15:9002"
+			conectardn(maquina, messagedn)
+			maquina = "dist16:9003"
+			conectardn(maquina, messagedn)
+			break
+		}else{
+			//xd
+		}
+		log.Printf("%s", response.Code)
+		
 	}
-	log.Printf("%s", response.Code)
 }
 
 func (s *Server) Estado(ctx context.Context, message *dn_proto.CodeRequest) (*dn_proto.CodeRequest, error) {

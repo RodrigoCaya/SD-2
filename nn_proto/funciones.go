@@ -139,7 +139,7 @@ func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Code
 	log.Printf("C2: %s", message.Cantidadn2)
 	log.Printf("C3: %s", message.Cantidadn3)
 	log.Printf("Cantidad: %s", message.Cantidadtotal)
-	agregarlog(message.Cantidadn1, message.Cantidadn2, message.Cantidadn3, message.Cantidadtotal, message.Nombrel)
+	
 	//revisar qe los dn involucrados esten activos
 	//si estan activos, entonces hacer el log y responder "propuesta aceptada"
 	//si no estan activos, no hacer el log y responder "se cayo un wn"
@@ -162,6 +162,7 @@ func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Code
 	}
 
 	if flag == 1 {
+		agregarlog(message.Cantidadn1, message.Cantidadn2, message.Cantidadn3, message.Cantidadtotal, message.Nombrel)
 		return &CodeRequest{Code: "Propuesta aceptada"}, nil
 	}
 	return &CodeRequest{Code: respuesta}, nil	
