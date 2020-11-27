@@ -112,7 +112,7 @@ func ualive(maquina string) string {
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
 	if err != nil {
-		log.Fatalf("could not connect: %s", err)
+		log.Printf("could not connect: %s", err)
 	}
 	defer conn.Close()
 
