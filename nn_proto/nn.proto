@@ -18,4 +18,5 @@ message Propuesta{
 service HelloworldService {
 	rpc DisplayLista(CodeRequest) returns (CodeRequest) {}
 	rpc EnviarPropuesta(Propuesta) returns (CodeRequest) {}
+	rpc AgregarAlLog(Propuesta) returns (CodeRequest) {}
 }

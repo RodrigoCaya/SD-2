@@ -63,6 +63,11 @@ var i int
 var j int
 var k int
 
+func (s *Server) AgregarAlLog(ctx context.Context, message *Propuesta) (*CodeRequest, error) {
+	log.Printf("voy a agregar al log desde un DN")
+	agregarlog(message.Cantidadn1, message.Cantidadn2, message.Cantidadn3, message.Cantidadtotal, message.Nombrel)
+	return &dn_proto.CodeRequest{Code: "Agregado al Log, revisalo"}, nil
+}
 	
 func agregarlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelibro string){
 	file, err := os.Create("log.txt")
