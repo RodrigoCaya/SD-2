@@ -75,6 +75,7 @@ func distribuido(cantidad int, nombrelibro string){
 		if err != nil {
 			log.Fatalf("Error when calling Buscar: %s", err)
 		}
+		log.Printf("%s", response.Code)
 	} else if respuesta1 == "Rechazado" {
 		
 	} else {
