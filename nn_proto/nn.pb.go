@@ -167,7 +167,7 @@ var file_nn_proto_rawDesc = []byte{
 	0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6e, 0x6f, 0x6d, 0x62, 0x72, 0x65, 0x6c, 0x12,
 	0x24, 0x0a, 0x0d, 0x63, 0x61, 0x6e, 0x74, 0x69, 0x64, 0x61, 0x64, 0x74, 0x6f, 0x74, 0x61, 0x6c,
 	0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x63, 0x61, 0x6e, 0x74, 0x69, 0x64, 0x61, 0x64,
-	0x74, 0x6f, 0x74, 0x61, 0x6c, 0x32, 0x94, 0x01, 0x0a, 0x11, 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x77,
+	0x74, 0x6f, 0x74, 0x61, 0x6c, 0x32, 0xd2, 0x01, 0x0a, 0x11, 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x77,
 	0x6f, 0x72, 0x6c, 0x64, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x3e, 0x0a, 0x0c, 0x44,
 	0x69, 0x73, 0x70, 0x6c, 0x61, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x61, 0x12, 0x15, 0x2e, 0x6e, 0x6e,
 	0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
@@ -176,8 +176,12 @@ var file_nn_proto_rawDesc = []byte{
 	0x6e, 0x76, 0x69, 0x61, 0x72, 0x50, 0x72, 0x6f, 0x70, 0x75, 0x65, 0x73, 0x74, 0x61, 0x12, 0x13,
 	0x2e, 0x6e, 0x6e, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x50, 0x72, 0x6f, 0x70, 0x75, 0x65,
 	0x73, 0x74, 0x61, 0x1a, 0x15, 0x2e, 0x6e, 0x6e, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43,
-	0x6f, 0x64, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x00, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x6f, 0x64, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x00, 0x12, 0x3c, 0x0a, 0x0c,
+	0x41, 0x67, 0x72, 0x65, 0x67, 0x61, 0x72, 0x41, 0x6c, 0x4c, 0x6f, 0x67, 0x12, 0x13, 0x2e, 0x6e,
+	0x6e, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x50, 0x72, 0x6f, 0x70, 0x75, 0x65, 0x73, 0x74,
+	0x61, 0x1a, 0x15, 0x2e, 0x6e, 0x6e, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x64,
+	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -200,10 +204,12 @@ var file_nn_proto_goTypes = []interface{}{
 var file_nn_proto_depIdxs = []int32{
 	0, // 0: nn_proto.HelloworldService.DisplayLista:input_type -> nn_proto.CodeRequest
 	1, // 1: nn_proto.HelloworldService.EnviarPropuesta:input_type -> nn_proto.Propuesta
-	0, // 2: nn_proto.HelloworldService.DisplayLista:output_type -> nn_proto.CodeRequest
-	0, // 3: nn_proto.HelloworldService.EnviarPropuesta:output_type -> nn_proto.CodeRequest
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	1, // 2: nn_proto.HelloworldService.AgregarAlLog:input_type -> nn_proto.Propuesta
+	0, // 3: nn_proto.HelloworldService.DisplayLista:output_type -> nn_proto.CodeRequest
+	0, // 4: nn_proto.HelloworldService.EnviarPropuesta:output_type -> nn_proto.CodeRequest
+	0, // 5: nn_proto.HelloworldService.AgregarAlLog:output_type -> nn_proto.CodeRequest
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -274,6 +280,7 @@ const _ = grpc.SupportPackageIsVersion6
 type HelloworldServiceClient interface {
 	DisplayLista(ctx context.Context, in *CodeRequest, opts ...grpc.CallOption) (*CodeRequest, error)
 	EnviarPropuesta(ctx context.Context, in *Propuesta, opts ...grpc.CallOption) (*CodeRequest, error)
+	AgregarAlLog(ctx context.Context, in *Propuesta, opts ...grpc.CallOption) (*CodeRequest, error)
 }
 
 type helloworldServiceClient struct {
@@ -302,10 +309,20 @@ func (c *helloworldServiceClient) EnviarPropuesta(ctx context.Context, in *Propu
 	return out, nil
 }
 
+func (c *helloworldServiceClient) AgregarAlLog(ctx context.Context, in *Propuesta, opts ...grpc.CallOption) (*CodeRequest, error) {
+	out := new(CodeRequest)
+	err := c.cc.Invoke(ctx, "/nn_proto.HelloworldService/AgregarAlLog", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HelloworldServiceServer is the server API for HelloworldService service.
 type HelloworldServiceServer interface {
 	DisplayLista(context.Context, *CodeRequest) (*CodeRequest, error)
 	EnviarPropuesta(context.Context, *Propuesta) (*CodeRequest, error)
+	AgregarAlLog(context.Context, *Propuesta) (*CodeRequest, error)
 }
 
 // UnimplementedHelloworldServiceServer can be embedded to have forward compatible implementations.
@@ -317,6 +334,9 @@ func (*UnimplementedHelloworldServiceServer) DisplayLista(context.Context, *Code
 }
 func (*UnimplementedHelloworldServiceServer) EnviarPropuesta(context.Context, *Propuesta) (*CodeRequest, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EnviarPropuesta not implemented")
+}
+func (*UnimplementedHelloworldServiceServer) AgregarAlLog(context.Context, *Propuesta) (*CodeRequest, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AgregarAlLog not implemented")
 }
 
 func RegisterHelloworldServiceServer(s *grpc.Server, srv HelloworldServiceServer) {
@@ -359,6 +379,24 @@ func _HelloworldService_EnviarPropuesta_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HelloworldService_AgregarAlLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Propuesta)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HelloworldServiceServer).AgregarAlLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/nn_proto.HelloworldService/AgregarAlLog",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HelloworldServiceServer).AgregarAlLog(ctx, req.(*Propuesta))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _HelloworldService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "nn_proto.HelloworldService",
 	HandlerType: (*HelloworldServiceServer)(nil),
@@ -370,6 +408,10 @@ var _HelloworldService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "EnviarPropuesta",
 			Handler:    _HelloworldService_EnviarPropuesta_Handler,
+		},
+		{
+			MethodName: "AgregarAlLog",
+			Handler:    _HelloworldService_AgregarAlLog_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -269,9 +269,9 @@ var file_dn_proto_rawDesc = []byte{
 	0x43, 0x68, 0x75, 0x6e, 0x6b, 0x73, 0x12, 0x16, 0x2e, 0x64, 0x6e, 0x5f, 0x70, 0x72, 0x6f, 0x74,
 	0x6f, 0x2e, 0x43, 0x68, 0x75, 0x6e, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x15,
 	0x2e, 0x64, 0x6e, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x00, 0x12, 0x3b, 0x0a, 0x09, 0x50, 0x72, 0x6f, 0x70, 0x75,
-	0x65, 0x73, 0x74, 0x61, 0x12, 0x15, 0x2e, 0x64, 0x6e, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e,
-	0x50, 0x72, 0x6f, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x15, 0x2e, 0x64, 0x6e,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x00, 0x12, 0x3b, 0x0a, 0x08, 0x43, 0x68, 0x75, 0x6e, 0x6b,
+	0x73, 0x44, 0x4e, 0x12, 0x16, 0x2e, 0x64, 0x6e, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43,
+	0x68, 0x75, 0x6e, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x15, 0x2e, 0x64, 0x6e,
 	0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
 	0x73, 0x74, 0x22, 0x00, 0x12, 0x38, 0x0a, 0x06, 0x45, 0x73, 0x74, 0x61, 0x64, 0x6f, 0x12, 0x15,
 	0x2e, 0x64, 0x6e, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x65,
@@ -300,10 +300,10 @@ var file_dn_proto_goTypes = []interface{}{
 }
 var file_dn_proto_depIdxs = []int32{
 	1, // 0: dn_proto.DnService.EnviarChunks:input_type -> dn_proto.ChunkRequest
-	2, // 1: dn_proto.DnService.Propuesta:input_type -> dn_proto.PropRequest
+	1, // 1: dn_proto.DnService.ChunksDN:input_type -> dn_proto.ChunkRequest
 	0, // 2: dn_proto.DnService.Estado:input_type -> dn_proto.CodeRequest
 	0, // 3: dn_proto.DnService.EnviarChunks:output_type -> dn_proto.CodeRequest
-	0, // 4: dn_proto.DnService.Propuesta:output_type -> dn_proto.CodeRequest
+	0, // 4: dn_proto.DnService.ChunksDN:output_type -> dn_proto.CodeRequest
 	0, // 5: dn_proto.DnService.Estado:output_type -> dn_proto.CodeRequest
 	3, // [3:6] is the sub-list for method output_type
 	0, // [0:3] is the sub-list for method input_type
@@ -388,7 +388,7 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type DnServiceClient interface {
 	EnviarChunks(ctx context.Context, in *ChunkRequest, opts ...grpc.CallOption) (*CodeRequest, error)
-	Propuesta(ctx context.Context, in *PropRequest, opts ...grpc.CallOption) (*CodeRequest, error)
+	ChunksDN(ctx context.Context, in *ChunkRequest, opts ...grpc.CallOption) (*CodeRequest, error)
 	Estado(ctx context.Context, in *CodeRequest, opts ...grpc.CallOption) (*CodeRequest, error)
 }
 
@@ -409,9 +409,9 @@ func (c *dnServiceClient) EnviarChunks(ctx context.Context, in *ChunkRequest, op
 	return out, nil
 }
 
-func (c *dnServiceClient) Propuesta(ctx context.Context, in *PropRequest, opts ...grpc.CallOption) (*CodeRequest, error) {
+func (c *dnServiceClient) ChunksDN(ctx context.Context, in *ChunkRequest, opts ...grpc.CallOption) (*CodeRequest, error) {
 	out := new(CodeRequest)
-	err := c.cc.Invoke(ctx, "/dn_proto.DnService/Propuesta", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/dn_proto.DnService/ChunksDN", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -430,7 +430,7 @@ func (c *dnServiceClient) Estado(ctx context.Context, in *CodeRequest, opts ...g
 // DnServiceServer is the server API for DnService service.
 type DnServiceServer interface {
 	EnviarChunks(context.Context, *ChunkRequest) (*CodeRequest, error)
-	Propuesta(context.Context, *PropRequest) (*CodeRequest, error)
+	ChunksDN(context.Context, *ChunkRequest) (*CodeRequest, error)
 	Estado(context.Context, *CodeRequest) (*CodeRequest, error)
 }
 
@@ -441,8 +441,8 @@ type UnimplementedDnServiceServer struct {
 func (*UnimplementedDnServiceServer) EnviarChunks(context.Context, *ChunkRequest) (*CodeRequest, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EnviarChunks not implemented")
 }
-func (*UnimplementedDnServiceServer) Propuesta(context.Context, *PropRequest) (*CodeRequest, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Propuesta not implemented")
+func (*UnimplementedDnServiceServer) ChunksDN(context.Context, *ChunkRequest) (*CodeRequest, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChunksDN not implemented")
 }
 func (*UnimplementedDnServiceServer) Estado(context.Context, *CodeRequest) (*CodeRequest, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Estado not implemented")
@@ -470,20 +470,20 @@ func _DnService_EnviarChunks_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DnService_Propuesta_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PropRequest)
+func _DnService_ChunksDN_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChunkRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DnServiceServer).Propuesta(ctx, in)
+		return srv.(DnServiceServer).ChunksDN(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/dn_proto.DnService/Propuesta",
+		FullMethod: "/dn_proto.DnService/ChunksDN",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DnServiceServer).Propuesta(ctx, req.(*PropRequest))
+		return srv.(DnServiceServer).ChunksDN(ctx, req.(*ChunkRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -515,8 +515,8 @@ var _DnService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _DnService_EnviarChunks_Handler,
 		},
 		{
-			MethodName: "Propuesta",
-			Handler:    _DnService_Propuesta_Handler,
+			MethodName: "ChunksDN",
+			Handler:    _DnService_ChunksDN_Handler,
 		},
 		{
 			MethodName: "Estado",
