@@ -1,8 +1,0 @@
-Dracula-Stoker_Bram 7
-Dracula-Stoker_Bram_0 dist14:9001
-Dracula-Stoker_Bram_1 dist14:9001
-Dracula-Stoker_Bram_2 dist14:9001
-Dracula-Stoker_Bram_3 dist15:9002
-Dracula-Stoker_Bram_4 dist15:9002
-Dracula-Stoker_Bram_8 dist16:9003
-Dracula-Stoker_Bram_9 dist16:9003

@@ -70,7 +70,8 @@ func (s *Server) AgregarAlLog(ctx context.Context, message *Propuesta) (*CodeReq
 }
 	
 func agregarlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelibro string){
-	file, err := os.Create("log.txt")
+	file, err := os.OpenFile("log.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+
 	if err != nil {
 		log.Fatal(err)
 	}
