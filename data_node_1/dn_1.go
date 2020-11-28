@@ -113,6 +113,14 @@ func distribuido(cantidad int, nombrelibro string){
 		}
 		log.Printf("algoritmo distribuido")
 	}
+	if message.Cantidadn2 != "0"{
+		maquina = "dist15:9002"
+		conectardn(maquina, message)
+	}
+	if message.Cantidadn3 != "0"{
+		maquina = "dist16:9003"
+		conectardn(maquina, message)
+	}
 }
 
 func propuestadn(maquina string, message dn_proto.PropRequest) string {
