@@ -202,7 +202,7 @@ func conectardn(maquina string, message dn_proto.PropRequest){
 				aux := paldn1+paldn2+contdn3+1
 				part3 = strconv.Itoa(aux)
 				mensaje = dn_proto.ChunkRequest{
-					Chunk: libroactual[paldn1+paldn2+contdn2].chunks,
+					Chunk: libroactual[paldn1+paldn2+contdn3].chunks,
 					Parte: part3,
 					Cantidad: message.Cantidadtotal,
 					Nombrel: message.Nombrel,
