@@ -42,7 +42,7 @@ func distribuido(cantidad int, nombrelibro string){
 			c2 = c2 + 1
 		}
 	}
-	message := dn_proto.Propuesta{ // lo cambie de nn_proto a dn_proto
+	message := dn_proto.PropRequest{ // lo cambie de nn_proto a dn_proto
 		Cantidadn1: strconv.Itoa(c1),
 		Cantidadn2: strconv.Itoa(c2),
 		Cantidadn3: strconv.Itoa(c3),
@@ -61,7 +61,7 @@ func distribuido(cantidad int, nombrelibro string){
 		}
 		defer conn.Close()
 
-		c := nn_proto.NewDnServiceClient(conn) // lo cambie de dn_proto a nn_proto
+		c := nn_proto.NewHelloworldServiceClient(conn) // lo cambie de dn_proto a nn_proto
 
 		response, err := c.AgregarAlLog(context.Background(), &message)
 		if err != nil {
@@ -153,14 +153,14 @@ func conectardn(maquina string, message dn_proto.PropRequest){
 	if err != nil {
 		log.Fatalf("Error convirtiendo: %s", err)
 	}
-	part2 := 0
+	part2 := ""
 
 	contdn3 := 0
 	paldn3, err := strconv.Atoi(message.Cantidadn3)
 	if err != nil {
 		log.Fatalf("Error convirtiendo: %s", err)
 	}
-	part3 := 0
+	part3 := ""
 	
 	for{
 		if maquina == "dist15:9002"{
