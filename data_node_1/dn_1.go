@@ -63,6 +63,14 @@ func distribuido(cantidad int, nombrelibro string){
 
 		c := nn_proto.NewHelloworldServiceClient(conn) // lo cambie de dn_proto a nn_proto
 
+		message := nn_proto.Propuesta{ //agregue este msj, porqe el otro era tipo dn_proto
+			Cantidadn1: strconv.Itoa(c1),
+			Cantidadn2: strconv.Itoa(c2),
+			Cantidadn3: strconv.Itoa(c3),
+			Nombrel: nombrelibro,
+			Cantidadtotal: strconv.Itoa(cantidad),
+		}
+
 		response, err := c.AgregarAlLog(context.Background(), &message)
 		if err != nil {
 			log.Fatalf("Error when calling Buscar: %s", err)
