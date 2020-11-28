@@ -42,7 +42,7 @@ func distribuido(cantidad int, nombrelibro string){
 			c2 = c2 + 1
 		}
 	}
-	message := nn_proto.Propuesta{
+	message := dn_proto.Propuesta{ // lo cambie de nn_proto a dn_proto
 		Cantidadn1: strconv.Itoa(c1),
 		Cantidadn2: strconv.Itoa(c2),
 		Cantidadn3: strconv.Itoa(c3),
@@ -53,7 +53,7 @@ func distribuido(cantidad int, nombrelibro string){
 	maquina16 := "dist16:9003"
 	respuesta1 := propuestadn(maquina15, message)
 	respuesta2 := propuestadn(maquina16, message)
-	if respuesta1 == "Aceptado" & respuesta2 == "Aceptado" {
+	if respuesta1 == "Aceptado" && respuesta2 == "Aceptado" {
 		var conn *grpc.ClientConn
 		conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
 		if err != nil {
@@ -61,7 +61,7 @@ func distribuido(cantidad int, nombrelibro string){
 		}
 		defer conn.Close()
 
-		c := dn_proto.NewDnServiceClient(conn)
+		c := nn_proto.NewDnServiceClient(conn) // lo cambie de dn_proto a nn_proto
 
 		response, err := c.AgregarAlLog(context.Background(), &message)
 		if err != nil {
@@ -165,7 +165,8 @@ func conectardn(maquina string, message dn_proto.PropRequest){
 	for{
 		if maquina == "dist15:9002"{
 			if paldn2 != 0 && contdn2 < paldn2 {
-				part2 = strconv.Itoa(paldn1+contdn2+1)
+				aux := paldn1+contdn2+1
+				part2 = strconv.Itoa(aux)
 				mensaje = dn_proto.ChunkRequest{
 					Chunk: libroactual[paldn1+contdn2].chunks,
 					Parte: part2,
@@ -179,7 +180,8 @@ func conectardn(maquina string, message dn_proto.PropRequest){
 		}
 		if maquina == "dist16:9003"{
 			if paldn3 != 0 && contdn3 < paldn3 {
-				part3 = strconv.Itoa(paldn1+paldn2+contdn3+1)
+				aux := paldn1+paldn2+contdn3+1
+				part3 = strconv.Itoa(aux)
 				mensaje = dn_proto.ChunkRequest{
 					Chunk: libroactual[paldn1+paldn2+contdn2].chunks,
 					Parte: part3,

@@ -26,5 +26,6 @@ service DnService {
 	rpc EnviarChunks(ChunkRequest) returns (CodeRequest){}
 	rpc ChunksDN(ChunkRequest) returns (CodeRequest){}
 	rpc Estado(CodeRequest) returns (CodeRequest){}
+	rpc PropuestasDN(PropRequest) returns (CodeRequest){}
 }
 
