@@ -10,11 +10,11 @@ import(
 	"github.com/RodrigoCaya/SD-2/nn_proto"
 )
 
-var id int = 0
+
 
 type Pagina struct{
 	chunks []byte
-	id_libro int
+	id_libro string
 }
 
 var libroactual []Pagina
@@ -29,22 +29,104 @@ type Server struct{
 	dn_proto.UnimplementedDnServiceServer
 }
 
-func distribuido(){
-	/*var maquina string = ""
-	var prop string = "xd"
-	maquina = "dist15:9002"
-	conectardn(maquina, prop)
-	maquina = "dist16:9003"
-	conectardn(maquina, prop)*/
+func distribuido(cantidad int, nombrelibro string){
+	chunksxcadauno := cantidad/3
+	c1 := chunksxcadauno
+	c2 := chunksxcadauno
+	c3 := chunksxcadauno
+	if math.Mod(float64(cantidad), 3) == 1 {
+		c1 = c1 + 1
+	} else{
+		if math.Mod(float64(cantidad), 3) == 2 {
+			c1 = c1 + 1
+			c2 = c2 + 1
+		}
+	}
+	message := dn_proto.PropRequest{ // lo cambie de nn_proto a dn_proto
+		Cantidadn1: strconv.Itoa(c1),
+		Cantidadn2: strconv.Itoa(c2),
+		Cantidadn3: strconv.Itoa(c3),
+		Nombrel: nombrelibro,
+		Cantidadtotal: strconv.Itoa(cantidad),
+	}
+	maquina15 := "dist15:9002"
+	maquina16 := "dist16:9003"
+	respuesta1 := propuestadn(maquina15, message)
+	respuesta2 := propuestadn(maquina16, message)
+	if respuesta1 == "Aceptado" && respuesta2 == "Aceptado" {
+		var conn *grpc.ClientConn
+		conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
+		if err != nil {
+			log.Fatalf("could not connect: %s", err)
+		}
+		defer conn.Close()
+
+		c := nn_proto.NewHelloworldServiceClient(conn) // lo cambie de dn_proto a nn_proto
+
+		message := nn_proto.Propuesta{ //agregue este msj, porqe el otro era tipo dn_proto
+			Cantidadn1: strconv.Itoa(c1),
+			Cantidadn2: strconv.Itoa(c2),
+			Cantidadn3: strconv.Itoa(c3),
+			Nombrel: nombrelibro,
+			Cantidadtotal: strconv.Itoa(cantidad),
+		}
+
+		response, err := c.AgregarAlLog(context.Background(), &message)
+		if err != nil {
+			log.Fatalf("Error when calling Buscar: %s", err)
+		}
+		log.Printf("%s", response.Code)
+	} else if respuesta1 == "Rechazado" {
+		
+	} else {
+		
+	}
 	log.Printf("algoritmo distribuido")
 }
 
-func (s *Server) Propuesta(ctx context.Context, message *dn_proto.PropRequest) (*dn_proto.CodeRequest, error) {
+func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) {
+	log.Printf("me llegó la parte %s del libro %s",message.Parte, message.Nombrel)
+	//descargar los chunks
+	return &dn_proto.CodeRequest{Code: "Recibido"}, nil
+}
+
+func (s *Server) PropuestasDN(ctx context.Context, message *dn_proto.PropRequest) (*dn_proto.CodeRequest, error) {
+	log.Printf("Propuesta recibida")
+	
+	log.Printf("C1: %s", message.Cantidadn1)
+	log.Printf("C2: %s", message.Cantidadn2)
+	log.Printf("C3: %s", message.Cantidadn3)
+	log.Printf("Cantidad: %s", message.Cantidadtotal)
 	log.Printf("me llegó una propuesta de un dn")
 	return &dn_proto.CodeRequest{Code: "Recibido"}, nil
 }
 
-func conectardn(maquina string, message dn_proto.PropRequest){
+func ualive(maquina string) string {
+	var conn *grpc.ClientConn
+	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
+	if err != nil {
+		log.Printf("could not connect: %s", err)
+	}
+	defer conn.Close()
+
+	c := dn_proto.NewDnServiceClient(conn)
+
+	message := dn_proto.CodeRequest{
+		Code: "¿Estas vivo?",
+	}
+	response, err := c.Estado(context.Background(), &message)
+	respuesta := ""
+	if err != nil {
+		log.Printf("Se cayó el %s", maquina)
+		respuesta = "gg"
+	}else{
+		respuesta = response.Code
+	}
+	return respuesta
+}
+
+func propuestadn(maquina string, message dn_proto.PropRequest) string {
+	respuesta := "Aceptado"
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
 	if err != nil {
@@ -54,12 +136,91 @@ func conectardn(maquina string, message dn_proto.PropRequest){
 
 	c := dn_proto.NewDnServiceClient(conn)
 
-	response, err := c.Propuesta(context.Background(), &message)
+	response, err := c.PropuestasDN(context.Background(), &message)
 	if err != nil {
 		log.Fatalf("Error when calling Buscar: %s", err)
 	}
 
 	log.Printf("%s", response.Code)
+	if response.Code == "Propuesta aceptada"{
+		return respuesta
+	}else{
+		respuesta = "Rechazado"
+		return respuesta
+	}
+}
+
+func conectardn(maquina string, message dn_proto.PropRequest){
+	mensaje := dn_proto.ChunkRequest{}
+	contdn1 := 0 //cambiar aca
+	paldn2, err := strconv.Atoi(message.Cantidadn2) 
+	if err != nil {
+		log.Fatalf("Error convirtiendo: %s", err)
+	}
+	
+	paldn1, err := strconv.Atoi(message.Cantidadn1) 
+	if err != nil {
+		log.Fatalf("Error convirtiendo: %s", err)
+	}
+	part1 := "" //cambiar aca
+
+	contdn2 := 0 
+	paldn3, err := strconv.Atoi(message.Cantidadn3) 
+	if err != nil {
+		log.Fatalf("Error convirtiendo: %s", err)
+	}
+	part2 := "" 
+	
+	for{
+		if maquina == "dist14:9001"{ //cambiar aca
+			if paldn1 != 0 && contdn1 < paldn1 { //cambiar aca
+				aux := contdn1+1 //cambiar aca
+				part1 = strconv.Itoa(aux) //cambiar aca
+				mensaje = dn_proto.ChunkRequest{
+					Chunk: libroactual[contdn1].chunks, //cambiar aca
+					Parte: part1, //cambiar aca
+					Cantidad: message.Cantidadtotal,
+					Nombrel: message.Nombrel,
+				}
+				contdn1 = contdn1 + 1 //cambiar aca
+			}else{
+				break
+			}
+		}
+		if maquina == "dist15:9002"{
+			if paldn2 != 0 && contdn2 < paldn2 {
+				aux := paldn1+contdn2+1
+				part2 = strconv.Itoa(aux)
+				mensaje = dn_proto.ChunkRequest{
+					Chunk: libroactual[paldn1+contdn2].chunks,
+					Parte: part2,
+					Cantidad: message.Cantidadtotal,
+					Nombrel: message.Nombrel,
+				}
+				contdn2 = contdn2 + 1
+			}else{
+				break
+			}
+		}
+		var conn *grpc.ClientConn
+		conn, err := grpc.Dial(maquina, grpc.WithInsecure())
+		if err != nil {
+			log.Fatalf("could not connect: %s", err)
+		}
+		defer conn.Close()
+	
+		c := dn_proto.NewDnServiceClient(conn)
+	
+		response, err := c.ChunksDN(context.Background(), &mensaje)
+		if err != nil {
+			log.Fatalf("Error when calling Buscar: %s", err)
+		}
+	
+		log.Printf("%s", response.Code)
+
+	}
+
+	//agregar la parte de dn2 para descargar y hacer libroactual = vacio
 }
 
 func centralizado(cantidad int, nombrelibro string){
@@ -86,6 +247,7 @@ func centralizado(cantidad int, nombrelibro string){
 	log.Printf("algoritmo centralizado")
 }
 
+//aqui se conecta el cliente
 func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) {
 	
 	parte, err := strconv.Atoi(message.Parte)
@@ -96,15 +258,15 @@ func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkReques
 
 	pagina1 := Pagina{
 		chunks: message.Chunk,
-		id_libro: id,
+		id_libro: message.Nombrel,
 	}
 
 	libroactual = append(libroactual, pagina1)
 
 	if cantidad == (parte + 1){
-		id = id + 1
+		
 		if message.Tipo == "1"{
-			distribuido()
+			distribuido(cantidad, message.Nombrel)
 		}else{
 			centralizado(cantidad, message.Nombrel)
 		}
