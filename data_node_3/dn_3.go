@@ -165,10 +165,10 @@ func conectardn(maquina string, message dn_proto.PropRequest){
 	part1 := "" //cambiar aca
 
 	contdn2 := 0 
-	paldn3, err := strconv.Atoi(message.Cantidadn3) 
-	if err != nil {
-		log.Fatalf("Error convirtiendo: %s", err)
-	}
+	// paldn3, err := strconv.Atoi(message.Cantidadn3) 
+	// if err != nil {
+	// 	log.Fatalf("Error convirtiendo: %s", err)
+	// }
 	part2 := "" 
 	
 	for{
