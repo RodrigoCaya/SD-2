@@ -66,7 +66,7 @@ var k int
 func (s *Server) AgregarAlLog(ctx context.Context, message *Propuesta) (*CodeRequest, error) {
 	log.Printf("voy a agregar al log desde un DN")
 	agregarlog(message.Cantidadn1, message.Cantidadn2, message.Cantidadn3, message.Cantidadtotal, message.Nombrel)
-	return &dn_proto.CodeRequest{Code: "Agregado al Log, revisalo"}, nil
+	return &CodeRequest{Code: "Agregado al Log, revisalo"}, nil
 }
 	
 func agregarlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelibro string){
@@ -158,14 +158,14 @@ func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Code
 		}
 	}
 	if message.Cantidadn2 != "0"{
-		resp = ualive("dist15:9002")
+		resp := ualive("dist15:9002")
 		if resp == "gg" {
 			respuesta = respuesta + "dn2"
 			flag = 0
 		}
 	}
 	if message.Cantidadn3 != "0"{
-		resp = ualive("dist16:9003")
+		resp := ualive("dist16:9003")
 		if resp == "gg" {
 			respuesta = respuesta + "dn3"
 			flag = 0
