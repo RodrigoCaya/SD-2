@@ -47,8 +47,8 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 }
 
 func separarlibro(algoritmo string){
-	nombrelibro := "Dracula-Stoker_Bram"
-	fileToBeChunked := "../libros_cliente/Dracula-Stoker_Bram.pdf" // change here!
+	nombrelibro := "Frankenstein-Mary_Shelley"
+	fileToBeChunked := "../libros_cliente/Frankenstein-Mary_Shelley.pdf" // change here!
 
 	file, err := os.Open(fileToBeChunked)
 
