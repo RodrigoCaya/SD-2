@@ -50,38 +50,94 @@ func distribuido(cantidad int, nombrelibro string){
 		Cantidadtotal: strconv.Itoa(cantidad),
 	}
 	maquina15 := "dist15:9002"
-	maquina16 := "dist16:9003"
-	respuesta1 := propuestadn(maquina15, message)
-	respuesta2 := propuestadn(maquina16, message)
-	if respuesta1 == "Aceptado" && respuesta2 == "Aceptado" {
-		var conn *grpc.ClientConn
-		conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
-		if err != nil {
-			log.Fatalf("could not connect: %s", err)
+	maquina14 := "dist14:9001"
+	respuesta1 := ""
+	respuesta2 := ""
+	for {
+		flag := 0
+		if c2 != 0 {
+			respuesta1 = propuestadn(maquina15, message)
+			if respuesta1 == "Rechazado" {
+				flag = 1
+			}
 		}
-		defer conn.Close()
+		if c1 != 0 {
+			respuesta2 = propuestadn(maquina14, message)
+			if respuesta2 == "Rechazado" {
+				flag = 1
+			}
+		}
 
-		c := nn_proto.NewHelloworldServiceClient(conn) // lo cambie de dn_proto a nn_proto
+		if flag == 0{
+			var conn *grpc.ClientConn
+			conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
+			if err != nil {
+				log.Fatalf("could not connect: %s", err)
+			}
+			defer conn.Close()
+	
+			c := nn_proto.NewHelloworldServiceClient(conn) // lo cambie de dn_proto a nn_proto
+	
+			messagenn := nn_proto.Propuesta{ //agregue este msj, porqe el otro era tipo dn_proto
+				Cantidadn1: strconv.Itoa(c1),
+				Cantidadn2: strconv.Itoa(c2),
+				Cantidadn3: strconv.Itoa(c3),
+				Nombrel: nombrelibro,
+				Cantidadtotal: strconv.Itoa(cantidad),
+			}
+	
+			response, err := c.AgregarAlLog(context.Background(), &messagenn)
+			if err != nil {
+				log.Fatalf("Error when calling Buscar: %s", err)
+			}
+			log.Printf("%s", response.Code)
+			break
+		}
+		if respuesta1 == "Rechazado" && respuesta2 == "Aceptado" {
+			c2 = 0
 
-		message := nn_proto.Propuesta{ //agregue este msj, porqe el otro era tipo dn_proto
+		} else if respuesta2 == "Rechazado" && respuesta1 == "Aceptado" {
+			c1 = 0
+
+		} else{
+			c2 = 0
+			c1 = 0
+
+		}
+		message = dn_proto.PropRequest{ // lo cambie de nn_proto a dn_proto
 			Cantidadn1: strconv.Itoa(c1),
 			Cantidadn2: strconv.Itoa(c2),
 			Cantidadn3: strconv.Itoa(c3),
 			Nombrel: nombrelibro,
 			Cantidadtotal: strconv.Itoa(cantidad),
 		}
-
-		response, err := c.AgregarAlLog(context.Background(), &message)
-		if err != nil {
-			log.Fatalf("Error when calling Buscar: %s", err)
-		}
-		log.Printf("%s", response.Code)
-	} else if respuesta1 == "Rechazado" {
-		
-	} else {
-		
+		log.Printf("algoritmo distribuido")
 	}
-	log.Printf("algoritmo distribuido")
+}
+
+func propuestadn(maquina string, message dn_proto.PropRequest) string {
+	respuesta := "Aceptado"
+	var conn *grpc.ClientConn
+	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
+	if err != nil {
+		log.Printf("could not connect: %s", err)
+	}
+	defer conn.Close()
+
+	c := dn_proto.NewDnServiceClient(conn)
+
+	response, err := c.PropuestasDN(context.Background(), &message)
+	if err != nil {
+		log.Printf("Se cayó la máquina: %s", maquina)
+	}
+
+	log.Printf("%s", response.Code)
+	if response.Code == "Propuesta aceptada"{
+		return respuesta
+	}else{
+		respuesta = "Rechazado"
+		return respuesta
+	}
 }
 
 func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) {
@@ -98,57 +154,12 @@ func (s *Server) PropuestasDN(ctx context.Context, message *dn_proto.PropRequest
 	log.Printf("C3: %s", message.Cantidadn3)
 	log.Printf("Cantidad: %s", message.Cantidadtotal)
 	log.Printf("me llegó una propuesta de un dn")
-	return &dn_proto.CodeRequest{Code: "Recibido"}, nil
+
+	return &dn_proto.CodeRequest{Code: "Propuesta aceptada"}, nil
 }
 
-func ualive(maquina string) string {
-	var conn *grpc.ClientConn
-	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
-	if err != nil {
-		log.Printf("could not connect: %s", err)
-	}
-	defer conn.Close()
 
-	c := dn_proto.NewDnServiceClient(conn)
 
-	message := dn_proto.CodeRequest{
-		Code: "¿Estas vivo?",
-	}
-	response, err := c.Estado(context.Background(), &message)
-	respuesta := ""
-	if err != nil {
-		log.Printf("Se cayó el %s", maquina)
-		respuesta = "gg"
-	}else{
-		respuesta = response.Code
-	}
-	return respuesta
-}
-
-func propuestadn(maquina string, message dn_proto.PropRequest) string {
-	respuesta := "Aceptado"
-	var conn *grpc.ClientConn
-	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("could not connect: %s", err)
-	}
-	defer conn.Close()
-
-	c := dn_proto.NewDnServiceClient(conn)
-
-	response, err := c.PropuestasDN(context.Background(), &message)
-	if err != nil {
-		log.Fatalf("Error when calling Buscar: %s", err)
-	}
-
-	log.Printf("%s", response.Code)
-	if response.Code == "Propuesta aceptada"{
-		return respuesta
-	}else{
-		respuesta = "Rechazado"
-		return respuesta
-	}
-}
 
 func conectardn(maquina string, message dn_proto.PropRequest){
 	mensaje := dn_proto.ChunkRequest{}
