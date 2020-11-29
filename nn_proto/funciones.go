@@ -43,7 +43,7 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 			break
 		}
 		fmt.Println("xd")
-		if nombrelibro == split [0]{
+		if nombrelibro == split[0]{
 			cantidadtotal, err := strconv.Atoi(ultimostring)
 			fmt.Println(cantidadtotal)
 			if err != nil{
