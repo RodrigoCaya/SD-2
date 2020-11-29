@@ -224,7 +224,7 @@ func name_node(){
 	paratrim := "("+first+")"
 	nombrefinal := strings.Trim(nombredellibro, paratrim)
 	
-	//hacer la funcion del nn para qe le pase las direcciones (jean)
+	//hacer la funcion del nn para qe le pase las direcciones (jean) (listoko)
 	//recibir cual libro
 
 	//hacer la funcion del dn para qe le envien los chunks

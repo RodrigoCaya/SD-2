@@ -35,7 +35,6 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 	partes2 := ""
 	partes3 := ""
 	for err != io.EOF{
-		//if nombre == nombrelibro para buscar en especifico
 		scanner.Scan()
 		split := strings.Split(scanner.Text(), " ")
 		ultimostring := split[(len(split)) - 1]
@@ -62,12 +61,6 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 					parte := strconv.Itoa(i)
 					partes3 = partes3 + parte + ","
 				}
-				/*message = Partes{
-					Partes1: partes1,
-					Partes2: partes2,
-					Partes3: partes3,
-				}*/
-
 			}
 		}
 	}
