@@ -44,12 +44,14 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 		fmt.Println("xd")
 		if nombrelibro == split [0]{
 			cantidadtotal, err := strconv.Atoi(ultimostring)
+			fmt.Println(cantidadtotal)
 			if err != nil{
 				log.Fatal(err)
 			}
 			for i := 0 ; i < cantidadtotal ; i++{
 				split1 := strings.Split(scanner.Text(), " ")
 				direccion := split1[1]
+				fmt.Println(split1)
 				if direccion == "dist14:9001" {
 					parte := strconv.Itoa(i)
 					partes1 = partes1 + parte + ","
