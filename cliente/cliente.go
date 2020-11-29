@@ -280,7 +280,10 @@ func main() {
 			}
 		}
 		if first == "2"{
+			fmt.Println("-----------------")
+			fmt.Println("Escoge libro para descargar: ") 
 			name_node()
+			fmt.Println("-----------------")
 			
 		}
 		if first == "0"{
