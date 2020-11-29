@@ -224,6 +224,8 @@ func name_node(){
 	paratrim := "("+first+")"
 	nombrefinal := strings.Trim(nombredellibro, paratrim)
 
+	fmt.Println(nombrefinal)
+
 	mensaje := nn_proto.CodeRequest{
 		Code: nombrefinal,
 	}
