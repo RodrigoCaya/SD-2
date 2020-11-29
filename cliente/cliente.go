@@ -220,7 +220,7 @@ func name_node(){
 	if err != nil {
 		log.Fatalf("Error when calling Buscar: %s", err)
 	}
-	nombredellibro := split[auxfirst]
+	nombredellibro := split[auxfirst+1]
 	paratrim := "("+first+")"
 	nombrefinal := strings.Trim(nombredellibro, paratrim)
 	log.Printf("nombreeee %s", nombrefinal)
