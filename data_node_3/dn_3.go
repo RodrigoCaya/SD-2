@@ -5,6 +5,9 @@ import(
 	"context"
 	"strconv"
 	"math"
+	"os"//agregao
+	"fmt"//agregao
+	"io/ioutil"//agregao
 	"google.golang.org/grpc"
 	"github.com/RodrigoCaya/SD-2/dn_proto"
 	"github.com/RodrigoCaya/SD-2/nn_proto"
@@ -108,11 +111,11 @@ func distribuido(cantidad int, nombrelibro string){
 		log.Printf("algoritmo distribuido")
 	}
 	if message.Cantidadn2 != "0"{
-		maquina = "dist15:9002"
+		maquina := "dist15:9002" //agregao
 		conectardn(maquina, message)
 	}
 	if message.Cantidadn1 != "0"{
-		maquina = "dist14:9001"
+		maquina := "dist14:9001" //agregao
 		conectardn(maquina, message)
 	}
 }
