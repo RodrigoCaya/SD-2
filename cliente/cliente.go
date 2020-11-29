@@ -256,11 +256,11 @@ func main() {
 			fmt.Println("-----------------")
 			fmt.Scanln(&second)
 			if second != "0"{
-				go separarlibro(second)
+				separarlibro(second)
 			}
 		}
 		if first == "2"{
-			go name_node()
+			name_node()
 			
 		}
 		if first == "0"{
