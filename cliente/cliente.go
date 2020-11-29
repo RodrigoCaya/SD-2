@@ -284,10 +284,10 @@ func name_node(){
 		cont = cont + 1
 	}
 	//pal dn2
-	partesdn := strings.Split(respuesta.Partes2, ",")
-	tamdn := len(partesdn)-1
-	cont := 0
-	maquina := "dist15:9002"
+	partesdn = strings.Split(respuesta.Partes2, ",")
+	tamdn = len(partesdn)-1
+	cont = 0
+	maquina = "dist15:9002"
 	for{
 		if cont == tamdn{
 			break
@@ -297,10 +297,10 @@ func name_node(){
 		cont = cont + 1
 	}
 	//pal dn3
-	partesdn := strings.Split(respuesta.Partes3, ",")
-	tamdn := len(partesdn)-1
-	cont := 0
-	maquina := "dist16:9003"
+	partesdn = strings.Split(respuesta.Partes3, ",")
+	tamdn = len(partesdn)-1
+	cont = 0
+	maquina = "dist16:9003"
 	for{
 		if cont == tamdn{
 			break
