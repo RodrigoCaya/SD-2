@@ -19,12 +19,6 @@ type Pagina struct{
 
 var libroactual []Pagina
 
-type Book struct{
-	books []Pagina
-}
-//aqui va solo lo qe se va a almacenar al final
-var biblioteca []Book
-
 type Server struct{
 	dn_proto.UnimplementedDnServiceServer
 }
@@ -148,9 +142,20 @@ func propuestadn(maquina string, message dn_proto.PropRequest) string {
 	}
 }
 
-func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) {
+func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) { //modificado
 	log.Printf("me llegó la parte %s del libro %s",message.Parte, message.Nombrel)
-	//descargar los chunks
+	// write to disk
+	fileName := message.Nombrel + "_" + message.Parte
+	_, err := os.Create(fileName)
+
+	if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+	}
+
+	// write/save buffer to disk
+	ioutil.WriteFile(fileName, message.Chunk, os.ModeAppend)
+	
 	return &dn_proto.CodeRequest{Code: "Recibido"}, nil
 }
 
@@ -166,42 +171,89 @@ func (s *Server) PropuestasDN(ctx context.Context, message *dn_proto.PropRequest
 	return &dn_proto.CodeRequest{Code: "Propuesta aceptada"}, nil
 }
 
-
-
-
-func conectardn(maquina string, message dn_proto.PropRequest){
+func descargarlocal(message dn_proto.PropRequest){ // debe ir despues de llamar a conectardn
 	mensaje := dn_proto.ChunkRequest{}
-	contdn1 := 0 //cambiar aca
-	paldn2, err := strconv.Atoi(message.Cantidadn2) 
-	if err != nil {
-		log.Fatalf("Error convirtiendo: %s", err)
-	}
-	
+	//modificado
 	paldn1, err := strconv.Atoi(message.Cantidadn1) 
 	if err != nil {
 		log.Fatalf("Error convirtiendo: %s", err)
 	}
-	part1 := "" //cambiar aca
+	// part1 := "" 
+	// contdn1 := 0 
 
-	contdn2 := 0 
-	// paldn3, err := strconv.Atoi(message.Cantidadn3) 
-	// if err != nil {
-	// 	log.Fatalf("Error convirtiendo: %s", err)
-	// }
+	paldn2, err := strconv.Atoi(message.Cantidadn2) 
+	if err != nil {
+		log.Fatalf("Error convirtiendo: %s", err)
+	}
+	// part2 := "" 
+	// contdn2 := 0 
+	
+	paldn3, err := strconv.Atoi(message.Cantidadn3) 
+	if err != nil {
+		log.Fatalf("Error convirtiendo: %s", err)
+	}
+	part3 := "" 
+	contdn3 := 0 
+	for{
+		if paldn3 != 0 && contdn3 < paldn3 {
+			aux := paldn1+paldn2+contdn3+1
+			part3 = strconv.Itoa(aux)
+			mensaje = dn_proto.ChunkRequest{
+				Chunk: libroactual[paldn1+paldn2+contdn3].chunks,
+				Parte: part3,
+				Cantidad: message.Cantidadtotal,
+				Nombrel: message.Nombrel,
+			}
+			contdn3 = contdn3 + 1
+		}else{
+			break
+		}
+		// write to disk
+		fileName := mensaje.Nombrel + "_" + mensaje.Parte
+		_, err := os.Create(fileName)
+	
+		if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+		}
+	
+		// write/save buffer to disk
+		ioutil.WriteFile(fileName, mensaje.Chunk, os.ModeAppend)
+	}
+	var librovacio []Pagina
+	libroactual = librovacio
+}
+
+
+func conectardn(maquina string, message dn_proto.PropRequest){
+	mensaje := dn_proto.ChunkRequest{}
+	//modificado
+	paldn1, err := strconv.Atoi(message.Cantidadn1) 
+	if err != nil {
+		log.Fatalf("Error convirtiendo: %s", err)
+	}
+	part1 := "" 
+	contdn1 := 0 
+
+	paldn2, err := strconv.Atoi(message.Cantidadn2) 
+	if err != nil {
+		log.Fatalf("Error convirtiendo: %s", err)
+	}
 	part2 := "" 
+	contdn2 := 0 
 	
 	for{
-		if maquina == "dist14:9001"{ //cambiar aca
-			if paldn1 != 0 && contdn1 < paldn1 { //cambiar aca
-				aux := contdn1+1 //cambiar aca
-				part1 = strconv.Itoa(aux) //cambiar aca
+		if maquina == "dist14:9001"{ 
+			if paldn1 != 0 && contdn1 < paldn1 { 
+				aux := contdn1+1 
+				part1 = strconv.Itoa(aux) 
 				mensaje = dn_proto.ChunkRequest{
-					Chunk: libroactual[contdn1].chunks, //cambiar aca
-					Parte: part1, //cambiar aca
+					Chunk: libroactual[contdn1].chunks, 
+					Parte: part1, 
 					Cantidad: message.Cantidadtotal,
 					Nombrel: message.Nombrel,
 				}
-				contdn1 = contdn1 + 1 //cambiar aca
+				contdn1 = contdn1 + 1 
 			}else{
 				break
 			}
@@ -236,10 +288,7 @@ func conectardn(maquina string, message dn_proto.PropRequest){
 		}
 	
 		log.Printf("%s", response.Code)
-
 	}
-
-	//agregar la parte de dn2 para descargar y hacer libroactual = vacio
 }
 
 func centralizado(cantidad int, nombrelibro string){
@@ -345,6 +394,7 @@ func name_node(message nn_proto.Propuesta){
 				maquina = "dist15:9002"
 				conectardn(maquina, messagedn)
 			}
+			descargarlocal(messagedn) //modificar aca
 			break
 		}else{
 			if response.Code == "dn1"{
