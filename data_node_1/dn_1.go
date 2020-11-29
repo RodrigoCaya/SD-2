@@ -453,22 +453,7 @@ func (s *Server) Estado(ctx context.Context, message *dn_proto.CodeRequest) (*dn
 }
 
 func (s *Server) PedirChunks(ctx context.Context, message *dn_proto.ChunkRequestDN) (*dn_proto.ChunkRequestDN, error) {
-	// // partes := strings.Split(message.Partes, ",")
-	
 	parte := message.Partes
-	// // cont := 0
-	
-	// chunkname := "chunks/" + nombrelibro + "_" + parte // change here!
-	// // cont = cont + 1
-
-	// file, err := os.Open(chunkname)
-
-	// if err != nil {
-	// 		fmt.Println(err)
-	// 		os.Exit(1)
-	// }
-
-	// defer file.Close()
 
 	nombrelibro := message.Nombrel
 	chunkname := "chunks/" + nombrelibro + "_" + parte // change here!
@@ -488,26 +473,18 @@ func (s *Server) PedirChunks(ctx context.Context, message *dn_proto.ChunkRequest
 
 	const fileChunk = 256000 // 250 kb, change this to your requirement
 
-	// calculate total number of parts the file will be chunked into
-
-	// totalPartsNum := uint64(math.Ceil(float64(fileSize) / float64(fileChunk)))
-
-	
-	//fmt.Printf("Splitting to %d pieces.\n", totalPartsNum)
-
-	// probabilidad := rand.Intn(3)
-	
-
-	// partSize := int(math.Min(fileChunk, float64(fileSize-int64(i*fileChunk))))
 	partBuffer := make([]byte, fileSize)
 
 	file.Read(partBuffer)
 
-
-	
 	log.Printf("tamaño del chunk num %s es de %d", parte, len(partBuffer))
+	message := dn_proto.ChunkRequestDN{
+		Nombrel: nombrelibro,
+		Partes: parte,
+		Chunk: partBuffer,
+	}
 	
-	return &dn_proto.ChunkRequestDN{}, nil
+	return &message, nil
 }
 
 func main(){
