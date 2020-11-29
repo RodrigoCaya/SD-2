@@ -212,7 +212,7 @@ func descargarlocal(message dn_proto.PropRequest){ // debe ir despues de llamar 
 			break
 		}
 		// write to disk
-		fileName := "chunks/" + message.Nombrel + "_" + message.Parte
+		fileName := "chunks/" + mensaje.Nombrel + "_" + mensaje.Parte
 		_, err := os.Create(fileName)
 	
 		if err != nil {
