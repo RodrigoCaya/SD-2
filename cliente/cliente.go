@@ -6,7 +6,7 @@ import (
 	"google.golang.org/grpc"
 	"context"
 	//"bufio"
-	//"io/ioutil"
+	"io/ioutil"
 	"strings"
 	"math"
 	"math/rand"
@@ -211,8 +211,19 @@ func pedirchunksaldn(maquina string, parte string, nombrel string){
 	if err != nil {
 		log.Fatalf("Error when calling Buscar: %s", err)
 	}
+	//descagando el chunk
+	// write to disk
+	fileName := response.Nombrel+ "_" + response.Partes
+	_, err := os.Create(fileName)
 
-	log.Printf("chunkkk %d", len(response.Chunk))
+	if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+	}
+
+	// write/save buffer to disk
+	ioutil.WriteFile(fileName, response.Chunk, os.ModeAppend)
+	// log.Printf("chunkkk %d", len(response.Chunk))
 }
 	
 
@@ -258,13 +269,20 @@ func name_node(){
 		log.Fatalf("Error when calling DisplayDirecciones: %s", err)
 	}
 	fmt.Println(respuesta)
-
-	maquina := "dist14:9001"
-	parte := "1"
-	pedirchunksaldn(maquina, parte, nombrefinal)
-
-
 	
+	
+	partesdn := strings.Split(respuesta.Partes1, ",")
+	tamdn := len(partesdn)-1
+	cont := 0
+	maquina := "dist14:9001"
+	for{
+		if cont == tamdn{
+			break
+		}
+		parte := partesdn[cont]
+		pedirchunksaldn(maquina, parte, nombrefinal)
+		cont = cont + 1
+	}
 	//hacer la funcion del nn para qe le pase las direcciones (jean) (listoko, el cliente pide las direcciones mandando el nombre del libro y las recibe en respuestas)
 	//recibir cual libro
 
