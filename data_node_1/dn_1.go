@@ -1,9 +1,9 @@
 package main 
 import(
 	"log"
-	"io"//agregao
-	"bufio"//agregao
-	"bytes"//agregao
+	// "io"//agregao
+	// "bufio"//agregao
+	// "bytes"//agregao
 	"net"
 	"context"
 	"strconv"
@@ -455,7 +455,7 @@ func (s *Server) Estado(ctx context.Context, message *dn_proto.CodeRequest) (*dn
 func (s *Server) PedirChunks(ctx context.Context, message *dn_proto.ChunkRequestDN) (*dn_proto.ChunkRequestDN, error) {
 	// // partes := strings.Split(message.Partes, ",")
 	
-	// parte := message.Partes
+	parte := message.Partes
 	// // cont := 0
 	
 	// chunkname := "chunks/" + nombrelibro + "_" + parte // change here!
