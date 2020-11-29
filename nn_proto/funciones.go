@@ -50,14 +50,17 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 				if direccion == "dist14:9001" {
 					parte := strconv.Itoa(i)
 					partes1 = partes1 + parte + ","
+					fmt.Println(partes1)
 				}
 				if direccion == "dist15:9002"{
 					parte := strconv.Itoa(i)
 					partes2 = partes2 + parte + ","
+					fmt.Println(partes2)
 				}
 				if direccion == "dist16:9003"{
 					parte := strconv.Itoa(i)
 					partes3 = partes3 + parte + ","
+					fmt.Println(partes3)
 				}
 			}
 		}
