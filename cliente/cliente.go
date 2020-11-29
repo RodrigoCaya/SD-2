@@ -270,7 +270,7 @@ func name_node(){
 	}
 	fmt.Println(respuesta)
 	
-	
+	//pal dn1
 	partesdn := strings.Split(respuesta.Partes1, ",")
 	tamdn := len(partesdn)-1
 	cont := 0
@@ -283,6 +283,35 @@ func name_node(){
 		pedirchunksaldn(maquina, parte, nombrefinal)
 		cont = cont + 1
 	}
+	//pal dn2
+	partesdn := strings.Split(respuesta.Partes2, ",")
+	tamdn := len(partesdn)-1
+	cont := 0
+	maquina := "dist15:9002"
+	for{
+		if cont == tamdn{
+			break
+		}
+		parte := partesdn[cont]
+		pedirchunksaldn(maquina, parte, nombrefinal)
+		cont = cont + 1
+	}
+	//pal dn3
+	partesdn := strings.Split(respuesta.Partes3, ",")
+	tamdn := len(partesdn)-1
+	cont := 0
+	maquina := "dist16:9003"
+	for{
+		if cont == tamdn{
+			break
+		}
+		parte := partesdn[cont]
+		pedirchunksaldn(maquina, parte, nombrefinal)
+		cont = cont + 1
+	}
+
+
+
 	//hacer la funcion del nn para qe le pase las direcciones (jean) (listoko, el cliente pide las direcciones mandando el nombre del libro y las recibe en respuestas)
 	//recibir cual libro
 
