@@ -5,6 +5,11 @@ message CodeRequest {
 	string code = 1;
 }
 
+message Partes{
+	string partes1 = 1;
+	string partes2 = 2;
+	string partes3 = 3;
+}
 
 message Propuesta{
 	string cantidadn1 = 1;
@@ -19,4 +24,5 @@ service HelloworldService {
 	rpc DisplayLista(CodeRequest) returns (CodeRequest) {}
 	rpc EnviarPropuesta(Propuesta) returns (CodeRequest) {}
 	rpc AgregarAlLog(Propuesta) returns (CodeRequest) {}
+	rpc DisplayDirecciones(CodeRequest) returns (Partes) {}
 }

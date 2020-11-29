@@ -19,6 +19,60 @@ type Server struct{
 
 var nombres string
 var ultimo int
+var direcciones string
+
+func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (*Partes, error) {
+	file, err := os.Open("log.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+	nombrelibro := message.Code
+	scanner := bufio.NewScanner(file)
+	cont := 1
+	contaux := strconv.Itoa(cont)
+	partes1 := ""
+	partes2 := ""
+	partes3 := ""
+	for err != io.EOF{
+		//if nombre == nombrelibro para buscar en especifico
+		scanner.Scan()
+		split := strings.Split(scanner.Text(), " ")
+		ultimostring := split[(len(split)) - 1]
+		if ultimostring == ""{
+			break
+		}
+		if nombrelibro == split [0]{
+			cantidadtotal, err := strconv.Atoi(ultimostring)
+			if err != nil{
+				log.Fatal(err)
+			}
+			for i := 0 ; i < cantidadtotal ; i++{
+				split1 := strings.Split(scanner.Text(), " ")
+				direccion := split1[1]
+				if direccion == "dist14:9001" {
+					parte := strconv.Itoa(i)
+					partes1 = partes1 + parte + ","
+				}
+				if direccion == "dist15:9002"{
+					parte := strconv.Itoa(i)
+					partes2 = partes2 + parte + ","
+				}
+				if direccion == "dist16:9003"{
+					parte := strconv.Itoa(i)
+					partes3 = partes3 + parte + ","
+				}
+				/*message = Partes{
+					Partes1: partes1,
+					Partes2: partes2,
+					Partes3: partes3,
+				}*/
+
+			}
+		}
+	}
+	return &Partes{Partes1: partes1, Partes2: partes2, Partes3: partes3}, nil
+}
 
 func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeRequest, error) {
 	file, err := os.Open("log.txt")
@@ -81,6 +135,7 @@ func (s *Server) AgregarAlLog(ctx context.Context, message *Propuesta) (*CodeReq
 	agregarlog(message.Cantidadn1, message.Cantidadn2, message.Cantidadn3, message.Cantidadtotal, message.Nombrel)
 	return &CodeRequest{Code: "Agregado al Log, revisalo"}, nil
 }
+
 	
 func agregarlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelibro string){
 	file, err := os.OpenFile("log.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
