@@ -52,6 +52,7 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 				log.Fatal(err)
 			}
 			for i := 0 ; i < cantidadtotal ; i++{
+				scanner.Scan()
 				split1 := strings.Split(scanner.Text(), " ")
 				direccion := split1[1]
 				fmt.Println(split1)
