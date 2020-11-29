@@ -214,7 +214,7 @@ func pedirchunksaldn(maquina string, parte string, nombrel string){
 	//descagando el chunk
 	// write to disk
 	fileName := response.Nombrel+ "_" + response.Partes
-	_, err := os.Create(fileName)
+	_, err = os.Create(fileName)
 
 	if err != nil {
 			fmt.Println(err)
