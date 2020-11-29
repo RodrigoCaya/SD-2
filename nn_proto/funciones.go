@@ -107,7 +107,7 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 		contaux := strconv.Itoa(cont)
 		for j := 0 ; j < (len(split) - 1) ; j++{
 			// fmt.Println("%s",split[j])
-			nombres =  nombres + split[j] + " "
+			nombres =  nombres + split[j]
 			fmt.Println("2.1 ",nombres)
 			// fmt.Println("xd")
 		}
