@@ -477,14 +477,8 @@ func (s *Server) PedirChunks(ctx context.Context, message *dn_proto.ChunkRequest
 
 	file.Read(partBuffer)
 
-	log.Printf("tamaño del chunk num %s es de %d", parte, len(partBuffer))
-	message := dn_proto.ChunkRequestDN{
-		Nombrel: nombrelibro,
-		Partes: parte,
-		Chunk: partBuffer,
-	}
-	
-	return message, nil
+	log.Printf("tamaño del chunk num %s es de %d", parte, len(partBuffer))	
+	return &dn_proto.ChunkRequestDN{Nombrel: nombrelibro, Partes: parte, Chunk: partBuffer,}, nil
 }
 
 func main(){
