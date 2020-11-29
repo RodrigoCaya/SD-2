@@ -42,19 +42,20 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 			log.Fatal(err)
 		}
 		fmt.Println(ultimo)
-		for j := 0 ; j < (len(split) - 1) ; j++{
-			nombres = nombres + split[j] + " "
-			fmt.Println("xd")
-		}
-		fmt.Println(nombres)
 		contaux := strconv.Itoa(cont)
-		nombres = "(" + contaux + ")" + nombres +  "\n"
+		for j := 0 ; j < (len(split) - 1) ; j++{
+			// fmt.Println("%s",split[j])
+			nombres = "(" + contaux + ")" nombres + split[j] + " "
+			// fmt.Println("xd")
+		}
 		cont = cont + 1
+		fmt.Println(nombres)
+		nombres =  nombres +  "\n"
 		for i := 0 ; i < ultimo ; i++{
 			scanner.Scan()
-			fmt.Println("xd")
+			// fmt.Println("xd")
 		}
-		} 
+	} 
 	return &CodeRequest{Code: nombres}, nil
 }
 	

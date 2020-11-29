@@ -118,6 +118,7 @@ func distribuido(cantidad int, nombrelibro string){
 		maquina := "dist16:9003"
 		conectardn(maquina, message)
 	}
+	descargarlocal(message)
 }
 
 func propuestadn(maquina string, message dn_proto.PropRequest) string {
