@@ -78,7 +78,7 @@ func agregarlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelib
 	defer file.Close()
 	
 	file.WriteString(nombrelibro + " " + cantidadtotal + "\n")
-	if c1 != ""{
+	if c1 != "0"{
 		cantidad1, err := strconv.Atoi(c1)
 		if err != nil {
 			log.Fatal(err)
@@ -87,7 +87,7 @@ func agregarlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelib
 			file.WriteString(nombrelibro + "_" + strconv.Itoa(i) + " " + "dist14:9001\n")
 		}
 	}
-	if c2 != ""{
+	if c2 != "0"{
 		cantidad2, err := strconv.Atoi(c2)
 		if err != nil {
 			log.Fatal(err)
@@ -97,7 +97,7 @@ func agregarlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelib
 		}
 	}
 
-	if c3 != ""{
+	if c3 != "0"{
 		cantidad3, err := strconv.Atoi(c3)
 		if err != nil {
 			log.Fatal(err)
