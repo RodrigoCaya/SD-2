@@ -39,7 +39,6 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 		fmt.Println(split[0])
 		ultimostring := split[(len(split)) - 1]
 		fmt.Println(ultimostring)
-		fmt.Println(split[1])
 		if ultimostring == ""{
 			break
 		}
