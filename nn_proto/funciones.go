@@ -29,8 +29,6 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 	defer file.Close()
 	nombrelibro := message.Code
 	scanner := bufio.NewScanner(file)
-	cont := 1
-	contaux := strconv.Itoa(cont)
 	partes1 := ""
 	partes2 := ""
 	partes3 := ""
