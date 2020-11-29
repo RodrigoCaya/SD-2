@@ -225,7 +225,7 @@ func name_node(){
 	nombrefinal := strings.Trim(nombredellibro, paratrim)
 
 	mensaje := nn_proto.CodeRequest{
-		Code: nombrefinal
+		Code: nombrefinal,
 	}
 
 	respuesta, err := c.DisplayDirecciones(context.Background(), &mensaje)
