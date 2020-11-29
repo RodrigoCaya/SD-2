@@ -28,6 +28,7 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 	}
 	defer file.Close()
 	nombrelibro := message.Code
+	fmt.Println(nombrelibro)
 	scanner := bufio.NewScanner(file)
 	partes1 := ""
 	partes2 := ""
@@ -35,9 +36,10 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 	for err != io.EOF{
 		scanner.Scan()
 		split := strings.Split(scanner.Text(), " ")
-		fmt.Println(split)
+		fmt.Println(split[0])
 		ultimostring := split[(len(split)) - 1]
 		fmt.Println(ultimostring)
+		fmt.Println(split[1])
 		if ultimostring == ""{
 			break
 		}
