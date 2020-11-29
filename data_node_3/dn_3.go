@@ -157,7 +157,7 @@ func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (
 	parteaux = parteaux - 1
 	partee := strconv.Itoa(parteaux)
 	fileName := "chunks/" + message.Nombrel + "_" + partee
-	_, err := os.Create(fileName)
+	_, err = os.Create(fileName)
 
 	if err != nil {
 			fmt.Println(err)
@@ -227,7 +227,7 @@ func descargarlocal(message dn_proto.PropRequest){ // debe ir despues de llamar 
 		parteaux = parteaux - 1
 		partee := strconv.Itoa(parteaux)
 		fileName := "chunks/" + mensaje.Nombrel + "_" + partee
-		_, err := os.Create(fileName)
+		_, err = os.Create(fileName)
 
 		if err != nil {
 			fmt.Println(err)
