@@ -148,6 +148,7 @@ func propuestadn(maquina string, message dn_proto.PropRequest) string {
 
 func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) { //modificado
 	log.Printf("me llegó la parte %s del libro %s",message.Parte, message.Nombrel)
+	log.Printf("tamaño del chunk num %s es de %d", message.Parte, len(message.Chunk))
 	// write to disk
 	parteaux, err := strconv.Atoi(message.Parte)
 	if err != nil {
@@ -162,7 +163,7 @@ func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (
 			fmt.Println(err)
 			os.Exit(1)
 	}
-	
+
 	// write/save buffer to disk
 	ioutil.WriteFile(fileName, message.Chunk, os.ModeAppend)
 	

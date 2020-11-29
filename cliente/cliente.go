@@ -192,6 +192,29 @@ func separarlibro(algoritmo string){
 	file.Close()
 }
 
+func pedirchunksaldn(maquina string, parte string, nombrel string){
+	var conn *grpc.ClientConn
+	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("could not connect: %s", err)
+	}
+	defer conn.Close()
+
+	c := dn_proto.NewDnServiceClient(conn)
+		
+	message := dn_proto.CodeRequest{
+		Nombrel: nombrel,
+		Partes: parte,
+	}
+
+	response, err := c.PedirChunks(context.Background(), &message)
+	if err != nil {
+		log.Fatalf("Error when calling Buscar: %s", err)
+	}
+
+	log.Printf("chunkkk %d", len(response.Chunk))
+}
+	
 
 func name_node(){
 	var conn *grpc.ClientConn
@@ -235,6 +258,12 @@ func name_node(){
 		log.Fatalf("Error when calling DisplayDirecciones: %s", err)
 	}
 	fmt.Println(respuesta)
+
+	maquina := "dist14:9001"
+	parte := "1"
+	pedirchunksaldn(maquina, parte, nombrefinal)
+
+
 	
 	//hacer la funcion del nn para qe le pase las direcciones (jean) (listoko, el cliente pide las direcciones mandando el nombre del libro y las recibe en respuestas)
 	//recibir cual libro
