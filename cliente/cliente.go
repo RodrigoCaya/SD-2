@@ -212,8 +212,17 @@ func name_node(){
 	}
 
 	log.Printf("%s", response.Code)
-
-	//fmt.Scanln(&first)
+	split := strings.Split(response.Code, "\n")
+	var first string
+	fmt.Scanln(&first)
+	auxfirst, err := strconv.Atoi(first)
+	if err != nil {
+		log.Fatalf("Error when calling Buscar: %s", err)
+	}
+	nombredellibro := split[auxfirst]
+	paratrim := "("+first+")"
+	nombrefinal := strings.Trim(nombredellibro, paratrim)
+	log.Printf("nombreeee %s", nombrefinal)
 	//escoger el qe quieres bajar
 	//hacer la funcion del nn para qe le pase las direcciones}
 	//recibir cual libro - 
