@@ -223,11 +223,13 @@ func name_node(){
 	nombredellibro := split[auxfirst+1]
 	paratrim := "("+first+")"
 	nombrefinal := strings.Trim(nombredellibro, paratrim)
-	log.Printf("nombreeee %s", nombrefinal)
-	//escoger el qe quieres bajar
-	//hacer la funcion del nn para qe le pase las direcciones}
-	//recibir cual libro - 
+	
+	//hacer la funcion del nn para qe le pase las direcciones (jean)
+	//recibir cual libro
+
 	//hacer la funcion del dn para qe le envien los chunks
+	//recibir cual libro y sus partes
+
 	//hacer la funcion del cliente para qe descargue los chunks
 	//hacer la funcion del cliente para unir los chunks
 	//borrar los chunks

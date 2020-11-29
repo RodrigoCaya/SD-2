@@ -149,7 +149,13 @@ func propuestadn(maquina string, message dn_proto.PropRequest) string {
 func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) { //modificado
 	log.Printf("me llegó la parte %s del libro %s",message.Parte, message.Nombrel)
 	// write to disk
-	fileName := "chunks/" + message.Nombrel + "_" + message.Parte
+	parteaux, err := strconv.Atoi(message.Parte)
+	if err != nil {
+		log.Fatalf("Error convirtiendo: %s", err)
+	}
+	parteaux = parteaux - 1
+	partee := strconv.Itoa(parteaux)
+	fileName := "chunks/" + message.Nombrel + "_" + partee
 	_, err := os.Create(fileName)
 
 	if err != nil {
@@ -182,8 +188,8 @@ func descargarlocal(message dn_proto.PropRequest){ // debe ir despues de llamar 
 	if err != nil {
 		log.Fatalf("Error convirtiendo: %s", err)
 	}
-	part1 := "" 
-	contdn1 := 0 
+	part1 := ""
+	contdn1 := 0
 
 	// paldn2, err := strconv.Atoi(message.Cantidadn2) 
 	// if err != nil {
@@ -213,12 +219,18 @@ func descargarlocal(message dn_proto.PropRequest){ // debe ir despues de llamar 
 			break
 		}
 		// write to disk
-		fileName := "chunks/" + mensaje.Nombrel + "_" + mensaje.Parte
-		_, err := os.Create(fileName)
-	
+		parteaux, err := strconv.Atoi(mensaje.Parte)
 		if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
+			log.Fatalf("Error convirtiendo: %s", err)
+		}
+		parteaux = parteaux - 1
+		partee := strconv.Itoa(parteaux)
+		fileName := "chunks/" + mensaje.Nombrel + "_" + partee
+		_, err := os.Create(fileName)
+
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
 		}
 	
 		// write/save buffer to disk
@@ -434,6 +446,27 @@ func name_node(message nn_proto.Propuesta){
 
 func (s *Server) Estado(ctx context.Context, message *dn_proto.CodeRequest) (*dn_proto.CodeRequest, error) {
 	return &dn_proto.CodeRequest{Code: "Estoy vivo"}, nil
+}
+
+func (s *Server) PedirChunks(ctx context.Context, message *dn_proto.ChunkRequestDN) (*dn_proto.ChunkRequestDN, error) {
+	partes := strings.Split(message.Partes, ",")
+	nombrelibro := message.Nombrel
+	cont := 0
+	for{
+		fileToBeChunked := "chunks/" + nombrelibro + "_" + partes[cont] // change here!
+		cont = cont + 1
+	
+		file, err := os.Open(fileToBeChunked)
+	
+		if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+		}
+	
+		defer file.Close()
+
+	}
+	return &dn_proto.ChunkRequestDN{}, nil
 }
 
 func main(){

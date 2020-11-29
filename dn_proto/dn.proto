@@ -22,10 +22,17 @@ message PropRequest{
 	string cantidadtotal = 5;
 }
 
+message ChunkRequestDN{
+	string nombrel = 1;
+	string partes = 2;
+	bytes chunk = 3;
+}
+
 service DnService {
 	rpc EnviarChunks(ChunkRequest) returns (CodeRequest){}
 	rpc ChunksDN(ChunkRequest) returns (CodeRequest){}
 	rpc Estado(CodeRequest) returns (CodeRequest){}
 	rpc PropuestasDN(PropRequest) returns (CodeRequest){}
+	rpc PedirChunks(ChunkRequestDN) returns (ChunkRequestDN)
 }
 
