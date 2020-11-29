@@ -28,7 +28,7 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 	defer file.Close()
 	
 	scanner := bufio.NewScanner(file)
-	
+	cont := 1
 	for err != io.EOF {
 		scanner.Scan()
 		split := strings.Split(scanner.Text(), " ")
@@ -47,14 +47,16 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 			fmt.Println("xd")
 		}
 		fmt.Println(nombres)
-		nombres = nombres +  "\n"
+		contaux := strconv.Itoa(cont)
+		nombres = "(" + contaux + ")" + nombres +  "\n"
+		cont = cont + 1
 		for i := 0 ; i < ultimo ; i++{
 			scanner.Scan()
 			fmt.Println("xd")
 		}
 		} 
-		return &CodeRequest{Code: nombres}, nil
-	}
+	return &CodeRequest{Code: nombres}, nil
+}
 	
 var cantidad1 string
 var cantidad2 string
