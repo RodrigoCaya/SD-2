@@ -32,7 +32,6 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 	partes1 := ""
 	partes2 := ""
 	partes3 := ""
-	fmt.Println("xd")
 	for err != io.EOF{
 		scanner.Scan()
 		split := strings.Split(scanner.Text(), " ")
@@ -40,6 +39,7 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 		if ultimostring == ""{
 			break
 		}
+		fmt.Println("xd")
 		if nombrelibro == split [0]{
 			cantidadtotal, err := strconv.Atoi(ultimostring)
 			if err != nil{
