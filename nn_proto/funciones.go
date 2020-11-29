@@ -30,10 +30,11 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 	scanner := bufio.NewScanner(file)
 	cont := 1
 	for err != io.EOF {
+		fmt.Println("1 %s",nombres)
 		scanner.Scan()
 		split := strings.Split(scanner.Text(), " ")
 		ultimostring := split[(len(split)) - 1]
-		fmt.Println(ultimostring)
+		// fmt.Println(ultimostring)
 		if ultimostring == ""{
 			break
 		}
@@ -41,7 +42,8 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 		if err != nil{
 			log.Fatal(err)
 		}
-		fmt.Println(ultimo)
+		fmt.Println("2 %s",nombres)
+		// fmt.Println(ultimo)
 		contaux := strconv.Itoa(cont)
 		for j := 0 ; j < (len(split) - 1) ; j++{
 			// fmt.Println("%s",split[j])
@@ -49,7 +51,7 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 			// fmt.Println("xd")
 		}
 		cont = cont + 1
-		fmt.Println(nombres)
+		fmt.Println("3 %s",nombres)
 		nombres =  nombres +  "\n"
 		for i := 0 ; i < ultimo ; i++{
 			scanner.Scan()
