@@ -202,7 +202,7 @@ func pedirchunksaldn(maquina string, parte string, nombrel string){
 
 	c := dn_proto.NewDnServiceClient(conn)
 		
-	message := dn_proto.CodeRequest{
+	message := dn_proto.ChunkRequestDN{
 		Nombrel: nombrel,
 		Partes: parte,
 	}
