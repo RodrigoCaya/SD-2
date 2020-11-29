@@ -35,7 +35,9 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 	for err != io.EOF{
 		scanner.Scan()
 		split := strings.Split(scanner.Text(), " ")
+		fmt.Println(split)
 		ultimostring := split[(len(split)) - 1]
+		fmt.Println(ultimostring)
 		if ultimostring == ""{
 			break
 		}
