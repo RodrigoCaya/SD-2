@@ -220,7 +220,7 @@ func name_node(){
 	if err != nil {
 		log.Fatalf("Error when calling Buscar: %s", err)
 	}
-	nombredellibro := split[auxfirst+1]
+	nombredellibro := split[auxfirst+2]
 	paratrim := "("+first+")"
 	nombrefinal := strings.Trim(nombredellibro, paratrim)
 
@@ -232,13 +232,9 @@ func name_node(){
 	if err != nil {
 		log.Fatalf("Error when calling DisplayDirecciones: %s", err)
 	}
-	mensajedirecciones := nn_proto.Partes{
-		Partes1: mensaje.Partes1,
-		Partes2: mensaje.Partes2,
-		Partes3: mensaje.Partes3,
-	}
+	fmt.Println(respuesta)
 	
-	//hacer la funcion del nn para qe le pase las direcciones (jean) (listoko)
+	//hacer la funcion del nn para qe le pase las direcciones (jean) (listoko, el cliente pide las direcciones mandando el nombre del libro y las recibe en respuestas)
 	//recibir cual libro
 
 	//hacer la funcion del dn para qe le envien los chunks
@@ -249,9 +245,6 @@ func name_node(){
 	//borrar los chunks
 }
 
-func recibirdirecciones(nombrelibro string){
-
-}
 
 func main() {
 	
@@ -280,10 +273,7 @@ func main() {
 			}
 		}
 		if first == "2"{
-			fmt.Println("-----------------")
-			fmt.Println("Escoge libro para descargar: ") 
 			name_node()
-			fmt.Println("-----------------")
 			
 		}
 		if first == "0"{
