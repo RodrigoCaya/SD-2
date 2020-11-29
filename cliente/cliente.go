@@ -223,6 +223,20 @@ func name_node(){
 	nombredellibro := split[auxfirst+1]
 	paratrim := "("+first+")"
 	nombrefinal := strings.Trim(nombredellibro, paratrim)
+
+	mensaje := nn_proto.CodeRequest{
+		Code: nombrefinal
+	}
+
+	respuesta, err := c.DisplayDirecciones(context.Background(), &mensaje)
+	if err != nil {
+		log.Fatalf("Error when calling DisplayDirecciones: %s", err)
+	}
+	mensajedirecciones := nn_proto.Partes{
+		Partes1: mensaje.Partes1,
+		Partes2: mensaje.Partes2,
+		Partes3: mensaje.Partes3,
+	}
 	
 	//hacer la funcion del nn para qe le pase las direcciones (jean) (listoko)
 	//recibir cual libro
@@ -233,6 +247,10 @@ func name_node(){
 	//hacer la funcion del cliente para qe descargue los chunks
 	//hacer la funcion del cliente para unir los chunks
 	//borrar los chunks
+}
+
+func recibirdirecciones(nombrelibro string){
+
 }
 
 func main() {
