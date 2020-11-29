@@ -148,7 +148,7 @@ func propuestadn(maquina string, message dn_proto.PropRequest) string {
 func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) { //modificado
 	log.Printf("me llegó la parte %s del libro %s",message.Parte, message.Nombrel)
 	// write to disk
-	fileName := message.Nombrel + "_" + message.Parte
+	fileName := "chunks/" + message.Nombrel + "_" + message.Parte
 	_, err := os.Create(fileName)
 
 	if err != nil {
@@ -212,7 +212,7 @@ func descargarlocal(message dn_proto.PropRequest){ // debe ir despues de llamar 
 			break
 		}
 		// write to disk
-		fileName := mensaje.Nombrel + "_" + mensaje.Parte
+		fileName := "chunks/" + message.Nombrel + "_" + message.Parte
 		_, err := os.Create(fileName)
 	
 		if err != nil {
