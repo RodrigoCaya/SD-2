@@ -484,7 +484,7 @@ func (s *Server) PedirChunks(ctx context.Context, message *dn_proto.ChunkRequest
 		Chunk: partBuffer,
 	}
 	
-	return &message, nil
+	return message, nil
 }
 
 func main(){
