@@ -505,7 +505,7 @@ func (s *Server) PedirChunks(ctx context.Context, message *dn_proto.ChunkRequest
 
 
 	
-	log.Printf("tamaño del chunk num %s es de %d", parte, len(chunk))
+	log.Printf("tamaño del chunk num %s es de %d", parte, len(partBuffer))
 	
 	return &dn_proto.ChunkRequestDN{}, nil
 }
