@@ -212,6 +212,15 @@ func name_node(){
 	}
 
 	log.Printf("%s", response.Code)
+
+	//fmt.Scanln(&first)
+	//escoger el qe quieres bajar
+	//hacer la funcion del nn para qe le pase las direcciones}
+	//recibir cual libro - 
+	//hacer la funcion del dn para qe le envien los chunks
+	//hacer la funcion del cliente para qe descargue los chunks
+	//hacer la funcion del cliente para unir los chunks
+	//borrar los chunks
 }
 
 func main() {
