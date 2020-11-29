@@ -72,6 +72,7 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 					fmt.Println(partes3)
 				}
 			}
+			break
 		}
 	}
 	return &Partes{Partes1: partes1, Partes2: partes2, Partes3: partes3}, nil
