@@ -1,6 +1,9 @@
 package main 
 import(
 	"log"
+	"io"//agregao
+	"bufio"//agregao
+	"bytes"//agregao
 	"net"
 	"context"
 	"strconv"
@@ -148,6 +151,7 @@ func propuestadn(maquina string, message dn_proto.PropRequest) string {
 
 func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) { //modificado
 	log.Printf("me llegó la parte %s del libro %s",message.Parte, message.Nombrel)
+	log.Printf("tamaño del chunk num %s es de %d", message.Parte, len(message.Chunk))
 	// write to disk
 	parteaux, err := strconv.Atoi(message.Parte)
 	if err != nil {
@@ -172,11 +176,11 @@ func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (
 func (s *Server) PropuestasDN(ctx context.Context, message *dn_proto.PropRequest) (*dn_proto.CodeRequest, error) {
 	log.Printf("Propuesta recibida")
 	
-	log.Printf("C1: %s", message.Cantidadn1)
-	log.Printf("C2: %s", message.Cantidadn2)
-	log.Printf("C3: %s", message.Cantidadn3)
-	log.Printf("Cantidad: %s", message.Cantidadtotal)
-	log.Printf("me llegó una propuesta de un dn")
+	// log.Printf("C1: %s", message.Cantidadn1)
+	// log.Printf("C2: %s", message.Cantidadn2)
+	// log.Printf("C3: %s", message.Cantidadn3)
+	// log.Printf("Cantidad: %s", message.Cantidadtotal)
+	// log.Printf("me llegó una propuesta de un dn")
 
 	return &dn_proto.CodeRequest{Code: "Propuesta aceptada"}, nil
 }
@@ -449,23 +453,46 @@ func (s *Server) Estado(ctx context.Context, message *dn_proto.CodeRequest) (*dn
 }
 
 func (s *Server) PedirChunks(ctx context.Context, message *dn_proto.ChunkRequestDN) (*dn_proto.ChunkRequestDN, error) {
-	partes := strings.Split(message.Partes, ",")
+	// partes := strings.Split(message.Partes, ",")
 	nombrelibro := message.Nombrel
-	cont := 0
-	for{
-		fileToBeChunked := "chunks/" + nombrelibro + "_" + partes[cont] // change here!
-		cont = cont + 1
+	parte := message.Partes
+	// cont := 0
 	
-		file, err := os.Open(fileToBeChunked)
-	
-		if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
-		}
-	
-		defer file.Close()
+	chunkname := "chunks/" + nombrelibro + "_" + parte // change here!
+	// cont = cont + 1
 
+	file, err := os.Open(chunkname)
+
+	if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
 	}
+
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+	buffer := bytes.NewBuffer(make([] byte,0))
+
+	var chunk []byte
+	var eol bool
+	// var str_array []string
+
+	for {
+		if chunk, eol, err = reader.ReadLine(); err != nil {
+			break
+		}
+		buffer.Write(chunk)
+		if !eol {
+			// str_array = append(str_array, buffer.String())
+			buffer.Reset()
+		}
+	}
+
+	if err == io.EOF {
+		err = nil
+	}
+	log.Printf("tamaño del chunk num %s es de %d", parte, len(chunk))
+	
 	return &dn_proto.ChunkRequestDN{}, nil
 }
 
