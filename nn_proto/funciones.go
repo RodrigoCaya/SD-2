@@ -45,7 +45,7 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 		contaux := strconv.Itoa(cont)
 		for j := 0 ; j < (len(split) - 1) ; j++{
 			// fmt.Println("%s",split[j])
-			nombres = "(" + contaux + ")" nombres + split[j] + " "
+			nombres = "(" + contaux + ")" + nombres + split[j] + " "
 			// fmt.Println("xd")
 		}
 		cont = cont + 1
