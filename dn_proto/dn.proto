@@ -33,6 +33,6 @@ service DnService {
 	rpc ChunksDN(ChunkRequest) returns (CodeRequest){}
 	rpc Estado(CodeRequest) returns (CodeRequest){}
 	rpc PropuestasDN(PropRequest) returns (CodeRequest){}
-	rpc PedirChunks(ChunkRequestDN) returns (ChunkRequestDN)
+	rpc PedirChunks(ChunkRequestDN) returns (ChunkRequestDN){}
 }
 
