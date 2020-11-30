@@ -437,20 +437,31 @@ var listalibros []string
  		log.Fatal(err)
  	}
 
-	i := 1
+	i := 0
  	for _, f := range files {
 		 fmt.Println("(",i,")", f.Name())
 		 i = i+1
 		 listalibros = append(listalibros, f.Name())
 	 }
-	 fmt.Println(listalibros)
+ }
+
+ func escogerlibro(eleccion string){
+	var libro string
+	elexion, err := strconv.Atoi(eleccion)
+	if err != nil{
+		log.Fatal(err)
+	}
+	libropdf := listalibros[elexion]
+	last := len(libropdf) - 4
+	libro = libropdf[:last]
+	fmt.Println(libro)
  }
 
 func main() {
 	
 	var first string
 	var second string
-	var mmm string
+	var libro string
 
 	for{
 		fmt.Println("-----------------")
@@ -466,16 +477,19 @@ func main() {
 			fmt.Println("Escoge un libro de la lista de libros disponibles:")
 			mostrarlibros()
 			fmt.Println("-----------------")
-			fmt.Scanln(&mmm)
-			fmt.Println("-----------------")
-			fmt.Println("Escoge: ") 
-			fmt.Println("(1) Algoritmo Distribuido") 
-			fmt.Println("(2) Algoritmo Centralizado")
-			fmt.Println("(0) Salir")
-			fmt.Println("-----------------")
-			fmt.Scanln(&second)
-			if second != "0"{
-				separarlibro(second)
+			fmt.Scanln(&libro)
+			if libro != "0"{
+				escogerlibro(libro)
+				fmt.Println("-----------------")
+				fmt.Println("Escoge: ") 
+				fmt.Println("(1) Algoritmo Distribuido") 
+				fmt.Println("(2) Algoritmo Centralizado")
+				fmt.Println("(0) Salir")
+				fmt.Println("-----------------")
+				fmt.Scanln(&second)
+				if second != "0"{
+					separarlibro(second)
+				}
 			}
 		}
 		if first == "2"{
