@@ -439,7 +439,7 @@ func name_node(){
  	for _, f := range files {
 		 i := 1
 		 fmt.Println("(",i,")", f.Name())
-		 i++
+		 i += 1
  	}
  }
 
