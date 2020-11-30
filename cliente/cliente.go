@@ -431,7 +431,7 @@ func name_node(){
 }
 
  func mostrarlibros() {
- 	files, err := ioutil.ReadDir("./")
+ 	files, err := ioutil.ReadDir("../libros_cliente")
  	if err != nil {
  		log.Fatal(err)
  	}
