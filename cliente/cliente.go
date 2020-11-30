@@ -192,7 +192,7 @@ func separarlibro(algoritmo string){
 	file.Close()
 }
 
-func unirchunks(nombrel string, partes string){
+func unirchunks(nombrel string, partes int){
 	// just for fun, let's recombine back the chunked files in a new file
 
 	newFileName := nombrel + "pdf"
@@ -219,10 +219,8 @@ func unirchunks(nombrel string, partes string){
 	// just information on which part of the new file we are appending
 	var writePosition int64 = 0
 
-	totalPartsNum, err := strconv.Atoi(partes)
-	if err != nil {
-		log.Fatalf("could not connect: %s", err)
-	}
+	totalPartsNum := partes
+	
 	for j := uint64(0); j < uint64(totalPartsNum); j++ {
 
 			//read a chunk
@@ -432,16 +430,16 @@ func name_node(){
 	//borrar los chunks
 }
 
-func mostrarlibros() {
-	files, err := ioutil.ReadDir("./")
-	if err != nil {
-		log.Fatalf(err)
-	}
+// func mostrarlibros() {
+// 	files, err := ioutil.ReadDir("./")
+// 	if err != nil {
+// 		log.Fatalf(err)
+// 	}
 
-	for _, f := range files {
-		fmt.Println(f.Name())
-	}
-}
+// 	for _, f := range files {
+// 		fmt.Println(f.Name())
+// 	}
+// }
 
 func main() {
 	
