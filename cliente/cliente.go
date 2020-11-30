@@ -436,8 +436,8 @@ func name_node(){
  		log.Fatal(err)
  	}
 
+	i := 1
  	for _, f := range files {
-		 i := 1
 		 fmt.Println("(",i,")", f.Name())
 		 i = i+1
  	}
