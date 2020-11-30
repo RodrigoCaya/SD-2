@@ -195,7 +195,7 @@ func separarlibro(algoritmo string){
 func unirchunks(nombrel string, partes int){
 	// just for fun, let's recombine back the chunked files in a new file
 
-	newFileName := nombrel + "pdf"
+	newFileName := nombrel + ".pdf"
 	_, err := os.Create(newFileName)
 
 	if err != nil {
