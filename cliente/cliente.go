@@ -223,7 +223,7 @@ func unirchunks(nombrel string, partes string){
 	if err != nil {
 		log.Fatalf("could not connect: %s", err)
 	}
-	for j := uint64(0); j < totalPartsNum; j++ {
+	for j := uint64(0); j < uint64(totalPartsNum); j++ {
 
 			//read a chunk
 			currentChunkFileName := nombrel + "_" + strconv.FormatUint(j, 10)
@@ -388,11 +388,11 @@ func name_node(){
 	}
 	//pal dn2
 	if respuesta.Partes2 != "" {
-		partesdn = strings.Split(respuesta.Partes2, ",")
-		tamdn = len(partesdn)-1
+		partesdn := strings.Split(respuesta.Partes2, ",")
+		tamdn := len(partesdn)-1
 		canttotal = canttotal + tamdn
-		cont = 0
-		maquina = "dist15:9002"
+		cont := 0
+		maquina := "dist15:9002"
 		for{
 			if cont == tamdn{
 				break
@@ -404,11 +404,11 @@ func name_node(){
 	}
 	//pal dn3
 	if respuesta.Partes3 != "" {
-		partesdn = strings.Split(respuesta.Partes3, ",")
-		tamdn = len(partesdn)-1
+		partesdn := strings.Split(respuesta.Partes3, ",")
+		tamdn := len(partesdn)-1
 		canttotal = canttotal + tamdn
-		cont = 0
-		maquina = "dist16:9003"
+		cont := 0
+		maquina := "dist16:9003"
 		for{
 			if cont == tamdn{
 				break
