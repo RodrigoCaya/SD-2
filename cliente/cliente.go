@@ -5,7 +5,7 @@ import (
 	"fmt"	
 	"google.golang.org/grpc"
 	"context"
-	//"bufio"
+	"bufio"
 	"io/ioutil"
 	"strings"
 	"math"
@@ -192,6 +192,105 @@ func separarlibro(algoritmo string){
 	file.Close()
 }
 
+func unirchunks(nombrel string, partes string){
+	// just for fun, let's recombine back the chunked files in a new file
+
+	newFileName := nombrel + "pdf"
+	_, err := os.Create(newFileName)
+
+	if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+	}
+
+	//set the newFileName file to APPEND MODE!!
+	// open files r and w
+
+	file, err := os.OpenFile(newFileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+
+	if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+	}
+
+	// IMPORTANT! do not defer a file.Close when opening a file for APPEND mode!
+	// defer file.Close()
+
+	// just information on which part of the new file we are appending
+	var writePosition int64 = 0
+
+	totalPartsNum, err := strconv.Atoi(partes)
+	if err != nil {
+		log.Fatalf("could not connect: %s", err)
+	}
+	for j := uint64(0); j < totalPartsNum; j++ {
+
+			//read a chunk
+			currentChunkFileName := nombrel + "_" + strconv.FormatUint(j, 10)
+
+			newFileChunk, err := os.Open(currentChunkFileName)
+
+			if err != nil {
+					fmt.Println(err)
+					os.Exit(1)
+			}
+
+			defer newFileChunk.Close()
+
+			chunkInfo, err := newFileChunk.Stat()
+
+			if err != nil {
+					fmt.Println(err)
+					os.Exit(1)
+			}
+
+			// calculate the bytes size of each chunk
+			// we are not going to rely on previous data and constant
+
+			var chunkSize int64 = chunkInfo.Size()
+			chunkBufferBytes := make([]byte, chunkSize)
+
+			fmt.Println("Appending at position : [", writePosition, "] bytes")
+			writePosition = writePosition + chunkSize
+
+			// read into chunkBufferBytes
+			reader := bufio.NewReader(newFileChunk)
+			_, err = reader.Read(chunkBufferBytes)
+
+			if err != nil {
+					fmt.Println(err)
+					os.Exit(1)
+			}
+
+			// DON't USE ioutil.WriteFile -- it will overwrite the previous bytes!
+			// write/save buffer to disk
+			//ioutil.WriteFile(newFileName, chunkBufferBytes, os.ModeAppend)
+
+			n, err := file.Write(chunkBufferBytes)
+
+			if err != nil {
+					fmt.Println(err)
+					os.Exit(1)
+			}
+
+			file.Sync() //flush to disk
+
+			// free up the buffer for next cycle
+			// should not be a problem if the chunk size is small, but
+			// can be resource hogging if the chunk size is huge.
+			// also a good practice to clean up your own plate after eating
+
+			chunkBufferBytes = nil // reset or empty our buffer
+
+			fmt.Println("Written ", n, " bytes")
+
+			fmt.Println("Recombining part [", j, "] into : ", newFileName)
+	}
+
+	// now, we close the newFileName
+	file.Close()
+}
+
 func pedirchunksaldn(maquina string, parte string, nombrel string){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
@@ -270,46 +369,56 @@ func name_node(){
 	}
 	fmt.Println(respuesta)
 	
+	canttotal := 0
 	//pal dn1
-	partesdn := strings.Split(respuesta.Partes1, ",")
-	tamdn := len(partesdn)-1
-	cont := 0
-	maquina := "dist14:9001"
-	for{
-		if cont == tamdn{
-			break
+	if respuesta.Partes1 != "" {
+		partesdn := strings.Split(respuesta.Partes1, ",")
+		tamdn := len(partesdn)-1
+		canttotal = canttotal + tamdn
+		cont := 0
+		maquina := "dist14:9001"
+		for{
+			if cont == tamdn{
+				break
+			}
+			parte := partesdn[cont]
+			pedirchunksaldn(maquina, parte, nombrefinal)
+			cont = cont + 1
 		}
-		parte := partesdn[cont]
-		pedirchunksaldn(maquina, parte, nombrefinal)
-		cont = cont + 1
 	}
 	//pal dn2
-	partesdn = strings.Split(respuesta.Partes2, ",")
-	tamdn = len(partesdn)-1
-	cont = 0
-	maquina = "dist15:9002"
-	for{
-		if cont == tamdn{
-			break
+	if respuesta.Partes2 != "" {
+		partesdn = strings.Split(respuesta.Partes2, ",")
+		tamdn = len(partesdn)-1
+		canttotal = canttotal + tamdn
+		cont = 0
+		maquina = "dist15:9002"
+		for{
+			if cont == tamdn{
+				break
+			}
+			parte := partesdn[cont]
+			pedirchunksaldn(maquina, parte, nombrefinal)
+			cont = cont + 1
 		}
-		parte := partesdn[cont]
-		pedirchunksaldn(maquina, parte, nombrefinal)
-		cont = cont + 1
 	}
 	//pal dn3
-	partesdn = strings.Split(respuesta.Partes3, ",")
-	tamdn = len(partesdn)-1
-	cont = 0
-	maquina = "dist16:9003"
-	for{
-		if cont == tamdn{
-			break
+	if respuesta.Partes3 != "" {
+		partesdn = strings.Split(respuesta.Partes3, ",")
+		tamdn = len(partesdn)-1
+		canttotal = canttotal + tamdn
+		cont = 0
+		maquina = "dist16:9003"
+		for{
+			if cont == tamdn{
+				break
+			}
+			parte := partesdn[cont]
+			pedirchunksaldn(maquina, parte, nombrefinal)
+			cont = cont + 1
 		}
-		parte := partesdn[cont]
-		pedirchunksaldn(maquina, parte, nombrefinal)
-		cont = cont + 1
 	}
-
+	unirchunks(nombrefinal,canttotal)
 
 
 	//hacer la funcion del nn para qe le pase las direcciones (jean) (listoko, el cliente pide las direcciones mandando el nombre del libro y las recibe en respuestas)
@@ -323,6 +432,16 @@ func name_node(){
 	//borrar los chunks
 }
 
+func mostrarlibros() {
+	files, err := ioutil.ReadDir("./")
+	if err != nil {
+		log.Fatalf(err)
+	}
+
+	for _, f := range files {
+		fmt.Println(f.Name())
+	}
+}
 
 func main() {
 	
