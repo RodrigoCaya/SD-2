@@ -1,9 +1,6 @@
 package main 
 import(
 	"log"
-	// "io"//agregao
-	// "bufio"//agregao
-	// "bytes"//agregao
 	"net"
 	"context"
 	"strconv"

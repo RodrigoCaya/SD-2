@@ -440,6 +440,35 @@ func (s *Server) Estado(ctx context.Context, message *dn_proto.CodeRequest) (*dn
 	return &dn_proto.CodeRequest{Code: "Estoy vivo"}, nil
 }
 
+func (s *Server) PedirChunks(ctx context.Context, message *dn_proto.ChunkRequestDN) (*dn_proto.ChunkRequestDN, error) {
+	parte := message.Partes
+
+	nombrelibro := message.Nombrel
+	chunkname := "chunks/" + nombrelibro + "_" + parte // change here!
+
+	file, err := os.Open(chunkname)
+
+	if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+	}
+
+	defer file.Close()
+
+	fileInfo, _ := file.Stat()
+
+	var fileSize int64 = fileInfo.Size()
+
+	const fileChunk = 256000 // 250 kb, change this to your requirement
+
+	partBuffer := make([]byte, fileSize)
+
+	file.Read(partBuffer)
+
+	log.Printf("tamaño del chunk num %s es de %d", parte, len(partBuffer))	
+	return &dn_proto.ChunkRequestDN{Nombrel: nombrelibro, Partes: parte, Chunk: partBuffer,}, nil
+}
+
 func main(){
 	//go name_node()
 	conexioncl()
