@@ -47,9 +47,9 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 	log.Printf("%s", response.Code)
 }
 
-func separarlibro(algoritmo string){
-	nombrelibro := "Peter_Pan-J._M._Barrie"
-	fileToBeChunked := "../libros_cliente/Peter_Pan-J._M._Barrie.pdf" // change here!
+func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
+	nombrelibro := librosinpdf
+	fileToBeChunked := "../libros_cliente/" + libroconpdf// change here!
 
 	file, err := os.Open(fileToBeChunked)
 
@@ -445,7 +445,7 @@ var listalibros []string
 	 }
  }
 
- func escogerlibro(eleccion string){
+ func escogerlibro(eleccion string) (string, string){
 	var libro string
 	elexion, err := strconv.Atoi(eleccion)
 	if err != nil{
@@ -455,6 +455,7 @@ var listalibros []string
 	last := len(libropdf) - 4
 	libro = libropdf[:last]
 	fmt.Println(libro)
+	return libro, libropdf
  }
 
 func main() {
@@ -478,7 +479,7 @@ func main() {
 			mostrarlibros()
 			fmt.Println("-----------------")
 			fmt.Scanln(&libro)
-			escogerlibro(libro)
+			librosinpdf, libroconpdf := escogerlibro(libro)
 			fmt.Println("-----------------")
 			fmt.Println("Escoge: ") 
 			fmt.Println("(1) Algoritmo Distribuido") 
@@ -487,7 +488,7 @@ func main() {
 			fmt.Println("-----------------")
 			fmt.Scanln(&second)
 			if second != "0"{
-				separarlibro(second)
+				separarlibro(second, librosinpdf, libroconpdf)
 			}
 		}
 		if first == "2"{
