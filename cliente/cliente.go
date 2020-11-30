@@ -429,6 +429,7 @@ func name_node(){
 	//hacer la funcion del cliente para unir los chunks
 	//borrar los chunks
 }
+var listalibros []string
 
  func mostrarlibros() {
  	files, err := ioutil.ReadDir("../libros_cliente")
@@ -440,7 +441,9 @@ func name_node(){
  	for _, f := range files {
 		 fmt.Println("(",i,")", f.Name())
 		 i = i+1
- 	}
+		 listalibros = append(listalibros, f.Name())
+	 }
+	 fmt.Println(listalibros)
  }
 
 func main() {
