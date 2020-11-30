@@ -437,7 +437,9 @@ func name_node(){
  	}
 
  	for _, f := range files {
- 		fmt.Println(f.Name())
+		 i := 1
+		 fmt.Println("(",i,")", f.Name())
+		 i++
  	}
  }
 
@@ -457,8 +459,10 @@ func main() {
 		 	  
 		fmt.Scanln(&first)
 		if first == "1"{
-			fmt.Println("libros disponibles:")
+			fmt.Println("-----------------")
+			fmt.Println("Escoge un libro de la lista de libros disponibles:")
 			mostrarlibros()
+			fmt.Println("-----------------")
 			fmt.Scanln(&mmm)
 			fmt.Println("-----------------")
 			fmt.Println("Escoge: ") 
