@@ -445,6 +445,7 @@ func main() {
 	
 	var first string
 	var second string
+	var mmm string
 
 	for{
 		fmt.Println("-----------------")
@@ -456,6 +457,9 @@ func main() {
 		 	  
 		fmt.Scanln(&first)
 		if first == "1"{
+			fmt.Println("libros disponibles:")
+			mostrarlibros()
+			fmt.Scanln(&mmm)
 			fmt.Println("-----------------")
 			fmt.Println("Escoge: ") 
 			fmt.Println("(1) Algoritmo Distribuido") 
