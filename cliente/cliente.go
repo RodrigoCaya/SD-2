@@ -478,18 +478,16 @@ func main() {
 			mostrarlibros()
 			fmt.Println("-----------------")
 			fmt.Scanln(&libro)
-			if libro != "0"{
-				escogerlibro(libro)
-				fmt.Println("-----------------")
-				fmt.Println("Escoge: ") 
-				fmt.Println("(1) Algoritmo Distribuido") 
-				fmt.Println("(2) Algoritmo Centralizado")
-				fmt.Println("(0) Salir")
-				fmt.Println("-----------------")
-				fmt.Scanln(&second)
-				if second != "0"{
-					separarlibro(second)
-				}
+			escogerlibro(libro)
+			fmt.Println("-----------------")
+			fmt.Println("Escoge: ") 
+			fmt.Println("(1) Algoritmo Distribuido") 
+			fmt.Println("(2) Algoritmo Centralizado")
+			fmt.Println("(0) Salir")
+			fmt.Println("-----------------")
+			fmt.Scanln(&second)
+			if second != "0"{
+				separarlibro(second)
 			}
 		}
 		if first == "2"{
