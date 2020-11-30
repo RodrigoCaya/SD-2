@@ -28,7 +28,6 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 	}
 	defer file.Close()
 	nombrelibro := message.Code
-	fmt.Println(nombrelibro)
 	scanner := bufio.NewScanner(file)
 	partes1 := ""
 	partes2 := ""
@@ -36,18 +35,12 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 	for err != io.EOF{
 		scanner.Scan()
 		split := strings.Split(scanner.Text(), " ")
-		fmt.Println(split[0])
 		ultimostring := split[(len(split)) - 1]
-		fmt.Println(len(split[0]))
-		fmt.Println(len(nombrelibro))
 		if ultimostring == ""{
 			break
 		}
-		fmt.Println("xd")
 		if nombrelibro == split[0]{
-			fmt.Println("XD")
 			cantidadtotal, err := strconv.Atoi(ultimostring)
-			fmt.Println(cantidadtotal)
 			if err != nil{
 				log.Fatal(err)
 			}
@@ -55,21 +48,17 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 				scanner.Scan()
 				split1 := strings.Split(scanner.Text(), " ")
 				direccion := split1[1]
-				fmt.Println(split1)
 				if direccion == "dist14:9001" {
 					parte := strconv.Itoa(i)
 					partes1 = partes1 + parte + ","
-					fmt.Println(partes1)
 				}
 				if direccion == "dist15:9002"{
 					parte := strconv.Itoa(i)
 					partes2 = partes2 + parte + ","
-					fmt.Println(partes2)
 				}
 				if direccion == "dist16:9003"{
 					parte := strconv.Itoa(i)
 					partes3 = partes3 + parte + ","
-					fmt.Println(partes3)
 				}
 			}
 			break

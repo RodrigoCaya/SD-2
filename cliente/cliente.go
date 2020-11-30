@@ -430,16 +430,16 @@ func name_node(){
 	//borrar los chunks
 }
 
-// func mostrarlibros() {
-// 	files, err := ioutil.ReadDir("./")
-// 	if err != nil {
-// 		log.Fatalf(err)
-// 	}
+ func mostrarlibros() {
+ 	files, err := ioutil.ReadDir("./")
+ 	if err != nil {
+ 		log.Fatal(err)
+ 	}
 
-// 	for _, f := range files {
-// 		fmt.Println(f.Name())
-// 	}
-// }
+ 	for _, f := range files {
+ 		fmt.Println(f.Name())
+ 	}
+ }
 
 func main() {
 	
