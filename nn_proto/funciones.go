@@ -75,9 +75,9 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 	defer file.Close()
 	
 	scanner := bufio.NewScanner(file)
-	cont := 1
+	cont := 0
 	// contaux := strconv.Itoa(cont)
-	nombres = "Escoge libro para descargar\n" + "\n----------------- \n"
+	nombres = "\nEscoge libro para descargar" + "\n----------------- \n"
 	
 	for err != io.EOF {
 		fmt.Println("1 ",nombres)
