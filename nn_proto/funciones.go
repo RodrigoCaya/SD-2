@@ -77,8 +77,8 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 	scanner := bufio.NewScanner(file)
 	cont := 1
 	contaux := strconv.Itoa(cont)
-	nombres = "\n----------------- \n" + "Escoge libro para descargar\n"
-	nombres = nombres + "(" + contaux + ")"
+	nombres = "Escoge libro para descargar\n" + "\n----------------- \n"
+	
 	for err != io.EOF {
 		fmt.Println("1 ",nombres)
 		scanner.Scan()
@@ -98,15 +98,11 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 		contaux := strconv.Itoa(cont)
 		for j := 0 ; j < (len(split) - 1) ; j++{
 			// fmt.Println("%s",split[j])
-			nombres =  nombres + split[j]
+			nombres =  nombres + "(" + contaux + ")" + split[j] + "\n"
 			fmt.Println("2.1 ",nombres)
 			// fmt.Println("xd")
 		}
 		fmt.Println("3 ",nombres)
-		nombres =  nombres +  "\n" 
-		if cont < ultimo {
-			nombres = nombres + "(" + contaux + ")"
-		}
 		for i := 0 ; i < ultimo ; i++{
 			scanner.Scan()
 			// fmt.Println("xd")
