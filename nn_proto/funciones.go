@@ -104,7 +104,7 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 		}
 		fmt.Println("3 ",nombres)
 		nombres =  nombres +  "\n" 
-		if cont <= ultimo {
+		if cont < ultimo {
 			nombres = nombres + "(" + contaux + ")"
 		}
 		for i := 0 ; i < ultimo ; i++{

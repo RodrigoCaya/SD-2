@@ -61,18 +61,9 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 	defer file.Close()
 
 	fileInfo, _ := file.Stat()
-
 	var fileSize int64 = fileInfo.Size()
-
 	const fileChunk = 256000 // 250 kb, change this to your requirement
-
-	// calculate total number of parts the file will be chunked into
-
 	totalPartsNum := uint64(math.Ceil(float64(fileSize) / float64(fileChunk)))
-
-	
-	//fmt.Printf("Splitting to %d pieces.\n", totalPartsNum)
-
 	probabilidad := rand.Intn(3)
 	for i := uint64(0); i < totalPartsNum; i++ {
 
@@ -81,112 +72,8 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 
 			file.Read(partBuffer)
 
-			// write to disk
-			/*fileName := "Dracula-Stoker_Bram_" + strconv.FormatUint(i, 10)
-			_, err := os.Create(fileName)
-
-			if err != nil {
-					fmt.Println(err)
-					os.Exit(1)
-			}
-
-			// write/save buffer to disk
-			ioutil.WriteFile(fileName, partBuffer, os.ModeAppend)
-
-			fmt.Println("Split to : ", fileName)*/
-
 			data_node(partBuffer, algoritmo, probabilidad,int(i) , int(totalPartsNum), nombrelibro)
 	}
-	/*
-	// just for fun, let's recombine back the chunked files in a new file
-
-	newFileName := "NEWbigfile.pdf"
-	_, err = os.Create(newFileName)
-
-	if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-	}
-
-	//set the newFileName file to APPEND MODE!!
-	// open files r and w
-
-	file, err = os.OpenFile(newFileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
-
-	if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-	}
-
-	// IMPORTANT! do not defer a file.Close when opening a file for APPEND mode!
-	// defer file.Close()
-
-	// just information on which part of the new file we are appending
-	var writePosition int64 = 0
-
-	for j := uint64(0); j < totalPartsNum; j++ {
-
-			//read a chunk
-			currentChunkFileName := "Dracula-Stoker_Bram_" + strconv.FormatUint(j, 10)
-
-			newFileChunk, err := os.Open(currentChunkFileName)
-
-			if err != nil {
-					fmt.Println(err)
-					os.Exit(1)
-			}
-
-			defer newFileChunk.Close()
-
-			chunkInfo, err := newFileChunk.Stat()
-
-			if err != nil {
-					fmt.Println(err)
-					os.Exit(1)
-			}
-
-			// calculate the bytes size of each chunk
-			// we are not going to rely on previous data and constant
-
-			var chunkSize int64 = chunkInfo.Size()
-			chunkBufferBytes := make([]byte, chunkSize)
-
-			fmt.Println("Appending at position : [", writePosition, "] bytes")
-			writePosition = writePosition + chunkSize
-
-			// read into chunkBufferBytes
-			reader := bufio.NewReader(newFileChunk)
-			_, err = reader.Read(chunkBufferBytes)
-
-			if err != nil {
-					fmt.Println(err)
-					os.Exit(1)
-			}
-
-			// DON't USE ioutil.WriteFile -- it will overwrite the previous bytes!
-			// write/save buffer to disk
-			//ioutil.WriteFile(newFileName, chunkBufferBytes, os.ModeAppend)
-
-			n, err := file.Write(chunkBufferBytes)
-
-			if err != nil {
-					fmt.Println(err)
-					os.Exit(1)
-			}
-
-			file.Sync() //flush to disk
-
-			// free up the buffer for next cycle
-			// should not be a problem if the chunk size is small, but
-			// can be resource hogging if the chunk size is huge.
-			// also a good practice to clean up your own plate after eating
-
-			chunkBufferBytes = nil // reset or empty our buffer
-
-			fmt.Println("Written ", n, " bytes")
-
-			fmt.Println("Recombining part [", j, "] into : ", newFileName)
-	}*/
 
 	// now, we close the newFileName
 	file.Close()
@@ -322,6 +209,24 @@ func pedirchunksaldn(maquina string, parte string, nombrel string){
 	ioutil.WriteFile(fileName, response.Chunk, os.ModeAppend)
 	// log.Printf("chunkkk %d", len(response.Chunk))
 }
+
+func borrarchunks(partes int, nombrel string){
+	cont := 0
+	for{
+		if cont == partes{
+			break
+		}
+		contaux := strconv.Itoa(cont)
+		path := nombrel + "_" + contaux
+		err := os.Remove(path)
+	
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		cont = cont + 1
+	}
+}
 	
 
 func name_node(){
@@ -417,7 +322,7 @@ func name_node(){
 		}
 	}
 	unirchunks(nombrefinal,canttotal)
-
+	borrarchunks(canttotal,nombrefinal)
 
 	//hacer la funcion del nn para qe le pase las direcciones (jean) (listoko, el cliente pide las direcciones mandando el nombre del libro y las recibe en respuestas)
 	//recibir cual libro
