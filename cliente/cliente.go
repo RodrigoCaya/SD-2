@@ -52,6 +52,7 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 	}
 
 	log.Printf("%s", response.Code)
+	return 1
 }
 
 func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
