@@ -85,7 +85,7 @@ func distribuido(cantidad int, nombrelibro string){
 	
 			response, err := c.AgregarAlLog(context.Background(), &messagenn)
 			if err != nil {
-				log.Fatalf("Error when calling Buscar: %s", err)
+				log.Fatalf("Error when calling AgregarAlLog: %s", err)
 			}
 			log.Printf("%s", response.Code)
 			break
@@ -313,7 +313,7 @@ func conectardn(maquina string, message dn_proto.PropRequest){
 	
 		response, err := c.ChunksDN(context.Background(), &mensaje)
 		if err != nil {
-			log.Fatalf("Error when calling Buscar: %s", err)
+			log.Fatalf("Error when calling ChunksDN: %s", err)
 		}
 	
 		log.Printf("%s", response.Code)
@@ -321,6 +321,7 @@ func conectardn(maquina string, message dn_proto.PropRequest){
 }
 
 func centralizado(cantidad int, nombrelibro string){
+	log.Printf("algoritmo centralizado")
 	chunksxcadauno := cantidad/3
 	c1 := chunksxcadauno
 	c2 := chunksxcadauno
@@ -341,12 +342,11 @@ func centralizado(cantidad int, nombrelibro string){
 		Cantidadtotal: strconv.Itoa(cantidad),
 	}
 	name_node(message)
-	log.Printf("algoritmo centralizado")
 }
 
 //aqui se conecta el cliente
 func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) {
-	
+	log.Printf("llego la parte %s de %s",message.Parte,message.message.Cantidad)
 	parte, err := strconv.Atoi(message.Parte)
 	cantidad, err := strconv.Atoi(message.Cantidad)
 	if err != nil {
@@ -398,7 +398,7 @@ func name_node(message nn_proto.Propuesta){
 
 	response, err := c.EnviarPropuesta(context.Background(), &message)
 	if err != nil {
-		log.Fatalf("Error when calling Buscar: %s", err)
+		log.Fatalf("Error when calling EnviarPropuesta: %s", err)
 	}
 	messagedn := dn_proto.PropRequest{
 		Cantidadn1: response.Cantidadn1,
