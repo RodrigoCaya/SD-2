@@ -386,7 +386,11 @@ func conexioncl(){
 }
 
 func name_node(message nn_proto.Propuesta){
-
+	log.Printf("dn1: %s", message.Cantidadn1)
+	log.Printf("dn2: %s", message.Cantidadn2)
+	log.Printf("dn3: %s", message.Cantidadn3)
+	log.Printf("nombre libro: %s", message.Nombrel)
+	log.Printf("cantidad: %s", message.Cantidad)
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
 	if err != nil {
