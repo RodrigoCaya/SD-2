@@ -308,9 +308,8 @@ func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Prop
 			flag = 0
 		}
 	}
-	
+	agregarlog(message.Cantidadn1, message.Cantidadn2, message.Cantidadn3, message.Cantidadtotal, message.Nombrel)
 	if flag == 1 {
-		agregarlog(message.Cantidadn1, message.Cantidadn2, message.Cantidadn3, message.Cantidadtotal, message.Nombrel)
 		return &Propuesta{Nombrel: "Propuesta aceptada"}, nil
 	}
 	mensaje := recalcular(message.Cantidadtotal,c1,c2,c3,message.Nombrel)
