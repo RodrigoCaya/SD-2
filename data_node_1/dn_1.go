@@ -399,6 +399,13 @@ func name_node(message nn_proto.Propuesta){
 	if err != nil {
 		log.Fatalf("Error when calling Buscar: %s", err)
 	}
+	messagedn := dn_proto.PropRequest{
+		Cantidadn1: response.Cantidadn1,
+		Cantidadn2: response.Cantidadn2,
+		Cantidadn3: response.Cantidadn3,
+		Nombrel: response.Nombrel,
+		Cantidadtotal: response.Cantidadtotal,
+	}
 	if response.Nombrel == "Propuesta aceptada" {
 		messagedn := dn_proto.PropRequest{
 			Cantidadn1: message.Cantidadn1,
@@ -407,8 +414,6 @@ func name_node(message nn_proto.Propuesta){
 			Nombrel: message.Nombrel,
 			Cantidadtotal: message.Cantidadtotal,
 		}
-	}else{
-		messagedn := response
 	}
 	var maquina string = ""
 	//var prop string = "xd"
@@ -421,7 +426,7 @@ func name_node(message nn_proto.Propuesta){
 		conectardn(maquina, messagedn)
 	}
 	descargarlocal(messagedn) //modificar aca
-	log.Printf("%s", response.Code)
+	// log.Printf("%s", response.Code)
 }
 
 func (s *Server) Estado(ctx context.Context, message *dn_proto.CodeRequest) (*dn_proto.CodeRequest, error) {
