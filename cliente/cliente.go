@@ -48,6 +48,7 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 }
 
 func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
+	log.Printf("sin pdf %s con pdf %s ", librosinpdf,libroconpdf)
 	nombrelibro := librosinpdf
 	fileToBeChunked := "../libros_cliente/" + libroconpdf// change here!
 

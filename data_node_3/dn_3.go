@@ -346,7 +346,7 @@ func centralizado(cantidad int, nombrelibro string){
 
 //aqui se conecta el cliente
 func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) {
-	log.Printf("llego la parte %s de %s",message.Parte,message.Cantidad)
+	log.Printf("llego la parte %s de %s de %s",message.Parte,message.Cantidad,message.Nombrel)
 	parte, err := strconv.Atoi(message.Parte)
 	cantidad, err := strconv.Atoi(message.Cantidad)
 	if err != nil {
