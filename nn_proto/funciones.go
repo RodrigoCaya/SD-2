@@ -213,10 +213,9 @@ func recalcular(cantidad string, c1 string, c2 string, c3 string, nombrelibro st
 		chunksvivos = chunksvivos - 1
 	}
 	chunksxcadauno := cant/chunksvivos
-	chunksxcada1 := strconv.Itoa(chunksxcadauno)
-	ch1 := chunksxcada1
-	ch2 := chunksxcada1
-	ch3 := chunksxcada1
+	ch1 := chunksxcadauno
+	ch2 := chunksxcadauno
+	ch3 := chunksxcadauno
 	if chunksvivos == 3 {
 		if math.Mod(float64(cant), float64(chunksvivos)) == 1 {
 			ch1 = ch1 + 1
@@ -228,41 +227,41 @@ func recalcular(cantidad string, c1 string, c2 string, c3 string, nombrelibro st
 		}
 	}else if chunksvivos == 2 {
 		if c1 == "0" {
-			ch1 = "0"
+			ch1 = 0
 			if math.Mod(float64(cant), float64(chunksvivos)) == 1 {
 				ch2 = ch2 + 1
 			}
 		}
 		if c2 == "0"{
-			ch2 = "0"
+			ch2 = 0
 			if math.Mod(float64(cant), float64(chunksvivos)) == 1 {
 				ch1 = ch1 + 1
 			}
 		}
 		if c3 == "0"{
-			ch3 = "0"
+			ch3 = 0
 			if math.Mod(float64(cant), float64(chunksvivos)) == 1 {
 				ch1 = ch1 + 1
 			}
 		}
 	}else if chunksvivos == 1 {
 		if c1 != "0"{
-			ch2 = "0"
-			ch3 = "0"
+			ch2 = 0
+			ch3 = 0
 		}
 		if c2 != "0"{
-			ch1 = "0"
-			ch3 = "0"
+			ch1 = 0
+			ch3 = 0
 		}
 		if c3 != "0"{
-			ch1 = "0"
-			ch2 = "0"
+			ch1 = 0
+			ch2 = 0
 		}
 	}
 	message := Propuesta{
-		Cantidadn1: ch1,
-		Cantidadn2: ch2,
-		Cantidadn3: ch3,
+		Cantidadn1: strconv.Itoa(ch1),
+		Cantidadn2: strconv.Itoa(ch2),
+		Cantidadn3: strconv.Itoa(ch3),
 		Nombrel: nombrelibro,
 		Cantidadtotal: cantidad,
 	}
