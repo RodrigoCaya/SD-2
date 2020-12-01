@@ -91,15 +91,27 @@ func distribuido(cantidad int, nombrelibro string){
 			break
 		}
 		if respuesta1 == "Rechazado" && respuesta2 == "Aceptado" {
+			chunksxcadauno = cantidad/2
 			c1 = 0
+			c2 = chunksxcadauno
+			c3 = chunksxcadauno
+			if math.Mod(float64(cantidad), 2) == 1 {
+				c2 = c2 + 1
+			}
 
 		} else if respuesta2 == "Rechazado" && respuesta1 == "Aceptado" {
+			chunksxcadauno = cantidad/2
+			c1 = chunksxcadauno
+			c2 = chunksxcadauno
 			c3 = 0
+			if math.Mod(float64(cantidad), 2) == 1 {
+				c1 = c1 + 1
+			}
 
 		} else{
 			c1 = 0
+			c2 = cantidad
 			c3 = 0
-
 		}
 		message = dn_proto.PropRequest{ // lo cambie de nn_proto a dn_proto
 			Cantidadn1: strconv.Itoa(c1),
