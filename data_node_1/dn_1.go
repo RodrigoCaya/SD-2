@@ -380,11 +380,6 @@ func conexioncl(){
 }
 
 func name_node(message nn_proto.Propuesta){
-	chunk1 := message.Cantidadn1
-	chunk2 := message.Cantidadn2
-	chunk3 := message.Cantidadn3
-	nombre := message.Nombrel
-	cantidadtotal := message.Cantidadtotal
 
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
@@ -407,7 +402,7 @@ func name_node(message nn_proto.Propuesta){
 		Cantidadtotal: response.Cantidadtotal,
 	}
 	if response.Nombrel == "Propuesta aceptada" {
-		messagedn := dn_proto.PropRequest{
+		messagedn = dn_proto.PropRequest{
 			Cantidadn1: message.Cantidadn1,
 			Cantidadn2: message.Cantidadn2,
 			Cantidadn3: message.Cantidadn3,
