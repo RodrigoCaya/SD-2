@@ -284,6 +284,7 @@ func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Prop
 	c2 := message.Cantidadn2
 	c3 := message.Cantidadn3
 	flag := 1
+	flag2 := 1
 	if message.Cantidadn1 != "0"{
 		log.Printf("entreee dn1")
 		resp := ualive("dist14:9001")
@@ -300,6 +301,17 @@ func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Prop
 			c2 = "0"
 			// respuesta = respuesta + "dn2"
 			flag = 0
+			flag2 = 0
+		}
+	}else if flag == 0{ //si hay solo 1 chunk
+		// log.Printf("entreee dn2")
+		resp := ualive("dist15:9002")
+		if resp == "gg" {
+			c2 = "0"
+			// respuesta = respuesta + "dn2"
+			flag = 0
+		}else{
+			c2 = "1"
 		}
 	}
 	if message.Cantidadn3 != "0"{
@@ -310,6 +322,16 @@ func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Prop
 			// respuesta = respuesta + "dn3"
 			flag = 0
 		}
+	}else{
+		if flag == 0{ //si hay solo 2 chunks
+			c3 = "1"
+			if flag2 == 0{
+				c3 = "2"
+			}
+		}
+		if flag2 == 0 && flag == 1{
+			c3 = "1"
+		} 
 	}
 	if flag == 1 {
 		agregarlog(message.Cantidadn1, message.Cantidadn2, message.Cantidadn3, message.Cantidadtotal, message.Nombrel)
