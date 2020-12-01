@@ -74,6 +74,8 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 	totalPartsNum := uint64(math.Ceil(float64(fileSize) / float64(fileChunk)))
 	vivo := 1
 	probabilidad := rand.Intn(3)
+	var probabilidad2 int
+	var probabilidad3 int
 	for i := uint64(0); i < totalPartsNum; i++ {
 
 		partSize := int(math.Min(fileChunk, float64(fileSize-int64(i*fileChunk))))
@@ -83,7 +85,7 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 		log.Printf("CANTIDAD %d", int(totalPartsNum))
 		vivo = data_node(partBuffer, algoritmo, probabilidad,int(i) , int(totalPartsNum), nombrelibro)
 		if vivo == 0 {
-			probabilidad2 := rand.Intn(2)
+			probabilidad2 = rand.Intn(2)
 			if probabilidad == 0 {
 				probabilidad2 = probabilidad2 + 1
 			}
@@ -95,7 +97,7 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 			vivo = data_node(partBuffer, algoritmo, probabilidad2,int(i) , int(totalPartsNum), nombrelibro)
 		}
 		if vivo == 0 {
-			probabilidad3 := 0
+			probabilidad3 = 0
 			if (probabilidad == 0 && probabilidad2 == 1) || (probabilidad == 1 && probabilidad2 == 0){
 				probabilidad3 = 2
 			}
