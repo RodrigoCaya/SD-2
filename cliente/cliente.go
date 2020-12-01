@@ -16,7 +16,7 @@ import (
 	"github.com/RodrigoCaya/SD-2/nn_proto"
 )
 
-func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int, total int, nombrelibro string){
+func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int, total int, nombrelibro string)int{
 	var conn *grpc.ClientConn
 	maquina := strconv.Itoa(probabilidad+4)
 	puerto := strconv.Itoa(probabilidad+1)
@@ -24,7 +24,8 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 	conexion = conexion + maquina + ":900" + puerto
 	conn, err := grpc.Dial(conexion, grpc.WithInsecure())
 	if err != nil {
-		log.Fatalf("could not connect: %s", err)
+		log.Printf("no se pudo conectar al dn %s", maquina)
+		return 0
 	}
 	defer conn.Close()
 
@@ -71,6 +72,7 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 	var fileSize int64 = fileInfo.Size()
 	const fileChunk = 256000 // 250 kb, change this to your requirement
 	totalPartsNum := uint64(math.Ceil(float64(fileSize) / float64(fileChunk)))
+	vivo := 1
 	probabilidad := rand.Intn(3)
 	for i := uint64(0); i < totalPartsNum; i++ {
 
@@ -79,7 +81,32 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 
 		file.Read(partBuffer)
 		log.Printf("CANTIDAD %d", int(totalPartsNum))
-		data_node(partBuffer, algoritmo, probabilidad,int(i) , int(totalPartsNum), nombrelibro)
+		vivo = data_node(partBuffer, algoritmo, probabilidad,int(i) , int(totalPartsNum), nombrelibro)
+		if vivo == 0 {
+			probabilidad2 := rand.Intn(2)
+			if probabilidad == 0 {
+				probabilidad2 = probabilidad2 + 1
+			}
+			if probabilidad == 1 {
+				if probabilidad2 == 1 {
+					probabilidad2 = 2
+				}
+			}
+			vivo = data_node(partBuffer, algoritmo, probabilidad2,int(i) , int(totalPartsNum), nombrelibro)
+		}
+		if vivo == 0 {
+			probabilidad3 := 0
+			if (probabilidad == 0 && probabilidad2 == 1) || (probabilidad == 1 && probabilidad2 == 0){
+				probabilidad3 = 2
+			}
+			if (probabilidad == 0 && probabilidad2 == 2) || (probabilidad == 2 && probabilidad2 == 0){
+				probabilidad3 = 1
+			}
+			if (probabilidad == 1 && probabilidad2 == 2) || (probabilidad == 2 && probabilidad2 == 1){
+				probabilidad3 = 0
+			}
+			vivo = data_node(partBuffer, algoritmo, probabilidad3,int(i) , int(totalPartsNum), nombrelibro)
+		}
 	}
 
 	// now, we close the newFileName
