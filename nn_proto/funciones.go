@@ -196,44 +196,122 @@ func ualive(maquina string) string {
 	return respuesta
 }
 
-func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*CodeRequest, error) {
+func recalcular(cantidad string, c1 string, c2 string, c3 string, nombrelibro string)(Propuesta){
+	cant, err := strconv.Atoi(cantidad)
+	if err != nil {
+		log.Fatal(err)
+	}
+	chunksvivos := 3
+	if c1 == "0" {
+		chunksvivos = chunksvivos - 1
+	}
+	if c2 == "0" {
+		chunksvivos = chunksvivos - 1
+	}
+	if c3 == "0" {
+		chunksvivos = chunksvivos - 1
+	}
+	chunksxcadauno := cant/chunksvivos
+	ch1 := chunksxcadauno
+	ch2 := chunksxcadauno
+	ch3 := chunksxcadauno
+	if chunksvivos == 3 {
+		if math.Mod(float64(cantidad), chunksvivos) == 1 {
+			ch1 = ch1 + 1
+		} else{
+			if math.Mod(float64(cantidad), chunksvivos) == 2 {
+				ch1 = ch1 + 1
+				ch2 = ch2 + 1
+			}
+		}
+	}else if chunksvivos == 2 {
+		if c1 == "0" {
+			ch1 = "0"
+			if math.Mod(float64(cantidad), chunksvivos) == 1 {
+				ch2 = ch2 + 1
+			}
+		}
+		if c2 == "0"{
+			ch2 = "0"
+			if math.Mod(float64(cantidad), chunksvivos) == 1 {
+				ch1 = ch1 + 1
+			}
+		}
+		if c3 == "0"{
+			ch3 = "0"
+			if math.Mod(float64(cantidad), chunksvivos) == 1 {
+				ch1 = ch1 + 1
+			}
+		}
+	}else if chunksvivos == 1 {
+		if c1 != "0"{
+			ch2 = "0"
+			ch3 = "0"
+		}
+		if c2 != "0"{
+			ch1 = "0"
+			ch3 = "0"
+		}
+		if c3 != "0"{
+			ch1 = "0"
+			ch2 = "0"
+		}
+	}
+	message := Propuesta{
+		Cantidadn1: ch1,
+		Cantidadn2: ch2,
+		Cantidadn3: ch3,
+		Nombrel: nombrelibro,
+		Cantidadtotal: cantidad,
+	}
+	return message
+}
+
+func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Propuesta, error) {
 	log.Printf("Propuesta recibida")
 	
-	log.Printf("C1: %s", message.Cantidadn1)
-	log.Printf("C2: %s", message.Cantidadn2)
-	log.Printf("C3: %s", message.Cantidadn3)
-	log.Printf("Cantidad: %s", message.Cantidadtotal)
+	// log.Printf("C1: %s", message.Cantidadn1)
+	// log.Printf("C2: %s", message.Cantidadn2)
+	// log.Printf("C3: %s", message.Cantidadn3)
+	// log.Printf("Cantidad: %s", message.Cantidadtotal)
 	
 	//revisar qe los dn involucrados esten activos
 	//si estan activos, entonces hacer el log y responder "propuesta aceptada"
 	//si no estan activos, no hacer el log y responder "se cayo un wn"
-	respuesta := ""
+	// respuesta := ""
+	c1 := message.Cantidadn1
+	c2 := message.Cantidadn2
+	c3 := message.Cantidadn3
 	flag := 1
 	if message.Cantidadn1 != "0"{
 		resp := ualive("dist14:9001")
 		if resp == "gg" {
-			respuesta = respuesta + "dn1"
+			c1 = "0"
+			// respuesta = respuesta + "dn1"
 			flag = 0
 		}
 	}
 	if message.Cantidadn2 != "0"{
 		resp := ualive("dist15:9002")
 		if resp == "gg" {
-			respuesta = respuesta + "dn2"
+			c2 = "0"
+			// respuesta = respuesta + "dn2"
 			flag = 0
 		}
 	}
 	if message.Cantidadn3 != "0"{
 		resp := ualive("dist16:9003")
 		if resp == "gg" {
-			respuesta = respuesta + "dn3"
+			c3 = "0"
+			// respuesta = respuesta + "dn3"
 			flag = 0
 		}
 	}
-
+	
 	if flag == 1 {
 		agregarlog(message.Cantidadn1, message.Cantidadn2, message.Cantidadn3, message.Cantidadtotal, message.Nombrel)
-		return &CodeRequest{Code: "Propuesta aceptada"}, nil
+		return &Propuesta{Nombrel: "Propuesta aceptada"}, nil
 	}
-	return &CodeRequest{Code: respuesta}, nil	
+	mensaje := recalcular(message.Cantidadtotal,c1,c2,c3,message.Nombrel)
+	return &Propuesta{mensaje}, nil	
 }

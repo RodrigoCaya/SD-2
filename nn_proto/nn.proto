@@ -22,7 +22,7 @@ message Propuesta{
 
 service HelloworldService {
 	rpc DisplayLista(CodeRequest) returns (CodeRequest) {}
-	rpc EnviarPropuesta(Propuesta) returns (CodeRequest) {}
+	rpc EnviarPropuesta(Propuesta) returns (Propuesta) {}
 	rpc AgregarAlLog(Propuesta) returns (CodeRequest) {}
 	rpc DisplayDirecciones(CodeRequest) returns (Partes) {}
 }
