@@ -274,7 +274,7 @@ func name_node(){
 	
 	canttotal := 0
 	//pal dn1
-	if respuesta.Partes1 != "" {
+	if respuesta.Partes1 != "0," {
 		partesdn := strings.Split(respuesta.Partes1, ",")
 		tamdn := len(partesdn)-1
 		canttotal = canttotal + tamdn
@@ -290,7 +290,7 @@ func name_node(){
 		}
 	}
 	//pal dn2
-	if respuesta.Partes2 != "" {
+	if respuesta.Partes2 != "0," {
 		partesdn := strings.Split(respuesta.Partes2, ",")
 		tamdn := len(partesdn)-1
 		canttotal = canttotal + tamdn
@@ -306,7 +306,7 @@ func name_node(){
 		}
 	}
 	//pal dn3
-	if respuesta.Partes3 != "" {
+	if respuesta.Partes3 != "0," {
 		partesdn := strings.Split(respuesta.Partes3, ",")
 		tamdn := len(partesdn)-1
 		canttotal = canttotal + tamdn
