@@ -38,6 +38,12 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 		Machine: maquina,
 		Nombrel: nombrelibro,
 	}
+	log.Printf("tam chunk: %d", len(message.Chunk))
+	log.Printf("tipo: %s", message.Tipo)
+	log.Printf("parte: %s", message.Parte)
+	log.Printf("cantidad: %s", message.Cantidad)
+	log.Printf("maquina: %s", message.Machine)
+	log.Printf("nombre libro: %s", message.Nombrel)
 
 	response, err := c.EnviarChunks(context.Background(), &message)
 	if err != nil {
@@ -68,12 +74,12 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 	probabilidad := rand.Intn(3)
 	for i := uint64(0); i < totalPartsNum; i++ {
 
-			partSize := int(math.Min(fileChunk, float64(fileSize-int64(i*fileChunk))))
-			partBuffer := make([]byte, partSize)
+		partSize := int(math.Min(fileChunk, float64(fileSize-int64(i*fileChunk))))
+		partBuffer := make([]byte, partSize)
 
-			file.Read(partBuffer)
-
-			data_node(partBuffer, algoritmo, probabilidad,int(i) , int(totalPartsNum), nombrelibro)
+		file.Read(partBuffer)
+		log.Printf("CANTIDAD %d", int(totalPartsNum))
+		data_node(partBuffer, algoritmo, probabilidad,int(i) , int(totalPartsNum), nombrelibro)
 	}
 
 	// now, we close the newFileName
@@ -345,8 +351,8 @@ var listalibros []string
 
 	i := 0
  	for _, f := range files {
-		 fmt.Println("(",i,")", f.Name())
 		 i = i+1
+		 fmt.Println("(",i,")", f.Name())
 		 listalibros = append(listalibros, f.Name())
 	 }
  }
@@ -357,7 +363,7 @@ var listalibros []string
 	if err != nil{
 		log.Fatal(err)
 	}
-	libropdf := listalibros[elexion]
+	libropdf := listalibros[elexion-1]
 	last := len(libropdf) - 4
 	libro = libropdf[:last]
 	fmt.Println(libro)
