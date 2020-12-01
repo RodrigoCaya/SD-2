@@ -147,15 +147,14 @@ func propuestadn(maquina string, message dn_proto.PropRequest) string {
 	response, err := c.PropuestasDN(context.Background(), &message)
 	if err != nil {
 		log.Printf("Se cayó la máquina: %s", maquina)
-	}
-
-	log.Printf("%s", response.Code)
-	if response.Code == "Propuesta aceptada"{
-		return respuesta
 	}else{
-		respuesta = "Rechazado"
-		return respuesta
+		if response.Code == "Propuesta aceptada"{
+			return respuesta
+		}
 	}
+	respuesta = "Rechazado"
+	return respuesta
+	
 }
 
 func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) { //modificado
