@@ -271,10 +271,10 @@ func recalcular(cantidad string, c1 string, c2 string, c3 string, nombrelibro st
 func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Propuesta, error) {
 	log.Printf("Propuesta recibida")
 	
-	// log.Printf("C1: %s", message.Cantidadn1)
-	// log.Printf("C2: %s", message.Cantidadn2)
-	// log.Printf("C3: %s", message.Cantidadn3)
-	// log.Printf("Cantidad: %s", message.Cantidadtotal)
+	log.Printf("C1: %s", message.Cantidadn1)
+	log.Printf("C2: %s", message.Cantidadn2)
+	log.Printf("C3: %s", message.Cantidadn3)
+	log.Printf("Cantidad: %s", message.Cantidadtotal)
 	
 	//revisar qe los dn involucrados esten activos
 	//si estan activos, entonces hacer el log y responder "propuesta aceptada"
@@ -285,6 +285,7 @@ func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Prop
 	c3 := message.Cantidadn3
 	flag := 1
 	if message.Cantidadn1 != "0"{
+		log.Printf("entreee dn1")
 		resp := ualive("dist14:9001")
 		if resp == "gg" {
 			c1 = "0"
@@ -293,6 +294,7 @@ func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Prop
 		}
 	}
 	if message.Cantidadn2 != "0"{
+		log.Printf("entreee dn2")
 		resp := ualive("dist15:9002")
 		if resp == "gg" {
 			c2 = "0"
@@ -301,6 +303,7 @@ func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Prop
 		}
 	}
 	if message.Cantidadn3 != "0"{
+		log.Printf("entreee dn3")
 		resp := ualive("dist16:9003")
 		if resp == "gg" {
 			c3 = "0"
