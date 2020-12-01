@@ -31,7 +31,7 @@ func (s *Server) Ricardo(ctx context.Context, message *dn_proto.RicRequest) (*dn
 	for{
 		if estado == "RELEASED"{
 			break
-		}else if estado == "WANTED" && int(message.ID) > id{
+		}else if estado == "WANTED" && int(message.Id) > id{
 			break
 		}
 	}
@@ -49,7 +49,7 @@ func llamarRicardo(maquina string){
 	c := dn_proto.NewDnServiceClient(conn)
 
 	message := dn_proto.RicRequest{ //agregue este msj, porqe el otro era tipo dn_proto
-		Id: id,
+		Id: int32(id),
 	}
 
 	response, err := c.Ricardo(context.Background(), &message)
