@@ -149,7 +149,7 @@ func propuestadn(maquina string, message dn_proto.PropRequest) string {
 		log.Printf("Se cayó la máquina: %s", maquina)
 	}
 
-	log.Printf("%s", response.Code)
+
 	if response.Code == "Propuesta aceptada"{
 		return respuesta
 	}else{
@@ -390,7 +390,7 @@ func name_node(message nn_proto.Propuesta){
 	log.Printf("dn2: %s", message.Cantidadn2)
 	log.Printf("dn3: %s", message.Cantidadn3)
 	log.Printf("nombre libro: %s", message.Nombrel)
-	log.Printf("cantidad: %s", message.Cantidad)
+	log.Printf("cantidad: %s", message.Cantidadtotal)
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
 	if err != nil {
