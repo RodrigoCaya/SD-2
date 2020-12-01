@@ -48,7 +48,8 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 
 	response, err := c.EnviarChunks(context.Background(), &message)
 	if err != nil {
-		log.Fatalf("Error when calling Buscar: %s", err)
+		log.Printf("no se pudo conectar al dn %s", maquina)
+		return 0
 	}
 
 	log.Printf("%s", response.Code)
@@ -230,7 +231,7 @@ func pedirchunksaldn(maquina string, parte string, nombrel string){
 
 	response, err := c.PedirChunks(context.Background(), &message)
 	if err != nil {
-		log.Fatalf("Error when calling Buscar: %s", err)
+		log.Fatalf("Error when calling PedirChunks: %s", err)
 	}
 	//descagando el chunk
 	// write to disk
@@ -282,7 +283,7 @@ func name_node(){
 
 	response, err := c.DisplayLista(context.Background(), &message)
 	if err != nil {
-		log.Fatalf("Error when calling Buscar: %s", err)
+		log.Fatalf("Error when calling DisplayLista: %s", err)
 	}
 
 	log.Printf("%s", response.Code)
@@ -291,7 +292,7 @@ func name_node(){
 	fmt.Scanln(&first)
 	auxfirst, err := strconv.Atoi(first)
 	if err != nil {
-		log.Fatalf("Error when calling Buscar: %s", err)
+		log.Fatalf("Error al convertir", err)
 	}
 	nombredellibro := split[auxfirst+2]
 	paratrim := "("+first+")"
