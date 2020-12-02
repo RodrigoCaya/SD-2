@@ -203,7 +203,7 @@ func pedirchunksaldn(maquina string, parte string, nombrel string){
 
 	response, err := c.PedirChunks(context.Background(), &message)
 	if err != nil {
-		log.Fatal("El DN %s esta caído", maquina)
+		log.Fatal("El DataNode ", maquina," esta caído")
 	}
 	//descagando el chunk
 	fileName := response.Nombrel+ "_" + response.Partes
@@ -278,7 +278,6 @@ func name_node(){
 	if err != nil {
 		log.Fatalf("Error when calling DisplayDirecciones: %s", err)
 	}
-	fmt.Println(respuesta)
 
 	canttotal := 0
 	//pal dn1
