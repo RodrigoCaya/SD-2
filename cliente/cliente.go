@@ -200,15 +200,15 @@ func pedirchunksaldn(maquina string, parte string, nombrel string){
 
 	response, err := c.PedirChunks(context.Background(), &message)
 	if err != nil {
-		log.Fatalf("Error when calling PedirChunks: %s", err)
+		log.Printf("El DN %s esta caído", maquina)
 	}
 	//descagando el chunk
 	fileName := response.Nombrel+ "_" + response.Partes
 	_, err = os.Create(fileName)
 
 	if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+		log.Printf("El DN %s esta caído", maquina)
+		os.Exit(1)
 	}
 
 	ioutil.WriteFile(fileName, response.Chunk, os.ModeAppend)
