@@ -378,6 +378,11 @@ func centralizado(cantidad int, nombrelibro string){
 		Nombrel: nombrelibro,
 		Cantidadtotal: strconv.Itoa(cantidad),
 	}
+	log.Printf("C1 %s",strconv.Itoa(c1))
+	log.Printf("C2 %s",strconv.Itoa(c2))
+	log.Printf("C3 %s",strconv.Itoa(c3))
+	log.Printf("name %s",nombrelibro)
+	log.Printf("cantotal %s",strconv.Itoa(cantidad))
 	name_node(message)
 }
 
