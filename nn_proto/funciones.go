@@ -22,6 +22,8 @@ var nombres string
 var ultimo int
 var direcciones string
 
+//Funcion que recorre el archivo log.txt y entrega las ubicaciones de los chunks que tiene cada DataNode de un libro en especifico
+
 func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (*Partes, error) {
 	file, err := os.Open("log.txt")
 	if err != nil {
@@ -67,6 +69,8 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 	}
 	return &Partes{Partes1: partes1, Partes2: partes2, Partes3: partes3}, nil
 }
+
+//Funcion que lee el archivo log.txt ubicado en la carpeta NameNode y despliega una lista con los libros disponibles para descargar
 
 func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeRequest, error) {
 	file, err := os.Open("log.txt")
@@ -120,12 +124,15 @@ var i int
 var j int
 var k int
 
+//Funcion global que llama a la funcion de agregar al log
+
 func (s *Server) AgregarAlLog(ctx context.Context, message *Propuesta) (*CodeRequest, error) {
 	log.Printf("voy a agregar al log desde un DN")
 	agregarlog(message.Cantidadn1, message.Cantidadn2, message.Cantidadn3, message.Cantidadtotal, message.Nombrel)
 	return &CodeRequest{Code: "Agregado al Log, revisalo"}, nil
 }
 
+//Funcion que agrega el libro al registro log.txt en el formato del enunciado
 	
 func agregarlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelibro string){
 	file, err := os.OpenFile("log.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
@@ -199,6 +206,8 @@ func ualive(maquina string) string {
 	return respuesta
 }
 
+//Funcion que recalcula la cantidad de chunks que recibe cada DataNode por si uno o varios se encuentran caidos
+
 func recalcular(cantidad string, c1 string, c2 string, c3 string, nombrelibro string)(Propuesta){
 	cant, err := strconv.Atoi(cantidad)
 	if err != nil {
@@ -269,6 +278,8 @@ func recalcular(cantidad string, c1 string, c2 string, c3 string, nombrelibro st
 	}
 	return message
 }
+
+//Funcion que genera propuestas a partir de los DataNodes activos
 
 func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Propuesta, error) {
 	log.Printf("Propuesta recibida")
