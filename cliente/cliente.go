@@ -84,6 +84,7 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 
 		file.Read(partBuffer)
 		vivo = data_node(partBuffer, algoritmo, probabilidad,int(i) , int(totalPartsNum), nombrelibro)
+		log.Printf("vivooo1 %d",vivo)
 		if vivo == 0 { //si el dn esta muerto
 			probabilidad2 = rand.Intn(2)
 			if probabilidad == 0 {
@@ -95,7 +96,7 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 				}
 			}
 			vivo = data_node(partBuffer, algoritmo, probabilidad2,int(i) , int(totalPartsNum), nombrelibro)
-			log.Printf("vivooo %d",vivo)
+			log.Printf("vivooo2 %d",vivo)
 		}
 		if vivo == 0 { // si el otro dn esta muerto
 			probabilidad3 = 0
@@ -109,6 +110,7 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 				probabilidad3 = 0
 			}
 			vivo = data_node(partBuffer, algoritmo, probabilidad3,int(i) , int(totalPartsNum), nombrelibro)
+			log.Printf("vivooo3 %d",vivo)
 		}
 	}
 	log.Printf("La cantidad de mensajes enviados es: %d", msgenviados)
