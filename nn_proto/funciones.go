@@ -20,6 +20,7 @@ type Server struct{
 var nombres string
 var ultimo int
 var direcciones string
+var msgenviados int = 0
 
 //Funcion que recorre el archivo log.txt y entrega las ubicaciones de los chunks 
 //que tiene cada DataNode de un libro en especifico
@@ -186,6 +187,7 @@ func ualive(maquina string) string {
 		respuesta = "gg"
 	}else{
 		respuesta = response.Code
+		msgenviados = msgenviados + 1
 	}
 	return respuesta
 }
@@ -315,9 +317,11 @@ func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Prop
 	}
 	if flag == 1 {
 		agregarlog(message.Cantidadn1, message.Cantidadn2, message.Cantidadn3, message.Cantidadtotal, message.Nombrel)
+		log.Printf("La cantidad de mensajes enviados es: %d", msgenviados)
 		return &Propuesta{Nombrel: "Propuesta aceptada"}, nil
 	}
 	mensaje := recalcular(message.Cantidadtotal,c1,c2,c3,message.Nombrel)
 	agregarlog(mensaje.Cantidadn1, mensaje.Cantidadn2, mensaje.Cantidadn3, mensaje.Cantidadtotal, mensaje.Nombrel)
+	log.Printf("La cantidad de mensajes enviados es: %d", msgenviados)
 	return &mensaje, nil	
 }

@@ -15,6 +15,7 @@ import(
 
 var estado string = "RELEASED" //pal Ricardo
 var id int = 1 //pal Ricardo
+var msgenviados int = 0
 
 type Pagina struct{
 	chunks []byte
@@ -61,6 +62,7 @@ func llamarRicardo(maquina string){
 	if err != nil {
 		log.Fatalf("Error when calling Ricardo: %s", err)
 	}
+	msgenviados = msgenviados + 1
 }
 
 //Funcion que realiza el algoritmo de Exclusion Mutua Distribuido, 
@@ -133,6 +135,7 @@ func distribuido(cantidad int, nombrelibro string){
 			if err != nil {
 				log.Fatalf("Error when calling AgregarAlLog: %s", err)
 			}
+			msgenviados = msgenviados + 1
 			estado = "RELEASED"
 			break
 		}
@@ -198,6 +201,7 @@ func propuestadn(maquina string, message dn_proto.PropRequest) string {
 	if err != nil {
 		log.Printf("Se cayó la máquina: %s", maquina)
 	}else{
+		msgenviados = msgenviados + 1
 		if response.Code == "Propuesta aceptada"{
 			return respuesta
 		}
@@ -346,6 +350,7 @@ func conectardn(maquina string, message dn_proto.PropRequest){
 		if err != nil {
 			log.Fatalf("Error when calling ChunksDN: %s", err)
 		}
+		msgenviados = msgenviados + 1
 	}
 }
 
@@ -400,6 +405,7 @@ func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkReques
 			centralizado(cantidad, message.Nombrel)
 		}
 	}
+	log.Printf("La cantidad de mensajes enviados es: %d", msgenviados)
 	return &dn_proto.CodeRequest{Code: "chunk recibido"}, nil
 }
 
@@ -433,6 +439,8 @@ func name_node(message nn_proto.Propuesta){
 	if err != nil {
 		log.Fatalf("Error when calling EnviarPropuesta: %s", err)
 	}
+	msgenviados = msgenviados + 1
+
 	messagedn := dn_proto.PropRequest{
 		Cantidadn1: response.Cantidadn1,
 		Cantidadn2: response.Cantidadn2,

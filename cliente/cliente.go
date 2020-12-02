@@ -16,6 +16,8 @@ import (
 	"github.com/RodrigoCaya/SD-2/nn_proto"
 )
 
+var msgenviados int = 0
+
 //Funcion que se conecta a un DataNode aleatorio, retorna 1 si se conectó y 0 si no
 
 func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int, total int, nombrelibro string)int{
@@ -47,7 +49,7 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 		log.Printf("no se pudo conectar al dn %s", maquina)
 		return 0
 	}
-
+	msgenviados = msgenviados + 1
 	return 1
 }
 
@@ -107,6 +109,7 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 			vivo = data_node(partBuffer, algoritmo, probabilidad3,int(i) , int(totalPartsNum), nombrelibro)
 		}
 	}
+	log.Printf("La cantidad de mensajes enviados es: %d", msgenviados)
 	file.Close()
 }
 
