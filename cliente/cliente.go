@@ -16,7 +16,7 @@ import (
 	"github.com/RodrigoCaya/SD-2/nn_proto"
 )
 
-//Funcion que se conecta a un DataNode aleatorio
+//Funcion que se conecta a un DataNode aleatorio, retorna 1 si se conectó y 0 si no
 
 func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int, total int, nombrelibro string)int{
 	var conn *grpc.ClientConn
@@ -41,12 +41,6 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 		Machine: maquina,
 		Nombrel: nombrelibro,
 	}
-	log.Printf("tam chunk: %d", len(message.Chunk))
-	log.Printf("tipo: %s", message.Tipo)
-	log.Printf("parte: %s", message.Parte)
-	log.Printf("cantidad: %s", message.Cantidad)
-	log.Printf("maquina: %s", message.Machine)
-	log.Printf("nombre libro: %s", message.Nombrel)
 
 	response, err := c.EnviarChunks(context.Background(), &message)
 	if err != nil {
@@ -54,14 +48,12 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 		return 0
 	}
 
-	log.Printf("%s", response.Code)
 	return 1
 }
 
-//Funcion que separa el libro indicado en chunks de 250kB
+//Funcion que separa el libro indicado en chunks de 250kB y llama a la funcion data_node
 
 func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
-	log.Printf("sin pdf %s con pdf %s ", librosinpdf,libroconpdf)
 	nombrelibro := librosinpdf
 	fileToBeChunked := "../libros_cliente/" + libroconpdf// change here!
 
@@ -88,9 +80,8 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 		partBuffer := make([]byte, partSize)
 
 		file.Read(partBuffer)
-		log.Printf("CANTIDAD %d", int(totalPartsNum))
 		vivo = data_node(partBuffer, algoritmo, probabilidad,int(i) , int(totalPartsNum), nombrelibro)
-		if vivo == 0 {
+		if vivo == 0 { //si el dn esta muerto
 			probabilidad2 = rand.Intn(2)
 			if probabilidad == 0 {
 				probabilidad2 = probabilidad2 + 1
@@ -102,7 +93,7 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 			}
 			vivo = data_node(partBuffer, algoritmo, probabilidad2,int(i) , int(totalPartsNum), nombrelibro)
 		}
-		if vivo == 0 {
+		if vivo == 0 { // si el otro dn esta muerto
 			probabilidad3 = 0
 			if (probabilidad == 0 && probabilidad2 == 1) || (probabilidad == 1 && probabilidad2 == 0){
 				probabilidad3 = 2
@@ -116,16 +107,12 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 			vivo = data_node(partBuffer, algoritmo, probabilidad3,int(i) , int(totalPartsNum), nombrelibro)
 		}
 	}
-
-	// now, we close the newFileName
 	file.Close()
 }
 
-//Funcion que transforma los chunks de un libro en un libro entero
+//Funcion que transforma los chunks de un libro en un libro entero tipo pdf
 
 func unirchunks(nombrel string, partes int){
-	// just for fun, let's recombine back the chunked files in a new file
-
 	newFileName := nombrel + ".pdf"
 	_, err := os.Create(newFileName)
 
@@ -134,20 +121,12 @@ func unirchunks(nombrel string, partes int){
 			os.Exit(1)
 	}
 
-	//set the newFileName file to APPEND MODE!!
-	// open files r and w
-
 	file, err := os.OpenFile(newFileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 
 	if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
 	}
-
-	// IMPORTANT! do not defer a file.Close when opening a file for APPEND mode!
-	// defer file.Close()
-
-	// just information on which part of the new file we are appending
 	var writePosition int64 = 0
 
 	totalPartsNum := partes
@@ -173,16 +152,11 @@ func unirchunks(nombrel string, partes int){
 					os.Exit(1)
 			}
 
-			// calculate the bytes size of each chunk
-			// we are not going to rely on previous data and constant
-
 			var chunkSize int64 = chunkInfo.Size()
 			chunkBufferBytes := make([]byte, chunkSize)
 
-			fmt.Println("Appending at position : [", writePosition, "] bytes")
 			writePosition = writePosition + chunkSize
 
-			// read into chunkBufferBytes
 			reader := bufio.NewReader(newFileChunk)
 			_, err = reader.Read(chunkBufferBytes)
 
@@ -190,11 +164,6 @@ func unirchunks(nombrel string, partes int){
 					fmt.Println(err)
 					os.Exit(1)
 			}
-
-			// DON't USE ioutil.WriteFile -- it will overwrite the previous bytes!
-			// write/save buffer to disk
-			//ioutil.WriteFile(newFileName, chunkBufferBytes, os.ModeAppend)
-
 			n, err := file.Write(chunkBufferBytes)
 
 			if err != nil {
@@ -204,23 +173,15 @@ func unirchunks(nombrel string, partes int){
 
 			file.Sync() //flush to disk
 
-			// free up the buffer for next cycle
-			// should not be a problem if the chunk size is small, but
-			// can be resource hogging if the chunk size is huge.
-			// also a good practice to clean up your own plate after eating
-
 			chunkBufferBytes = nil // reset or empty our buffer
 
 			fmt.Println("Written ", n, " bytes")
-
 			fmt.Println("Recombining part [", j, "] into : ", newFileName)
 	}
-
-	// now, we close the newFileName
 	file.Close()
 }
 
-//Funcion que almacena los chunks que le corresponden a la maquina dada
+//Funcion que almacena los chunks qe le pide a los dn
 
 func pedirchunksaldn(maquina string, parte string, nombrel string){
 	var conn *grpc.ClientConn
@@ -242,7 +203,6 @@ func pedirchunksaldn(maquina string, parte string, nombrel string){
 		log.Fatalf("Error when calling PedirChunks: %s", err)
 	}
 	//descagando el chunk
-	// write to disk
 	fileName := response.Nombrel+ "_" + response.Partes
 	_, err = os.Create(fileName)
 
@@ -251,12 +211,10 @@ func pedirchunksaldn(maquina string, parte string, nombrel string){
 			os.Exit(1)
 	}
 
-	// write/save buffer to disk
 	ioutil.WriteFile(fileName, response.Chunk, os.ModeAppend)
-	// log.Printf("chunkkk %d", len(response.Chunk))
 }
 
-//Funcion que borra los chunks despues de reensamblarlo de la carpeta del cliente
+//Funcion que borra los chunks despues de reensamblarlo de la carpeta del cliente para que solo quede el pdf
 
 func borrarchunks(partes int, nombrel string){
 	cont := 0
@@ -276,7 +234,8 @@ func borrarchunks(partes int, nombrel string){
 	}
 }
 	
-//Funcion que se conecta con el NameNode para entregar la lista de libros que el cliente puede descargar y las direcciones donde se encuentra cada chunk de un libro escogido
+//Funcion que se conecta con el NameNode para entregar la lista de libros que el cliente puede descargar 
+//y las direcciones donde se encuentra cada chunk de un libro escogido
 
 func name_node(){
 	var conn *grpc.ClientConn
@@ -297,7 +256,6 @@ func name_node(){
 		log.Fatalf("Error when calling DisplayLista: %s", err)
 	}
 
-	log.Printf("%s", response.Code)
 	split := strings.Split(response.Code, "\n")
 	var first string
 	fmt.Scanln(&first)
@@ -309,8 +267,6 @@ func name_node(){
 	paratrim := "("+first+")"
 	nombrefinal := strings.Trim(nombredellibro, paratrim)
 
-	fmt.Println(nombrefinal)
-
 	mensaje := nn_proto.CodeRequest{
 		Code: nombrefinal,
 	}
@@ -320,7 +276,7 @@ func name_node(){
 		log.Fatalf("Error when calling DisplayDirecciones: %s", err)
 	}
 	fmt.Println(respuesta)
-	
+
 	canttotal := 0
 	//pal dn1
 	if respuesta.Partes1 != "0," {
@@ -370,18 +326,8 @@ func name_node(){
 			cont = cont + 1
 		}
 	}
-	unirchunks(nombrefinal,canttotal)
-	borrarchunks(canttotal,nombrefinal)
-
-	//hacer la funcion del nn para qe le pase las direcciones (jean) (listoko, el cliente pide las direcciones mandando el nombre del libro y las recibe en respuestas)
-	//recibir cual libro
-
-	//hacer la funcion del dn para qe le envien los chunks
-	//recibir cual libro y sus partes
-
-	//hacer la funcion del cliente para qe descargue los chunks
-	//hacer la funcion del cliente para unir los chunks
-	//borrar los chunks
+	unirchunks(nombrefinal,canttotal) //crea el pdf
+	borrarchunks(canttotal,nombrefinal) //borra los chunks
 }
 var listalibros []string
 
@@ -401,7 +347,7 @@ var listalibros []string
 	 }
  }
 
-//Funcion que retorna el nombre del libro, con ".pdf" y sin ".pdf"
+//Funcion que retorna el nombre del libro seleccionado para subir, con ".pdf" y sin ".pdf"
 
  func escogerlibro(eleccion string) (string, string){
 	var libro string
@@ -417,7 +363,6 @@ var listalibros []string
  }
 
 func main() {
-	
 	var first string
 	var second string
 	var libro string

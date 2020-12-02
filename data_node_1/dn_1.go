@@ -27,6 +27,9 @@ type Server struct{
 	dn_proto.UnimplementedDnServiceServer
 }
 
+//Funcion que utiliza el algoritmo de Ricart & Agrawala para resolver el conflicto 
+//cuando más de 1 dn quiere escribir en el nn, haciendo que uno espere al otro dependiendo de la Id
+
 func (s *Server) Ricardo(ctx context.Context, message *dn_proto.RicRequest) (*dn_proto.CodeRequest, error) {
 	for{
 		if estado == "RELEASED"{
@@ -38,6 +41,8 @@ func (s *Server) Ricardo(ctx context.Context, message *dn_proto.RicRequest) (*dn
 	return &dn_proto.CodeRequest{Code: "OK"}, nil
 }
 
+//Funcion que llama a la funcion de Ricart & Agrawala
+
 func llamarRicardo(maquina string){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
@@ -48,7 +53,7 @@ func llamarRicardo(maquina string){
 
 	c := dn_proto.NewDnServiceClient(conn)
 
-	message := dn_proto.RicRequest{ //agregue este msj, porqe el otro era tipo dn_proto
+	message := dn_proto.RicRequest{
 		Id: int32(id),
 	}
 
@@ -58,7 +63,8 @@ func llamarRicardo(maquina string){
 	}
 }
 
-//Funcion que realiza el algoritmo de Exclusion Mutua Distribuido, considerando las propuestas dependiendo de los data nodes activos
+//Funcion que realiza el algoritmo de Exclusion Mutua Distribuido, 
+//considerando las propuestas dependiendo de los data nodes activos
 
 func distribuido(cantidad int, nombrelibro string){
 	
@@ -113,9 +119,9 @@ func distribuido(cantidad int, nombrelibro string){
 			}
 			defer conn.Close()
 	
-			c := nn_proto.NewHelloworldServiceClient(conn) // lo cambie de dn_proto a nn_proto
+			c := nn_proto.NewHelloworldServiceClient(conn) 
 	
-			messagenn := nn_proto.Propuesta{ //agregue este msj, porqe el otro era tipo dn_proto
+			messagenn := nn_proto.Propuesta{ 
 				Cantidadn1: strconv.Itoa(c1),
 				Cantidadn2: strconv.Itoa(c2),
 				Cantidadn3: strconv.Itoa(c3),
@@ -128,7 +134,6 @@ func distribuido(cantidad int, nombrelibro string){
 				log.Fatalf("Error when calling AgregarAlLog: %s", err)
 			}
 			estado = "RELEASED"
-			log.Printf("%s", response.Code)
 			break
 		}
 		if respuesta1 == "Rechazado" && respuesta2 == "Aceptado" {
@@ -154,7 +159,7 @@ func distribuido(cantidad int, nombrelibro string){
 			c2 = 0
 			c3 = 0
 		}
-		message = dn_proto.PropRequest{ // lo cambie de nn_proto a dn_proto
+		message = dn_proto.PropRequest{
 			Cantidadn1: strconv.Itoa(c1),
 			Cantidadn2: strconv.Itoa(c2),
 			Cantidadn3: strconv.Itoa(c3),
@@ -174,7 +179,9 @@ func distribuido(cantidad int, nombrelibro string){
 	descargarlocal(message)
 }
 
-//Funcion que manda la propuestas a los otros data nodes, los cuales aceptan o rechazan dependiendo de su estado, una vez reciba las respuestas de aceptacion, se acepta la propuesta
+//Funcion que manda la propuestas a los otros data nodes para el algoritmo distribuido,
+// los cuales aceptan o rechazan dependiendo de su estado (vivo o muerto),
+// una vez reciba las respuestas de aceptacion, se acepta la propuesta
 
 func propuestadn(maquina string, message dn_proto.PropRequest) string {
 	respuesta := "Aceptado"
@@ -202,10 +209,7 @@ func propuestadn(maquina string, message dn_proto.PropRequest) string {
 
 //Funcion que recibe los chunks que le corresponden a este data node y lo escribe en su carpeta de registro "chunks"
 
-func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) { //modificado
-	log.Printf("me llegó la parte %s del libro %s",message.Parte, message.Nombrel)
-	log.Printf("tamaño del chunk num %s es de %d", message.Parte, len(message.Chunk))
-	// write to disk
+func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) { 
 	parteaux, err := strconv.Atoi(message.Parte)
 	if err != nil {
 		log.Fatalf("Error convirtiendo: %s", err)
@@ -219,8 +223,6 @@ func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (
 			fmt.Println(err)
 			os.Exit(1)
 	}
-
-	// write/save buffer to disk
 	ioutil.WriteFile(fileName, message.Chunk, os.ModeAppend)
 	
 	return &dn_proto.CodeRequest{Code: "Recibido"}, nil
@@ -230,56 +232,34 @@ func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (
 
 func (s *Server) PropuestasDN(ctx context.Context, message *dn_proto.PropRequest) (*dn_proto.CodeRequest, error) {
 	log.Printf("Propuesta recibida")
-	
-	// log.Printf("C1: %s", message.Cantidadn1)
-	// log.Printf("C2: %s", message.Cantidadn2)
-	// log.Printf("C3: %s", message.Cantidadn3)
-	// log.Printf("Cantidad: %s", message.Cantidadtotal)
-	// log.Printf("me llegó una propuesta de un dn")
-
 	return &dn_proto.CodeRequest{Code: "Propuesta aceptada"}, nil
 }
 
 //Funcion que realiza la descarga las partes que le corresponden a este data node y las almacena localmente
 
-func descargarlocal(message dn_proto.PropRequest){ // debe ir despues de llamar a conectardn
+func descargarlocal(message dn_proto.PropRequest){
 	mensaje := dn_proto.ChunkRequest{}
-	//modificado
 	paldn1, err := strconv.Atoi(message.Cantidadn1) 
 	if err != nil {
 		log.Fatalf("Error convirtiendo: %s", err)
 	}
 	part1 := ""
 	contdn1 := 0
-
-	// paldn2, err := strconv.Atoi(message.Cantidadn2) 
-	// if err != nil {
-	// 	log.Fatalf("Error convirtiendo: %s", err)
-	// }
-	// part2 := "" 
-	// contdn2 := 0 
-	
-	// paldn3, err := strconv.Atoi(message.Cantidadn3) 
-	// if err != nil {
-	// 	log.Fatalf("Error convirtiendo: %s", err)
-	// }
-	// part3 := "" 
-	// contdn3 := 0 
 	for{
-		if paldn1 != 0 && contdn1 < paldn1 { //cambiar aca
-			aux := contdn1+1 //cambiar aca
-			part1 = strconv.Itoa(aux) //cambiar aca
+		if paldn1 != 0 && contdn1 < paldn1 { 
+			aux := contdn1+1
+			part1 = strconv.Itoa(aux) 
 			mensaje = dn_proto.ChunkRequest{
-				Chunk: libroactual[contdn1].chunks, //cambiar aca
-				Parte: part1, //cambiar aca
+				Chunk: libroactual[contdn1].chunks, 
+				Parte: part1, 
 				Cantidad: message.Cantidadtotal,
 				Nombrel: message.Nombrel,
 			}
-			contdn1 = contdn1 + 1 //cambiar aca
+			contdn1 = contdn1 + 1 
 		}else{
 			break
 		}
-		// write to disk
+		
 		parteaux, err := strconv.Atoi(mensaje.Parte)
 		if err != nil {
 			log.Fatalf("Error convirtiendo: %s", err)
@@ -293,8 +273,6 @@ func descargarlocal(message dn_proto.PropRequest){ // debe ir despues de llamar 
 			fmt.Println(err)
 			os.Exit(1)
 		}
-	
-		// write/save buffer to disk
 		ioutil.WriteFile(fileName, mensaje.Chunk, os.ModeAppend)
 	}
 	var librovacio []Pagina
@@ -368,19 +346,14 @@ func conectardn(maquina string, message dn_proto.PropRequest){
 		if err != nil {
 			log.Fatalf("Error when calling ChunksDN: %s", err)
 		}
-	
-		log.Printf("%s", response.Code)
-
 	}
-
-	//agregar la parte de dn1 a biblioteca y hacer libroactual = vacio
 }
 
-//Funcion que realiza el algoritmo de Exclusion Mutua Centralizado, el cual llama a que se conecte con el Name Node para que este genere la propuesta
+//Funcion que realiza el algoritmo de Exclusion Mutua Centralizado,
+// el cual llama a que se conecte con el Name Node para que este genere la propuesta
 
 func centralizado(cantidad int, nombrelibro string){
 	chunksxcadauno := cantidad/3
-	log.Printf("algoritmo centralizado")
 	c1 := chunksxcadauno
 	c2 := chunksxcadauno
 	c3 := chunksxcadauno
@@ -403,9 +376,9 @@ func centralizado(cantidad int, nombrelibro string){
 }
 
 //Funcion que recibe la peticion del algoritmo que el cliente desea implementar
+// y guarda los chunks dentro de una lista llamada "libroactual"
 
 func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) {
-	
 	parte, err := strconv.Atoi(message.Parte)
 	cantidad, err := strconv.Atoi(message.Cantidad)
 	if err != nil {
@@ -437,7 +410,6 @@ func conexioncl(){
 	if err != nil {
 		log.Fatalf("Failed to listen on port 9001: %v", err)
 	}
-	// s := dn_proto.Server{}
 	grpcServer := grpc.NewServer()
 	dn_proto.RegisterDnServiceServer(grpcServer, &Server{})
 	if err := grpcServer.Serve(liscliente); err != nil {
@@ -445,10 +417,9 @@ func conexioncl(){
 	}
 }
 
-//Funcion que se conecta al name node para recibir la propuesta, si esta aceptada, 
+//Funcion que se conecta al name node para enviar la propuesta base en el caso del algoritmo centralizado
 
 func name_node(message nn_proto.Propuesta){
-
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
 	if err != nil {
@@ -479,7 +450,6 @@ func name_node(message nn_proto.Propuesta){
 		}
 	}
 	var maquina string = ""
-	//var prop string = "xd"
 	if message.Cantidadn2 != "0"{
 		maquina = "dist15:9002"
 		conectardn(maquina, messagedn)
@@ -488,8 +458,7 @@ func name_node(message nn_proto.Propuesta){
 		maquina = "dist16:9003"
 		conectardn(maquina, messagedn)
 	}
-	descargarlocal(messagedn) //modificar aca
-	// log.Printf("%s", response.Code)
+	descargarlocal(messagedn)
 }
 
 //Funcion que recibe un ping para verificar si esta activo el DN
@@ -498,13 +467,13 @@ func (s *Server) Estado(ctx context.Context, message *dn_proto.CodeRequest) (*dn
 	return &dn_proto.CodeRequest{Code: "Estoy vivo"}, nil
 }
 
-//Funcion que almacena los chunks en la carpeta chunks del DataNode 1
+//Funcion que recibe y almacena los chunks que otro data node le envió
 
 func (s *Server) PedirChunks(ctx context.Context, message *dn_proto.ChunkRequestDN) (*dn_proto.ChunkRequestDN, error) {
 	parte := message.Partes
 
 	nombrelibro := message.Nombrel
-	chunkname := "chunks/" + nombrelibro + "_" + parte // change here!
+	chunkname := "chunks/" + nombrelibro + "_" + parte
 
 	file, err := os.Open(chunkname)
 
@@ -514,22 +483,15 @@ func (s *Server) PedirChunks(ctx context.Context, message *dn_proto.ChunkRequest
 	}
 
 	defer file.Close()
-
 	fileInfo, _ := file.Stat()
-
 	var fileSize int64 = fileInfo.Size()
-
-	const fileChunk = 256000 // 250 kb, change this to your requirement
-
+	const fileChunk = 256000 // 250 kb
 	partBuffer := make([]byte, fileSize)
-
 	file.Read(partBuffer)
-
-	log.Printf("tamaño del chunk num %s es de %d", parte, len(partBuffer))	
+	
 	return &dn_proto.ChunkRequestDN{Nombrel: nombrelibro, Partes: parte, Chunk: partBuffer,}, nil
 }
 
 func main(){
-	//go name_node()
 	conexioncl()
 }

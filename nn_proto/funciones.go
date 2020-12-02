@@ -22,7 +22,8 @@ var nombres string
 var ultimo int
 var direcciones string
 
-//Funcion que recorre el archivo log.txt y entrega las ubicaciones de los chunks que tiene cada DataNode de un libro en especifico
+//Funcion que recorre el archivo log.txt y entrega las ubicaciones de los chunks 
+//que tiene cada DataNode de un libro en especifico
 
 func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (*Partes, error) {
 	file, err := os.Open("log.txt")
@@ -70,7 +71,8 @@ func (s *Server) DisplayDirecciones(ctx context.Context, message *CodeRequest) (
 	return &Partes{Partes1: partes1, Partes2: partes2, Partes3: partes3}, nil
 }
 
-//Funcion que lee el archivo log.txt ubicado en la carpeta NameNode y despliega una lista con los libros disponibles para descargar
+//Funcion que lee el archivo log.txt ubicado en la carpeta NameNode 
+//y despliega una lista con los libros disponibles para descargar
 
 func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeRequest, error) {
 	file, err := os.Open("log.txt")
@@ -81,15 +83,12 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 	
 	scanner := bufio.NewScanner(file)
 	cont := 0
-	// contaux := strconv.Itoa(cont)
 	nombres = "\nEscoge libro para descargar" + "\n----------------- \n"
 	
 	for err != io.EOF {
-		fmt.Println("1 ",nombres)
 		scanner.Scan()
 		split := strings.Split(scanner.Text(), " ")
 		ultimostring := split[(len(split)) - 1]
-		// fmt.Println(ultimostring)
 		if ultimostring == ""{
 			break
 		}
@@ -97,20 +96,13 @@ func (s *Server) DisplayLista(ctx context.Context, message *CodeRequest) (*CodeR
 		if err != nil{
 			log.Fatal(err)
 		}
-		fmt.Println("2 ",nombres)
-		// fmt.Println(ultimo)
 		cont = cont + 1
 		contaux := strconv.Itoa(cont)
 		for j := 0 ; j < (len(split) - 1) ; j++{
-			// fmt.Println("%s",split[j])
 			nombres =  nombres + "(" + contaux + ")" + split[j] + "\n"
-			fmt.Println("2.1 ",nombres)
-			// fmt.Println("xd")
 		}
-		fmt.Println("3 ",nombres)
 		for i := 0 ; i < ultimo ; i++{
 			scanner.Scan()
-			// fmt.Println("xd")
 		}
 	}
 	nombres = nombres + "-----------------"
@@ -127,7 +119,6 @@ var k int
 //Funcion global que llama a la funcion de agregar al log
 
 func (s *Server) AgregarAlLog(ctx context.Context, message *Propuesta) (*CodeRequest, error) {
-	log.Printf("voy a agregar al log desde un DN")
 	agregarlog(message.Cantidadn1, message.Cantidadn2, message.Cantidadn3, message.Cantidadtotal, message.Nombrel)
 	return &CodeRequest{Code: "Agregado al Log, revisalo"}, nil
 }
@@ -172,12 +163,6 @@ func agregarlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelib
 			log.Printf("%d", k)
 		}
 	}
-
-//cree el log a partir de los c1, c2, c3
-//c1 tiene los primeros, despues el c2, despues el c3
-//IP dn1 = dist14:9001
-//IP dn2 = dist15:9002
-//IP dn3 = dist16:9003
 }
 
 //Funcion que pinguea una maquina para saber si esta activa
@@ -284,55 +269,38 @@ func recalcular(cantidad string, c1 string, c2 string, c3 string, nombrelibro st
 func (s *Server) EnviarPropuesta(ctx context.Context, message *Propuesta) (*Propuesta, error) {
 	log.Printf("Propuesta recibida")
 	
-	log.Printf("C1: %s", message.Cantidadn1)
-	log.Printf("C2: %s", message.Cantidadn2)
-	log.Printf("C3: %s", message.Cantidadn3)
-	log.Printf("Cantidad: %s", message.Cantidadtotal)
-	
-	//revisar qe los dn involucrados esten activos
-	//si estan activos, entonces hacer el log y responder "propuesta aceptada"
-	//si no estan activos, no hacer el log y responder "se cayo un wn"
-	// respuesta := ""
 	c1 := message.Cantidadn1
 	c2 := message.Cantidadn2
 	c3 := message.Cantidadn3
 	flag := 1
 	flag2 := 1
 	if message.Cantidadn1 != "0"{
-		log.Printf("entreee dn1")
 		resp := ualive("dist14:9001")
 		if resp == "gg" {
 			c1 = "0"
-			// respuesta = respuesta + "dn1"
 			flag = 0
 		}
 	}
 	if message.Cantidadn2 != "0"{
-		log.Printf("entreee dn2")
 		resp := ualive("dist15:9002")
 		if resp == "gg" {
 			c2 = "0"
-			// respuesta = respuesta + "dn2"
 			flag = 0
 			flag2 = 0
 		}
 	}else if flag == 0{ //si hay solo 1 chunk
-		// log.Printf("entreee dn2")
 		resp := ualive("dist15:9002")
 		if resp == "gg" {
 			c2 = "0"
-			// respuesta = respuesta + "dn2"
 			flag = 0
 		}else{
 			c2 = "1"
 		}
 	}
 	if message.Cantidadn3 != "0"{
-		log.Printf("entreee dn3")
 		resp := ualive("dist16:9003")
 		if resp == "gg" {
 			c3 = "0"
-			// respuesta = respuesta + "dn3"
 			flag = 0
 		}
 	}else{
