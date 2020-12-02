@@ -168,7 +168,6 @@ func distribuido(cantidad int, nombrelibro string){
 			Nombrel: nombrelibro,
 			Cantidadtotal: strconv.Itoa(cantidad),
 		}
-		log.Printf("algoritmo distribuido")
 	}
 	if message.Cantidadn1 != "0"{
 		maquina := "dist14:9001"

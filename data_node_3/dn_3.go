@@ -168,7 +168,6 @@ func distribuido(cantidad int, nombrelibro string){
 			Nombrel: nombrelibro,
 			Cantidadtotal: strconv.Itoa(cantidad),
 		}
-		log.Printf("algoritmo distribuido")
 	}
 	if message.Cantidadn2 != "0"{
 		maquina := "dist15:9002" 
@@ -378,11 +377,6 @@ func centralizado(cantidad int, nombrelibro string){
 		Nombrel: nombrelibro,
 		Cantidadtotal: strconv.Itoa(cantidad),
 	}
-	log.Printf("C1 %s",strconv.Itoa(c1))
-	log.Printf("C2 %s",strconv.Itoa(c2))
-	log.Printf("C3 %s",strconv.Itoa(c3))
-	log.Printf("name %s",nombrelibro)
-	log.Printf("cantotal %s",strconv.Itoa(cantidad))
 	name_node(message)
 }
 
@@ -402,8 +396,6 @@ func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkReques
 	}
 
 	libroactual = append(libroactual, pagina1)
-	log.Printf("parte %s",message.Parte)
-	log.Printf("cantidad %s",message.Cantidad)
 	if cantidad == (parte + 1){
 		
 		if message.Tipo == "1"{

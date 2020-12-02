@@ -160,7 +160,6 @@ func agregarlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelib
 		}
 		for k = (0 + j) ; k < (cantidad3 + j) ; k++ {
 			file.WriteString(nombrelibro + "_" + strconv.Itoa(k) + " " + "dist16:9003\n")
-			log.Printf("%d", k)
 		}
 	}
 }

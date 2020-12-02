@@ -169,7 +169,6 @@ func distribuido(cantidad int, nombrelibro string){
 			Nombrel: nombrelibro,
 			Cantidadtotal: strconv.Itoa(cantidad),
 		}
-		log.Printf("algoritmo distribuido")
 	}
 	if message.Cantidadn2 != "0"{
 		maquina := "dist15:9002"
@@ -311,7 +310,6 @@ func conectardn(maquina string, message dn_proto.PropRequest){
 			if paldn2 != 0 && contdn2 < paldn2 {
 				aux := paldn1+contdn2+1
 				part2 = strconv.Itoa(aux)
-				log.Printf("ruteo3")
 				mensaje = dn_proto.ChunkRequest{
 					Chunk: libroactual[paldn1+contdn2].chunks,
 					Parte: part2,

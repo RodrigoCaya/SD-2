@@ -21,12 +21,6 @@ var msgenviados int = 0
 //Funcion que se conecta a un DataNode aleatorio, retorna 1 si se conectó y 0 si no
 
 func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int, total int, nombrelibro string)int{
-	log.Printf("entre a data node")
-	log.Printf("algoritmo %s",algoritmo)
-	log.Printf("probabilidad %d",probabilidad)
-	log.Printf("part %d",part)
-	log.Printf("total %d",total)
-	log.Printf("nombre %s",nombrelibro)
 	var conn *grpc.ClientConn
 	maquina := strconv.Itoa(probabilidad+4)
 	puerto := strconv.Itoa(probabilidad+1)
@@ -34,7 +28,7 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 	conexion = conexion + maquina + ":900" + puerto
 	conn, err := grpc.Dial(conexion, grpc.WithInsecure())
 	if err != nil {
-		log.Printf("no se pudo conectar all dn %s", maquina)
+		log.Printf("no se pudo conectar al dn %s", maquina)
 		return 0
 	}
 	defer conn.Close()
@@ -50,12 +44,11 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 		Nombrel: nombrelibro,
 	}
 
-	response, error := c.EnviarChunks(context.Background(), &message)
+	_, error := c.EnviarChunks(context.Background(), &message)
 	if error != nil {
 		log.Printf("no se pudo conectar al dn %s", maquina)
 		return 0
 	}
-	log.Printf("respuesta xd %s",response.Code)
 	msgenviados = msgenviados + 1
 	return 1
 }
@@ -90,7 +83,6 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 
 		file.Read(partBuffer)
 		vivo = data_node(partBuffer, algoritmo, probabilidad,int(i) , int(totalPartsNum), nombrelibro)
-		log.Printf("vivooo1 %d",vivo)
 		if vivo == 0 { //si el dn esta muerto
 			probabilidad2 = rand.Intn(2)
 			if probabilidad == 0 {
@@ -102,7 +94,6 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 				}
 			}
 			vivo = data_node(partBuffer, algoritmo, probabilidad2,int(i) , int(totalPartsNum), nombrelibro)
-			log.Printf("vivooo2 %d",vivo)
 		}
 		if vivo == 0 { // si el otro dn esta muerto
 			probabilidad3 = 0
@@ -116,7 +107,6 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 				probabilidad3 = 0
 			}
 			vivo = data_node(partBuffer, algoritmo, probabilidad3,int(i) , int(totalPartsNum), nombrelibro)
-			log.Printf("vivooo3 %d",vivo)
 		}
 	}
 	log.Printf("La cantidad de mensajes enviados es: %d", msgenviados)
