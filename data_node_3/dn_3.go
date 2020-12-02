@@ -434,7 +434,7 @@ func conexioncl(){
 
 func name_node(message nn_proto.Propuesta){
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial("vt13:9000", grpc.WithInsecure())
+	conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("could not connect: %s", err)
 	}
