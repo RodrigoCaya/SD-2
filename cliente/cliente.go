@@ -6,6 +6,7 @@ import (
 	"google.golang.org/grpc"
 	"context"
 	"bufio"
+	"time"
 	"io/ioutil"
 	"strings"
 	"math"
@@ -76,6 +77,8 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 	probabilidad := rand.Intn(3)
 	var probabilidad2 int
 	var probabilidad3 int
+	now := time.Now() 
+  
 	for i := uint64(0); i < totalPartsNum; i++ {
 
 		partSize := int(math.Min(fileChunk, float64(fileSize-int64(i*fileChunk))))
@@ -109,6 +112,8 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 			vivo = data_node(partBuffer, algoritmo, probabilidad3,int(i) , int(totalPartsNum), nombrelibro)
 		}
 	}
+	// Prints time elapse 
+    fmt.Println("time elapse:", time.Since(now)) 
 	log.Printf("La cantidad de mensajes enviados es: %d", msgenviados)
 	file.Close()
 }
