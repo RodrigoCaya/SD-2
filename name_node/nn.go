@@ -6,6 +6,8 @@ import(
 	"github.com/RodrigoCaya/SD-2/nn_proto"
 )
 
+//Funcion que permite al NameNode actuar como servidor
+
 func conexioncl(){
 	liscliente, err := net.Listen("tcp", ":9000")
 	if err != nil {

@@ -173,6 +173,8 @@ func agregarlog(c1 string, c2 string, c3 string, cantidadtotal string, nombrelib
 //IP dn3 = dist16:9003
 }
 
+//Funcion que pinguea una maquina para saber si esta activa
+
 func ualive(maquina string) string {
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())

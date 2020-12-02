@@ -435,9 +435,13 @@ func name_node(message nn_proto.Propuesta){
 	// log.Printf("%s", response.Code)
 }
 
+//Funcion que recibe un ping para verificar si esta activo el DN
+
 func (s *Server) Estado(ctx context.Context, message *dn_proto.CodeRequest) (*dn_proto.CodeRequest, error) {
 	return &dn_proto.CodeRequest{Code: "Estoy vivo"}, nil
 }
+
+//Funcion que almacena los chunks en la carpeta chunks del DataNode 1
 
 func (s *Server) PedirChunks(ctx context.Context, message *dn_proto.ChunkRequestDN) (*dn_proto.ChunkRequestDN, error) {
 	parte := message.Partes

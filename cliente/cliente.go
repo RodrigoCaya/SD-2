@@ -16,6 +16,8 @@ import (
 	"github.com/RodrigoCaya/SD-2/nn_proto"
 )
 
+//Funcion que se conecta a un DataNode aleatorio
+
 func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int, total int, nombrelibro string)int{
 	var conn *grpc.ClientConn
 	maquina := strconv.Itoa(probabilidad+4)
@@ -55,6 +57,8 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 	log.Printf("%s", response.Code)
 	return 1
 }
+
+//Funcion que separa el libro indicado en chunks de 250kB
 
 func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 	log.Printf("sin pdf %s con pdf %s ", librosinpdf,libroconpdf)
@@ -116,6 +120,8 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 	// now, we close the newFileName
 	file.Close()
 }
+
+//Funcion que transforma los chunks de un libro en un libro entero
 
 func unirchunks(nombrel string, partes int){
 	// just for fun, let's recombine back the chunked files in a new file
@@ -214,6 +220,8 @@ func unirchunks(nombrel string, partes int){
 	file.Close()
 }
 
+//Funcion que almacena los chunks que le corresponden a la maquina dada
+
 func pedirchunksaldn(maquina string, parte string, nombrel string){
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
@@ -248,6 +256,8 @@ func pedirchunksaldn(maquina string, parte string, nombrel string){
 	// log.Printf("chunkkk %d", len(response.Chunk))
 }
 
+//Funcion que borra los chunks despues de reensamblarlo de la carpeta del cliente
+
 func borrarchunks(partes int, nombrel string){
 	cont := 0
 	for{
@@ -266,6 +276,7 @@ func borrarchunks(partes int, nombrel string){
 	}
 }
 	
+//Funcion que se conecta con el NameNode para entregar la lista de libros que el cliente puede descargar y las direcciones donde se encuentra cada chunk de un libro escogido
 
 func name_node(){
 	var conn *grpc.ClientConn
@@ -374,6 +385,8 @@ func name_node(){
 }
 var listalibros []string
 
+//Funcion que despliega una lista de los libros que el cliente puede subir
+
  func mostrarlibros() {
  	files, err := ioutil.ReadDir("../libros_cliente")
  	if err != nil {
@@ -387,6 +400,8 @@ var listalibros []string
 		 listalibros = append(listalibros, f.Name())
 	 }
  }
+
+//Funcion que retorna el nombre del libro, con ".pdf" y sin ".pdf"
 
  func escogerlibro(eleccion string) (string, string){
 	var libro string
