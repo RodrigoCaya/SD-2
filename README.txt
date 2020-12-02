@@ -34,16 +34,16 @@ Consideraciones generales:
   -Los libros descargados se descargan en formato pdf y se encuentran dentro de la carpeta cliente.  
 
 Consideraciones máquinas virtuales:
-  El name node se debe correr en la máquina dist13.
-  El data node 1 se debe correr en la máquina dist14.
-  El data node 2 se debe correr en la máquina dist15.
-  El data node 3 se debe correr en la máquina dist16.
-  El cliente se puede correr en cualquiera de las 4 máquinas.
+  -El name node se debe correr en la máquina dist13.
+  -El data node 1 se debe correr en la máquina dist14.
+  -El data node 2 se debe correr en la máquina dist15.
+  -El data node 3 se debe correr en la máquina dist16.
+  -El cliente se puede correr en cualquiera de las 4 máquinas.
   
 Consideraciones compilación:
-	-Se utiliza "protoc --go_out=plugins=grpc:../dn_proto dn.proto" para compilar el archivo dn.proto.
+  -Se utiliza "protoc --go_out=plugins=grpc:../dn_proto dn.proto" para compilar el archivo dn.proto.
   -Se utiliza "protoc --go_out=plugins=grpc:../nn_proto nn.proto" para compilar el archivo nn.proto.
-	-Si aparece un error "Plugin failed with status code 1" al compilar, se deben utilizar los siguientes comandos:
+  -Si aparece un error "Plugin failed with status code 1" al compilar, se deben utilizar los siguientes comandos:
       export GOROOT=/usr/local/go
       export GOPATH=$HOME/go
       export GOBIN=$GOPATH/bin
@@ -51,7 +51,7 @@ Consideraciones compilación:
   
 Consideraciones al ejecutar:
   -El orden de ejecución es: primero data_nodes/name_node y luego cliente.
-	-Al ejecutar el cliente, este le pedirá si desea subir o descargar un libro, debe especificar que libro quiere subir o descargar escogiendo dentro de la interfaz. Si desea subir un libro, también le pedirá con que algoritmo quiere subirlo (distribuido o centralizado).
+  -Al ejecutar el cliente, este le pedirá si desea subir o descargar un libro, debe especificar que libro quiere subir o descargar escogiendo dentro de la interfaz. Si desea subir un libro, también le pedirá con que algoritmo quiere subirlo (distribuido o centralizado).
 	
 Consideraciones al "caer" una máquina:
   -Las máquinas se pueden caer utilizando control+c.
