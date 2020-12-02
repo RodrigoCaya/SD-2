@@ -129,7 +129,7 @@ func distribuido(cantidad int, nombrelibro string){
 				Cantidadtotal: strconv.Itoa(cantidad),
 			}
 	
-			_, err := c.AgregarAlLog(context.Background(), &messagenn)
+			_, err = c.AgregarAlLog(context.Background(), &messagenn)
 			if err != nil {
 				log.Fatalf("Error when calling AgregarAlLog: %s", err)
 			}
@@ -342,7 +342,7 @@ func conectardn(maquina string, message dn_proto.PropRequest){
 	
 		c := dn_proto.NewDnServiceClient(conn)
 	
-		_, err := c.ChunksDN(context.Background(), &mensaje)
+		_, err = c.ChunksDN(context.Background(), &mensaje)
 		if err != nil {
 			log.Fatalf("Error when calling ChunksDN: %s", err)
 		}
