@@ -397,7 +397,8 @@ func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkReques
 	}
 
 	libroactual = append(libroactual, pagina1)
-
+	log.Printf("parte %s",message.Parte)
+	log.Printf("cantidad %s",message.Cantidad)
 	if cantidad == (parte + 1){
 		
 		if message.Tipo == "1"{
