@@ -255,7 +255,7 @@ func name_node(){
 	if err != nil {
 		log.Fatalf("Error when calling DisplayLista: %s", err)
 	}
-
+	log.Printf("%s", response.Code)
 	split := strings.Split(response.Code, "\n")
 	var first string
 	fmt.Scanln(&first)
