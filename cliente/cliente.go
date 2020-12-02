@@ -200,7 +200,7 @@ func pedirchunksaldn(maquina string, parte string, nombrel string){
 
 	response, err := c.PedirChunks(context.Background(), &message)
 	if err != nil {
-		log.Fatal("El DN %s esta caído", maquina)
+		log.Fatal("El DataNode ", maquina," esta caído")
 	}
 	//descagando el chunk
 	fileName := response.Nombrel+ "_" + response.Partes
