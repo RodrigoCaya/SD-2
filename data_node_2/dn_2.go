@@ -58,6 +58,8 @@ func llamarRicardo(maquina string){
 	}
 }
 
+//Funcion que realiza el algoritmo de Exclusion Mutua Distribuido, considerando las propuestas dependiendo de los data nodes activos
+
 func distribuido(cantidad int, nombrelibro string){
 	chunksxcadauno := cantidad/3
 	c1 := chunksxcadauno
@@ -170,6 +172,9 @@ func distribuido(cantidad int, nombrelibro string){
 	}
 	descargarlocal(message)
 }
+
+//Funcion que manda la propuestas a los otros data nodes, los cuales aceptan o rechazan dependiendo de su estado, una vez reciba las respuestas de aceptacion, se acepta la propuesta
+
 
 func propuestadn(maquina string, message dn_proto.PropRequest) string {
 	respuesta := "Aceptado"

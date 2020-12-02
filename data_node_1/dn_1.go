@@ -58,6 +58,8 @@ func llamarRicardo(maquina string){
 	}
 }
 
+//Funcion que realiza el algoritmo de Exclusion Mutua Distribuido, considerando las propuestas dependiendo de los data nodes activos
+
 func distribuido(cantidad int, nombrelibro string){
 	
 	chunksxcadauno := cantidad/3
@@ -172,6 +174,8 @@ func distribuido(cantidad int, nombrelibro string){
 	descargarlocal(message)
 }
 
+//Funcion que manda la propuestas a los otros data nodes, los cuales aceptan o rechazan dependiendo de su estado, una vez reciba las respuestas de aceptacion, se acepta la propuesta
+
 func propuestadn(maquina string, message dn_proto.PropRequest) string {
 	respuesta := "Aceptado"
 	var conn *grpc.ClientConn
@@ -195,6 +199,8 @@ func propuestadn(maquina string, message dn_proto.PropRequest) string {
 	return respuesta
 	
 }
+
+//Funcion que recibe los chunks que le corresponden a este data node y lo escribe en su carpeta de registro "chunks"
 
 func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) { //modificado
 	log.Printf("me llegó la parte %s del libro %s",message.Parte, message.Nombrel)
@@ -220,6 +226,8 @@ func (s *Server) ChunksDN(ctx context.Context, message *dn_proto.ChunkRequest) (
 	return &dn_proto.CodeRequest{Code: "Recibido"}, nil
 }
 
+//Funcion que recibe una propuesta y la acepta, si es que el nodo no esta caido
+
 func (s *Server) PropuestasDN(ctx context.Context, message *dn_proto.PropRequest) (*dn_proto.CodeRequest, error) {
 	log.Printf("Propuesta recibida")
 	
@@ -231,6 +239,8 @@ func (s *Server) PropuestasDN(ctx context.Context, message *dn_proto.PropRequest
 
 	return &dn_proto.CodeRequest{Code: "Propuesta aceptada"}, nil
 }
+
+//Funcion que realiza la descarga las partes que le corresponden a este data node y las almacena localmente
 
 func descargarlocal(message dn_proto.PropRequest){ // debe ir despues de llamar a conectardn
 	mensaje := dn_proto.ChunkRequest{}
@@ -290,6 +300,8 @@ func descargarlocal(message dn_proto.PropRequest){ // debe ir despues de llamar 
 	var librovacio []Pagina
 	libroactual = librovacio
 }
+
+//Funcion que se conecta con los otros data nodes para enviarle los chunks que les corresponden
 
 func conectardn(maquina string, message dn_proto.PropRequest){
 	mensaje := dn_proto.ChunkRequest{}
@@ -364,6 +376,8 @@ func conectardn(maquina string, message dn_proto.PropRequest){
 	//agregar la parte de dn1 a biblioteca y hacer libroactual = vacio
 }
 
+//Funcion que realiza el algoritmo de Exclusion Mutua Centralizado, el cual llama a que se conecte con el Name Node para que este genere la propuesta
+
 func centralizado(cantidad int, nombrelibro string){
 	chunksxcadauno := cantidad/3
 	log.Printf("algoritmo centralizado")
@@ -388,7 +402,8 @@ func centralizado(cantidad int, nombrelibro string){
 	name_node(message)
 }
 
-//aqui se conecta el cliente
+//Funcion que recibe la peticion del algoritmo que el cliente desea implementar
+
 func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkRequest) (*dn_proto.CodeRequest, error) {
 	
 	parte, err := strconv.Atoi(message.Parte)
@@ -415,6 +430,7 @@ func (s *Server) EnviarChunks(ctx context.Context, message *dn_proto.ChunkReques
 	return &dn_proto.CodeRequest{Code: "chunk recibido"}, nil
 }
 
+//Funcion que permite al data node actuar como servidor
 
 func conexioncl(){
 	liscliente, err := net.Listen("tcp", ":9001")
@@ -428,6 +444,8 @@ func conexioncl(){
 		log.Fatalf("Failed to serve gRPC server over port 9001: %v", err)
 	}
 }
+
+//Funcion que se conecta al name node para recibir la propuesta, si esta aceptada, 
 
 func name_node(message nn_proto.Propuesta){
 
