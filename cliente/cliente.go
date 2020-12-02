@@ -50,11 +50,12 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 		Nombrel: nombrelibro,
 	}
 
-	_, error := c.EnviarChunks(context.Background(), &message)
+	response, error := c.EnviarChunks(context.Background(), &message)
 	if error != nil {
 		log.Printf("no se pudo conectar al dn %s", maquina)
 		return 0
 	}
+	log.Printf("respuesta xd %s",response.Code)
 	msgenviados = msgenviados + 1
 	return 1
 }
