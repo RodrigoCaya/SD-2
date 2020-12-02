@@ -22,16 +22,17 @@ Requisitos:
 Instrucciones:	
 	Dentro de cada servicio se encuentra un makefile que se ejecuta de la siguiente manera:
 	-Para los data nodes
-	*make run para ejecutar.
+	"make run" para ejecutar y "make clean" para eliminar todos los chunks.
 	-Para name node
-	*make run para ejecutar y make clean para limpiar los archivos csv.
+	"make run" para ejecutar y "make clean" para borrar el archivo "log.txt".
 	-Para cliente
-	*make run para ejecutar y make clean para limpiar los archivos csv.
+	"make run" para ejecutar.
   
 Consideraciones generales:
   -Los libros disponibles para subir se encuentran en la carpeta "libros_cliente" y son los que se muestran al intentar subir un libro (deben ser archivos pdf).
   -Dentro de cada data nodes, los chunks se descargan dentro de una carpeta con el mismo nombre.
-  -Los libros descargados se descargan en formato pdf y se encuentran dentro de la carpeta cliente.  
+  -Los libros descargados se descargan en formato pdf y se encuentran dentro de la carpeta cliente.
+  -El archivo "log.txt" falla cuando esta vacío, sin embargo el programa se puede ejecutar sin que este exista, ya que el mismo programa lo crea si no existe.
 
 Consideraciones máquinas virtuales:
   -El name node se debe correr en la máquina dist13.
@@ -58,5 +59,3 @@ Consideraciones al "caer" una máquina:
   -También puede correr 2 o 1 o ninguna máquina si se quiere.
   -El name node no se puede caer, solo los data nodes.
   -El data node escogido aleatoriamente que realiza el algoritmo de distribución no se puede caer mientras se ejecuta el algoritmo (el resto de las máquinas si).
-  
-  
