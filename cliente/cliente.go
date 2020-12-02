@@ -21,6 +21,7 @@ var msgenviados int = 0
 //Funcion que se conecta a un DataNode aleatorio, retorna 1 si se conectó y 0 si no
 
 func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int, total int, nombrelibro string)int{
+	log.Printf("entre a data node")
 	var conn *grpc.ClientConn
 	maquina := strconv.Itoa(probabilidad+4)
 	puerto := strconv.Itoa(probabilidad+1)
