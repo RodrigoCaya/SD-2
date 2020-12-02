@@ -51,12 +51,12 @@ Consideraciones compilación:
   
 Consideraciones al ejecutar:
   -El orden de ejecución es: primero data_nodes/name_node y luego cliente.
-  -Al ejecutar el cliente, este le pedirá si desea subir o descargar un libro, debe especificar que libro quiere subir o descargar escogiendo dentro de la interfaz. Si desea subir un libro, también le pedirá con que algoritmo quiere subirlo (distribuido o centralizado).
+  -Al ejecutar el cliente, este le pedirá si desea subir o descargar un libro, debe especificar que libro quiere subir o descargar escogiendo dentro de la interfaz. Si desea subir un libro, también le pedirá con qué algoritmo quiere subirlo (distribuido o centralizado).
 	
 Consideraciones al "caer" una máquina:
   -Las máquinas se pueden caer utilizando control+c.
   -También puede correr 2 o 1 o ninguna máquina si se quiere.
   -El name node no se puede caer, solo los data nodes.
-  -La máquina no se puede caer mientras realiza el algoritmo de distribución (el resto de las máquinas si).
+  -El data node escogido aleatoriamente que realiza el algoritmo de distribución no se puede caer mientras se ejecuta el algoritmo (el resto de las máquinas si).
   
   
