@@ -28,11 +28,16 @@ message ChunkRequestDN{
 	bytes chunk = 3;
 }
 
+message RicRequest{
+	int32 id = 1;
+}
+
 service DnService {
 	rpc EnviarChunks(ChunkRequest) returns (CodeRequest){}
 	rpc ChunksDN(ChunkRequest) returns (CodeRequest){}
 	rpc Estado(CodeRequest) returns (CodeRequest){}
 	rpc PropuestasDN(PropRequest) returns (CodeRequest){}
 	rpc PedirChunks(ChunkRequestDN) returns (ChunkRequestDN){}
+	rpc Ricardo(RicRequest) returns (CodeRequest) {}
 }
 

@@ -13,7 +13,8 @@ import(
 	"github.com/RodrigoCaya/SD-2/nn_proto"
 )
 
-
+var estado string = "RELEASED" //pal Ricardo
+var id int = 1 //pal Ricardo
 
 type Pagina struct{
 	chunks []byte
@@ -26,7 +27,39 @@ type Server struct{
 	dn_proto.UnimplementedDnServiceServer
 }
 
+func (s *Server) Ricardo(ctx context.Context, message *dn_proto.RicRequest) (*dn_proto.CodeRequest, error) {
+	for{
+		if estado == "RELEASED"{
+			break
+		}else if estado == "WANTED" && int(message.Id) > id{
+			break
+		}
+	}
+	return &dn_proto.CodeRequest{Code: "OK"}, nil
+}
+
+func llamarRicardo(maquina string){
+	var conn *grpc.ClientConn
+	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("could not connect: %s", err)
+	}
+	defer conn.Close()
+
+	c := dn_proto.NewDnServiceClient(conn)
+
+	message := dn_proto.RicRequest{ //agregue este msj, porqe el otro era tipo dn_proto
+		Id: int32(id),
+	}
+
+	_, err = c.Ricardo(context.Background(), &message)
+	if err != nil {
+		log.Fatalf("Error when calling Ricardo: %s", err)
+	}
+}
+
 func distribuido(cantidad int, nombrelibro string){
+	
 	chunksxcadauno := cantidad/3
 	c1 := chunksxcadauno
 	c2 := chunksxcadauno
@@ -39,7 +72,7 @@ func distribuido(cantidad int, nombrelibro string){
 			c2 = c2 + 1
 		}
 	}
-	message := dn_proto.PropRequest{ // lo cambie de nn_proto a dn_proto
+	message := dn_proto.PropRequest{
 		Cantidadn1: strconv.Itoa(c1),
 		Cantidadn2: strconv.Itoa(c2),
 		Cantidadn3: strconv.Itoa(c3),
@@ -66,6 +99,11 @@ func distribuido(cantidad int, nombrelibro string){
 		}
 
 		if flag == 0{
+			estado = "WANTED" //pal Ricardo
+			llamarRicardo("dist15:9002")
+			llamarRicardo("dist16:9003")
+			estado = "HELD"
+
 			var conn *grpc.ClientConn
 			conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
 			if err != nil {
@@ -87,6 +125,7 @@ func distribuido(cantidad int, nombrelibro string){
 			if err != nil {
 				log.Fatalf("Error when calling AgregarAlLog: %s", err)
 			}
+			estado = "RELEASED"
 			log.Printf("%s", response.Code)
 			break
 		}
