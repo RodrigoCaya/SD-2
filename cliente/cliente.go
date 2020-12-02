@@ -275,7 +275,6 @@ func name_node(){
 	if err != nil {
 		log.Fatalf("Error when calling DisplayDirecciones: %s", err)
 	}
-	fmt.Println(respuesta)
 
 	canttotal := 0
 	//pal dn1
