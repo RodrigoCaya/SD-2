@@ -253,14 +253,12 @@ func descargarlocal(message dn_proto.PropRequest){
 		if paldn1 != 0 && contdn1 < paldn1 { 
 			aux := contdn1+1
 			part1 = strconv.Itoa(aux)
-			log.Printf("ruteo1")
 			mensaje = dn_proto.ChunkRequest{
 				Chunk: libroactual[contdn1].chunks, 
 				Parte: part1, 
 				Cantidad: message.Cantidadtotal,
 				Nombrel: message.Nombrel,
 			}
-			log.Printf("ruteo2")
 			contdn1 = contdn1 + 1 
 		}else{
 			break
@@ -320,7 +318,6 @@ func conectardn(maquina string, message dn_proto.PropRequest){
 					Cantidad: message.Cantidadtotal,
 					Nombrel: message.Nombrel,
 				}
-				log.Printf("ruteo4")
 				contdn2 = contdn2 + 1
 			}else{
 				break
@@ -330,14 +327,12 @@ func conectardn(maquina string, message dn_proto.PropRequest){
 			if paldn3 != 0 && contdn3 < paldn3 {
 				aux := paldn1+paldn2+contdn3+1
 				part3 = strconv.Itoa(aux)
-				log.Printf("ruteo5")
 				mensaje = dn_proto.ChunkRequest{
 					Chunk: libroactual[paldn1+paldn2+contdn3].chunks,
 					Parte: part3,
 					Cantidad: message.Cantidadtotal,
 					Nombrel: message.Nombrel,
 				}
-				log.Printf("ruteo6")
 				contdn3 = contdn3 + 1
 			}else{
 				break

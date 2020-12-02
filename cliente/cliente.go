@@ -28,7 +28,7 @@ func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int,
 	conexion = conexion + maquina + ":900" + puerto
 	conn, err := grpc.Dial(conexion, grpc.WithInsecure())
 	if err != nil {
-		log.Printf("no se pudo conectar al dn %s", maquina)
+		log.Printf("no se pudo conectar all dn %s", maquina)
 		return 0
 	}
 	defer conn.Close()
@@ -94,6 +94,7 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 				}
 			}
 			vivo = data_node(partBuffer, algoritmo, probabilidad2,int(i) , int(totalPartsNum), nombrelibro)
+			log.Printf("vivooo %d",vivo)
 		}
 		if vivo == 0 { // si el otro dn esta muerto
 			probabilidad3 = 0
