@@ -52,7 +52,7 @@ func llamarRicardo(maquina string){
 		Id: int32(id),
 	}
 
-	response, err := c.Ricardo(context.Background(), &message)
+	_, err = c.Ricardo(context.Background(), &message)
 	if err != nil {
 		log.Fatalf("Error when calling Ricardo: %s", err)
 	}
