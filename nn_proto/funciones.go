@@ -2,7 +2,6 @@ package nn_proto
 
 import (
 	"os"
-	"fmt"
 	"strconv"
 	"io"
 	"math"
