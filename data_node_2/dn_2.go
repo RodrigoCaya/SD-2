@@ -379,7 +379,6 @@ func centralizado(cantidad int, nombrelibro string){
 		Nombrel: nombrelibro,
 		Cantidadtotal: strconv.Itoa(cantidad),
 	}
-	log.Printf("ruteo")
 	name_node(message)
 }
 
@@ -429,7 +428,6 @@ func conexioncl(){
 //Funcion que se conecta al name node para enviar la propuesta base en el caso del algoritmo centralizado
 
 func name_node(message nn_proto.Propuesta){
-	log.Printf("ruteo1")
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist13:9000", grpc.WithInsecure())
 	if err != nil {
@@ -460,7 +458,6 @@ func name_node(message nn_proto.Propuesta){
 			Cantidadtotal: message.Cantidadtotal,
 		}
 	}
-	log.Printf("ruteo2")
 	var maquina string = ""
 	if message.Cantidadn1 != "0"{
 		maquina = "dist14:9001"
