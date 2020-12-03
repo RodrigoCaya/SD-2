@@ -79,11 +79,11 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 	totalPartsNum := uint64(math.Ceil(float64(fileSize) / float64(fileChunk)))
 	vivo := 1
 	vivo2 := 1
+	var probabilidad2 int
+	var probabilidad3 int
 	probabilidad := rand.Intn(3)
 	probabilidad2 = rand.Intn(2)
 	probabilidad3 = 0
-	var probabilidad2 int
-	var probabilidad3 int
 	now := time.Now() 
   
 	for i := uint64(0); i < totalPartsNum; i++ {
