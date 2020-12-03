@@ -78,7 +78,10 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 	const fileChunk = 256000 // 250 kb, change this to your requirement
 	totalPartsNum := uint64(math.Ceil(float64(fileSize) / float64(fileChunk)))
 	vivo := 1
+	vivo2 := 1
 	probabilidad := rand.Intn(3)
+	probabilidad2 = rand.Intn(2)
+	probabilidad3 = 0
 	var probabilidad2 int
 	var probabilidad3 int
 	now := time.Now() 
@@ -90,9 +93,10 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 
 		file.Read(partBuffer)
 		log.Printf("p1")
-		vivo = data_node(partBuffer, algoritmo, probabilidad,int(i) , int(totalPartsNum), nombrelibro)
+		if vivo == 1{
+			vivo = data_node(partBuffer, algoritmo, probabilidad,int(i) , int(totalPartsNum), nombrelibro)
+		}
 		if vivo == 0 { //si el dn esta muerto
-			probabilidad2 = rand.Intn(2)
 			if probabilidad == 0 {
 				probabilidad2 = probabilidad2 + 1
 			}
@@ -102,10 +106,9 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 				}
 			}
 			log.Printf("p2")
-			vivo = data_node(partBuffer, algoritmo, probabilidad2,int(i) , int(totalPartsNum), nombrelibro)
+			vivo2 = data_node(partBuffer, algoritmo, probabilidad2,int(i) , int(totalPartsNum), nombrelibro)
 		}
-		if vivo == 0 { // si el otro dn esta muerto
-			probabilidad3 = 0
+		if vivo2 == 0 { // si el otro dn esta muerto
 			if (probabilidad == 0 && probabilidad2 == 1) || (probabilidad == 1 && probabilidad2 == 0){
 				probabilidad3 = 2
 			}
@@ -115,7 +118,7 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 			if (probabilidad == 1 && probabilidad2 == 2) || (probabilidad == 2 && probabilidad2 == 1){
 				probabilidad3 = 0
 			}
-			log.Printf("p3")
+			log.Printf("p1")
 			vivo = data_node(partBuffer, algoritmo, probabilidad3,int(i) , int(totalPartsNum), nombrelibro)
 		}
 	}
