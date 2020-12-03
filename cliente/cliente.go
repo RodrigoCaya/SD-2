@@ -23,11 +23,9 @@ var msgenviados int = 0
 
 func data_node(chunk_libro []byte, algoritmo string, probabilidad int, part int, total int, nombrelibro string)int{
 	log.Printf("entre a data node")
-	log.Printf("algoritmo %s",algoritmo)
 	log.Printf("probabilidad %d",probabilidad)
 	log.Printf("part %d",part)
 	log.Printf("total %d",total)
-	log.Printf("nombre %s",nombrelibro)
 	var conn *grpc.ClientConn
 	maquina := strconv.Itoa(probabilidad+4)
 	puerto := strconv.Itoa(probabilidad+1)
@@ -91,6 +89,7 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 		partBuffer := make([]byte, partSize)
 
 		file.Read(partBuffer)
+		log.Printf("p1")
 		vivo = data_node(partBuffer, algoritmo, probabilidad,int(i) , int(totalPartsNum), nombrelibro)
 		if vivo == 0 { //si el dn esta muerto
 			probabilidad2 = rand.Intn(2)
@@ -102,6 +101,7 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 					probabilidad2 = 2
 				}
 			}
+			log.Printf("p2")
 			vivo = data_node(partBuffer, algoritmo, probabilidad2,int(i) , int(totalPartsNum), nombrelibro)
 		}
 		if vivo == 0 { // si el otro dn esta muerto
@@ -115,6 +115,7 @@ func separarlibro(algoritmo string, librosinpdf string, libroconpdf string){
 			if (probabilidad == 1 && probabilidad2 == 2) || (probabilidad == 2 && probabilidad2 == 1){
 				probabilidad3 = 0
 			}
+			log.Printf("p3")
 			vivo = data_node(partBuffer, algoritmo, probabilidad3,int(i) , int(totalPartsNum), nombrelibro)
 		}
 	}
