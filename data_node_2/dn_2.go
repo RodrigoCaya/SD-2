@@ -379,6 +379,7 @@ func centralizado(cantidad int, nombrelibro string){
 		Nombrel: nombrelibro,
 		Cantidadtotal: strconv.Itoa(cantidad),
 	}
+	log.Printf("ruteo")
 	name_node(message)
 }
 
