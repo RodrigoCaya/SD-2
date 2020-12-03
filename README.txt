@@ -3,6 +3,7 @@ Rodrigo Cayazaya Marin, ROL: 201773538-4
 Jean-Franco Zárate, ROL: 201773524-4
 
 La tarea consistía en crear una biblioteca de libros digitales para subir y descargar libros, estos libros se encuentran distribuidos en chunks de 250Kb entre 3 data nodes.
+Los chunks se enviaron uno por uno dentro de un loop y no en forma de stream.
 Para esta tarea se utlizaron 5 servicios: cliente, data node 1, data node 2, data node 3 y name node. Cada una se encuentra en una carpeta con el mismo nombre.
 Se utilizaron 2 tipos de algoritmos, uno de exclusión mutua distribuida y otro de exclusión mutua centralizada.
 El registro de las localizaciones de los chunks se encuentra en log.txt dentro de la carpeta name_node, donde es este último el encargado de llevar el registro.
